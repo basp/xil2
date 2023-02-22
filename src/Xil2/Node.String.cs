@@ -18,5 +18,8 @@ public abstract partial class Node
 
         public override string ToString() =>
             $"String({this.value})";
+
+        public override string ToRepresentation() =>
+            string.Concat('"', this.value, '"');
     }
 }

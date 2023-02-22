@@ -8,7 +8,14 @@ public class JoyFactorVisitor : JoyBaseVisitor<Node>
         [NotNull] JoyParser.BooleanConstantContext context)
     {
         var value = bool.Parse(context.GetText());
-        return new Node.Boolean(value);
+        return new Node.Boolean(value)
+        {
+            Position = new Position
+            {
+                Line = context.Start.Line,
+                Column = context.Start.Column,
+            },
+        };
     }
 
     public override Node VisitIntegerConstant(

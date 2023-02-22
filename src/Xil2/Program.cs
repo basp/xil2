@@ -10,10 +10,18 @@ while (true)
     var lexer = new JoyLexer(input);
     var tokens = new CommonTokenStream(lexer);
     var parser = new JoyParser(tokens);
-    var ctx = parser.cycle();
-    var stack = ctx.Accept(visitor);
-    foreach (var x in stack)
+
+    try
     {
-        Console.WriteLine(x);
+        var ctx = parser.cycle();
+        var stack = ctx.Accept(visitor);
+        foreach (var x in stack)
+        {
+            Console.WriteLine(x.ToRepresentation());
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
     }
 }

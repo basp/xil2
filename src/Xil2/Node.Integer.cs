@@ -51,6 +51,9 @@ public abstract partial class Node
             new Node.Integer(this.value);
 
         public override string ToString() =>
-            $"Integer({this.value})";
+            $"Integer({this.ToRepresentation()})";
+
+        public override string ToRepresentation() =>
+            this.value.ToString();
     }
 }

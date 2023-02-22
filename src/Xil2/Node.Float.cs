@@ -54,6 +54,9 @@ public abstract partial class Node
             new Node.Float(this.value);
 
         public override string ToString() =>
-            $"Float({this.value.ToString(new CultureInfo("en-US"))})";
+            $"Float({this.ToRepresentation()})";
+
+        public override string ToRepresentation() =>
+            this.value.ToString(new CultureInfo("en-US"));
     }
 }

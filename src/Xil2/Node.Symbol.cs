@@ -20,5 +20,8 @@ public abstract partial class Node
 
         public override string ToString() =>
             $"Symbol({this.name})";
+
+        public override string ToRepresentation() =>
+            this.name;
     }
 }

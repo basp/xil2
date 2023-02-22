@@ -33,5 +33,11 @@ public abstract partial class Node
             var xs = this.elements.Select(x => x.ToString()).ToArray();
             return $"[{string.Join(' ', xs)}]";
         }
+
+        public override string ToRepresentation()
+        {
+            var xs = this.elements.Select(x => x.ToRepresentation()).ToArray();
+            return $"[{string.Join(' ', xs)}]";
+        }
     }
 }

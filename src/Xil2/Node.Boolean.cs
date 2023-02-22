@@ -18,5 +18,8 @@ public abstract partial class Node
 
         public override string ToString() =>
             $"Boolean({this.value})";
+
+        public override string ToRepresentation() =>
+            this.value.ToString().ToLower();
     }
 }
