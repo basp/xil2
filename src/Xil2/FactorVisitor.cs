@@ -4,7 +4,11 @@ using System.Globalization;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 
-public class FactorVisitor : XilBaseVisitor<Node>
+/// <summary>
+/// Evaluates factors into a <see cref="INode"/> that can be pushed 
+/// onto the stack.
+/// </summary>
+public class FactorVisitor : XilBaseVisitor<INode>
 {
     public override Node VisitBooleanConstant(
         [NotNull] XilParser.BooleanConstantContext context)
@@ -59,11 +63,10 @@ public class FactorVisitor : XilBaseVisitor<Node>
     public override Node VisitQuotationLiteral(
         [NotNull] XilParser.QuotationLiteralContext context)
     {
-        var elements = new List<Node>();
+        var elements = new List<INode>();
         foreach (var factor in context.term().factor())
         {
             var node = factor.Accept(this);
-            node.Position = GetPosition(factor);
             elements.Add(node);
         }
 

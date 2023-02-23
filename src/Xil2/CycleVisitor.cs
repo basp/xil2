@@ -2,6 +2,9 @@ namespace Xil2;
 
 using Antlr4.Runtime.Misc;
 
+/// <summary>
+/// Used to interpret cycles in an interactive environment.
+/// </summary>
 public class CycleVisitor : XilBaseVisitor<C5.IStack<INode>>
 {
     private static readonly FactorVisitor FactorVisitor = new FactorVisitor();
@@ -13,6 +16,12 @@ public class CycleVisitor : XilBaseVisitor<C5.IStack<INode>>
         this.interpreter = interpreter;
     }
 
+    /// <summary>
+    /// Interprets a user cycle which can either be a simple 
+    /// definition or a term. Definitions are stored in the
+    /// interpreter environment for later evaluation and
+    /// terms are evaluated on the stack immediately.
+    /// </summary>
     public override C5.IStack<INode> VisitCycle(
         [NotNull] XilParser.CycleContext context)
     {
@@ -31,6 +40,9 @@ public class CycleVisitor : XilBaseVisitor<C5.IStack<INode>>
         return this.interpreter.Stack;
     }
 
+    /// <summary>
+    /// Stores a user-defined defintion in the interpreter environment.
+    /// </summary>
     public override C5.IStack<INode> VisitSimpleDefinition(
         [NotNull] XilParser.SimpleDefinitionContext context)
     {
@@ -46,6 +58,9 @@ public class CycleVisitor : XilBaseVisitor<C5.IStack<INode>>
         return this.interpreter.Stack;
     }
 
+    /// <summary>
+    /// Evaluates a term in the interpreter environment.
+    /// </summary>
     public override C5.IStack<INode> VisitTerm(
         [NotNull] XilParser.TermContext context)
     {
