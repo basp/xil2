@@ -2,7 +2,7 @@ namespace Xil2;
 
 using Antlr4.Runtime.Misc;
 
-public class CycleVisitor : JoyBaseVisitor<C5.IStack<INode>>
+public class CycleVisitor : XilBaseVisitor<C5.IStack<INode>>
 {
     private static readonly FactorVisitor FactorVisitor = new FactorVisitor();
 
@@ -14,7 +14,7 @@ public class CycleVisitor : JoyBaseVisitor<C5.IStack<INode>>
     }
 
     public override C5.IStack<INode> VisitCycle(
-        [NotNull] JoyParser.CycleContext context)
+        [NotNull] XilParser.CycleContext context)
     {
         if (context.simpleDefinition() != null)
         {
@@ -30,7 +30,7 @@ public class CycleVisitor : JoyBaseVisitor<C5.IStack<INode>>
     }
 
     public override C5.IStack<INode> VisitSimpleDefinition(
-        [NotNull] JoyParser.SimpleDefinitionContext context)
+        [NotNull] XilParser.SimpleDefinitionContext context)
     {
         var name = context
             .atomicSymbol()
@@ -45,7 +45,7 @@ public class CycleVisitor : JoyBaseVisitor<C5.IStack<INode>>
     }
 
     public override C5.IStack<INode> VisitTerm(
-        [NotNull] JoyParser.TermContext context)
+        [NotNull] XilParser.TermContext context)
     {
         var factors = context
             .factor()

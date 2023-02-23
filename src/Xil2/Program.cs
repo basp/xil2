@@ -47,9 +47,9 @@ while (true)
     // At this point we have collected some input that (at least on the
     // surface) looks like some code we can parse and execute so let's try it.
     var stream = new AntlrInputStream(buf.ToString());
-    var lexer = new JoyLexer(stream);
+    var lexer = new XilLexer(stream);
     var tokens = new CommonTokenStream(lexer);
-    var parser = new JoyParser(tokens);
+    var parser = new XilParser(tokens);
 
     try
     {

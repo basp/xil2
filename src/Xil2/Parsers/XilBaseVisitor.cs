@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from .\Joy.g4 by ANTLR 4.12.0
+// Generated from .\Xil.g4 by ANTLR 4.12.0
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -25,16 +25,16 @@ using IToken = Antlr4.Runtime.IToken;
 using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 
 /// <summary>
-/// This class provides an empty implementation of <see cref="IJoyVisitor{Result}"/>,
+/// This class provides an empty implementation of <see cref="IXilVisitor{Result}"/>,
 /// which can be extended to create a visitor which only needs to handle a subset
 /// of the available methods.
 /// </summary>
 /// <typeparam name="Result">The return type of the visit operation.</typeparam>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.12.0")]
 [System.Diagnostics.DebuggerNonUserCode]
-public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, IJoyVisitor<Result> {
+public partial class XilBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, IXilVisitor<Result> {
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.cycle"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.cycle"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -42,9 +42,9 @@ public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitCycle([NotNull] JoyParser.CycleContext context) { return VisitChildren(context); }
+	public virtual Result VisitCycle([NotNull] XilParser.CycleContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.simpleDefinition"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.simpleDefinition"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -52,9 +52,9 @@ public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitSimpleDefinition([NotNull] JoyParser.SimpleDefinitionContext context) { return VisitChildren(context); }
+	public virtual Result VisitSimpleDefinition([NotNull] XilParser.SimpleDefinitionContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.term"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.term"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -62,9 +62,9 @@ public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitTerm([NotNull] JoyParser.TermContext context) { return VisitChildren(context); }
+	public virtual Result VisitTerm([NotNull] XilParser.TermContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.factor"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.factor"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -72,9 +72,9 @@ public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitFactor([NotNull] JoyParser.FactorContext context) { return VisitChildren(context); }
+	public virtual Result VisitFactor([NotNull] XilParser.FactorContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.setLiteral"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.setLiteral"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -82,9 +82,9 @@ public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitSetLiteral([NotNull] JoyParser.SetLiteralContext context) { return VisitChildren(context); }
+	public virtual Result VisitSetLiteral([NotNull] XilParser.SetLiteralContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.quotationLiteral"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.quotationLiteral"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -92,9 +92,9 @@ public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitQuotationLiteral([NotNull] JoyParser.QuotationLiteralContext context) { return VisitChildren(context); }
+	public virtual Result VisitQuotationLiteral([NotNull] XilParser.QuotationLiteralContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.atomicSymbol"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.atomicSymbol"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -102,9 +102,9 @@ public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitAtomicSymbol([NotNull] JoyParser.AtomicSymbolContext context) { return VisitChildren(context); }
+	public virtual Result VisitAtomicSymbol([NotNull] XilParser.AtomicSymbolContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.booleanConstant"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.booleanConstant"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -112,9 +112,9 @@ public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitBooleanConstant([NotNull] JoyParser.BooleanConstantContext context) { return VisitChildren(context); }
+	public virtual Result VisitBooleanConstant([NotNull] XilParser.BooleanConstantContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.integerConstant"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.integerConstant"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -122,9 +122,9 @@ public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitIntegerConstant([NotNull] JoyParser.IntegerConstantContext context) { return VisitChildren(context); }
+	public virtual Result VisitIntegerConstant([NotNull] XilParser.IntegerConstantContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.floatConstant"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.floatConstant"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -132,9 +132,9 @@ public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitFloatConstant([NotNull] JoyParser.FloatConstantContext context) { return VisitChildren(context); }
+	public virtual Result VisitFloatConstant([NotNull] XilParser.FloatConstantContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.characterConstant"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.characterConstant"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -142,9 +142,9 @@ public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitCharacterConstant([NotNull] JoyParser.CharacterConstantContext context) { return VisitChildren(context); }
+	public virtual Result VisitCharacterConstant([NotNull] XilParser.CharacterConstantContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.stringConstant"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.stringConstant"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -152,5 +152,5 @@ public partial class JoyBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, 
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitStringConstant([NotNull] JoyParser.StringConstantContext context) { return VisitChildren(context); }
+	public virtual Result VisitStringConstant([NotNull] XilParser.StringConstantContext context) { return VisitChildren(context); }
 }

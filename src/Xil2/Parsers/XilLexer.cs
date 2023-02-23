@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from .\Joy.g4 by ANTLR 4.12.0
+// Generated from .\Xil.g4 by ANTLR 4.12.0
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -28,7 +28,7 @@ using Antlr4.Runtime.Misc;
 using DFA = Antlr4.Runtime.Dfa.DFA;
 
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.12.0")]
-public partial class JoyLexer : Lexer {
+public partial class XilLexer : Lexer {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
@@ -51,10 +51,10 @@ public partial class JoyLexer : Lexer {
 	};
 
 
-	public JoyLexer(ICharStream input)
+	public XilLexer(ICharStream input)
 	: this(input, Console.Out, Console.Error) { }
 
-	public JoyLexer(ICharStream input, TextWriter output, TextWriter errorOutput)
+	public XilLexer(ICharStream input, TextWriter output, TextWriter errorOutput)
 	: base(input, output, errorOutput)
 	{
 		Interpreter = new LexerATNSimulator(this, _ATN, decisionToDFA, sharedContextCache);
@@ -79,7 +79,7 @@ public partial class JoyLexer : Lexer {
 		}
 	}
 
-	public override string GrammarFileName { get { return "Joy.g4"; } }
+	public override string GrammarFileName { get { return "Xil.g4"; } }
 
 	public override string[] RuleNames { get { return ruleNames; } }
 
@@ -89,7 +89,7 @@ public partial class JoyLexer : Lexer {
 
 	public override int[] SerializedAtn { get { return _serializedATN; } }
 
-	static JoyLexer() {
+	static XilLexer() {
 		decisionToDFA = new DFA[_ATN.NumberOfDecisions];
 		for (int i = 0; i < _ATN.NumberOfDecisions; i++) {
 			decisionToDFA[i] = new DFA(_ATN.GetDecisionState(i), i);

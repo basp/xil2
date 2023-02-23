@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from .\Joy.g4 by ANTLR 4.12.0
+// Generated from .\Xil.g4 by ANTLR 4.12.0
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -25,81 +25,81 @@ using IToken = Antlr4.Runtime.IToken;
 
 /// <summary>
 /// This interface defines a complete generic visitor for a parse tree produced
-/// by <see cref="JoyParser"/>.
+/// by <see cref="XilParser"/>.
 /// </summary>
 /// <typeparam name="Result">The return type of the visit operation.</typeparam>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.12.0")]
-public interface IJoyVisitor<Result> : IParseTreeVisitor<Result> {
+public interface IXilVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.cycle"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.cycle"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitCycle([NotNull] JoyParser.CycleContext context);
+	Result VisitCycle([NotNull] XilParser.CycleContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.simpleDefinition"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.simpleDefinition"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitSimpleDefinition([NotNull] JoyParser.SimpleDefinitionContext context);
+	Result VisitSimpleDefinition([NotNull] XilParser.SimpleDefinitionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.term"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.term"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitTerm([NotNull] JoyParser.TermContext context);
+	Result VisitTerm([NotNull] XilParser.TermContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.factor"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.factor"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFactor([NotNull] JoyParser.FactorContext context);
+	Result VisitFactor([NotNull] XilParser.FactorContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.setLiteral"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.setLiteral"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitSetLiteral([NotNull] JoyParser.SetLiteralContext context);
+	Result VisitSetLiteral([NotNull] XilParser.SetLiteralContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.quotationLiteral"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.quotationLiteral"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitQuotationLiteral([NotNull] JoyParser.QuotationLiteralContext context);
+	Result VisitQuotationLiteral([NotNull] XilParser.QuotationLiteralContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.atomicSymbol"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.atomicSymbol"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitAtomicSymbol([NotNull] JoyParser.AtomicSymbolContext context);
+	Result VisitAtomicSymbol([NotNull] XilParser.AtomicSymbolContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.booleanConstant"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.booleanConstant"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitBooleanConstant([NotNull] JoyParser.BooleanConstantContext context);
+	Result VisitBooleanConstant([NotNull] XilParser.BooleanConstantContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.integerConstant"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.integerConstant"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitIntegerConstant([NotNull] JoyParser.IntegerConstantContext context);
+	Result VisitIntegerConstant([NotNull] XilParser.IntegerConstantContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.floatConstant"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.floatConstant"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFloatConstant([NotNull] JoyParser.FloatConstantContext context);
+	Result VisitFloatConstant([NotNull] XilParser.FloatConstantContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.characterConstant"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.characterConstant"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitCharacterConstant([NotNull] JoyParser.CharacterConstantContext context);
+	Result VisitCharacterConstant([NotNull] XilParser.CharacterConstantContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="JoyParser.stringConstant"/>.
+	/// Visit a parse tree produced by <see cref="XilParser.stringConstant"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitStringConstant([NotNull] JoyParser.StringConstantContext context);
+	Result VisitStringConstant([NotNull] XilParser.StringConstantContext context);
 }

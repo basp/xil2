@@ -1,4 +1,4 @@
-grammar Joy;
+grammar Xil;
 
 cycle                   :   (term | simpleDefinition) '.'
                         ;
