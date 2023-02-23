@@ -47,6 +47,8 @@ while (true)
         var ctx = parser.cycle();
         var stack = ctx.Accept(interpreter);
 
+        // Top of stack is at stack[stack.Count - 1] so we
+        // need to loop backwards.
         for (var i = stack.Count - 1; i >= 0; i--)
         {
             var pointer = "";
@@ -54,24 +56,32 @@ while (true)
             {
                 pointer = "<- top";
             }
-            // else if (i == 0)
-            // {
-            //     pointer = "<- bottom";
-            // }
 
             var repr = stack[i].ToRepresentation();
+
+            // Put TOS pointer at column 16 unless the length
+            // of the representation exceeds this value. In
+            // that case we will just add one space to the
+            // length of the representation.
             var offset = Math.Max(repr.Length + 1, 16);
-            Console.WriteLine(string.Concat(
-                repr.PadRight(offset),
-                pointer));
+            Console.WriteLine(
+                string.Concat(repr.PadRight(offset), pointer));
         }
     }
     catch (RuntimeException ex)
     {
+        // These are generally thrown when stack validation
+        // for a particular operation fails. They are usually
+        // a result of user errors.
         Console.WriteLine($"Runtime exception: {ex.Message}");
     }
-    catch (Exception ex)
+    catch (InvalidOperationException ex)
     {
+        // These are thrown when the runtime attempts to
+        // execute an operation with invalid operands. If this
+        // exception is thrown it is usually the result of
+        // insufficient stack validation or an bug in the 
+        // interpreter.
         Console.WriteLine(ex.ToString());
     }
 }

@@ -6,6 +6,8 @@ public interface IFloatable : INode
 
     public INode Subtract(INode node);
 
+    public INode Modulo(INode node);
+
     public INode Multiply(INode node);
 
     public INode Divide(INode node);

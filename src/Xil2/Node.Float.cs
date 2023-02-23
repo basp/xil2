@@ -24,7 +24,7 @@ public abstract partial class Node
             {
                 Node.Integer y => new Node.Float(this.value + y.Value),
                 Node.Float y => new Node.Float(this.value + y.Value),
-                _ => throw new NotImplementedException(),
+                _ => throw new InvalidOperationException(),
             };
 
         public INode Subtract(INode node) =>
@@ -32,7 +32,15 @@ public abstract partial class Node
             {
                 Node.Integer y => new Node.Float(this.value - y.Value),
                 Node.Float y => new Node.Float(this.value - y.Value),
-                _ => throw new NotImplementedException(),
+                _ => throw new InvalidOperationException(),
+            };
+
+        public INode Modulo(INode node) =>
+            node switch
+            {
+                Node.Integer y => new Node.Float(this.value % y.Value),
+                Node.Float y => new Node.Float(this.value % y.Value),
+                _ => throw new InvalidOperationException(),
             };
 
         public INode Divide(INode node) =>
@@ -40,7 +48,7 @@ public abstract partial class Node
             {
                 Node.Integer y => new Node.Float(this.value / y.Value),
                 Node.Float y => new Node.Float(this.value / y.Value),
-                _ => throw new NotImplementedException(),
+                _ => throw new InvalidOperationException(),
             };
 
         public INode Multiply(INode node) =>
@@ -48,7 +56,7 @@ public abstract partial class Node
             {
                 Node.Integer y => new Node.Float(this.value * y.Value),
                 Node.Float y => new Node.Float(this.value * y.Value),
-                _ => throw new NotImplementedException(),
+                _ => throw new InvalidOperationException(),
             };
 
         public override INode Clone() =>

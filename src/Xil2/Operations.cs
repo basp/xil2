@@ -24,6 +24,17 @@ public static class Operations
         i.Push(x.Subtract(y));
     }
 
+    public static void Modulo(Interpreter i)
+    {
+        new Validator("%")
+            .TwoArguments()
+            .TwoFloatsOrIntegers()
+            .Validate(i.Stack);
+        var a = i.Pop<IFloatable>();
+        var b = i.Pop<IFloatable>();
+        i.Push(b.Modulo(a));
+    }
+
     public static void Multiply(Interpreter i)
     {
         new Validator("+")

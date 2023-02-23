@@ -11,6 +11,7 @@ public class CoreEx : Interpreter
         this["-"] = Operations.Subtract;
         this["*"] = Operations.Multiply;
         this["/"] = Operations.Divide;
+        this["%"] = Operations.Modulo;
         this["dup"] = Operations.Dup;
         this["swap"] = Operations.Swap;
         this["zap"] = Operations.Zap;

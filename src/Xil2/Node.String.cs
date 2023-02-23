@@ -26,14 +26,20 @@ public abstract partial class Node
         public override string ToRepresentation() =>
             string.Concat('"', this.value, '"');
 
-        public INode Cons(INode node)
-        {
-            throw new NotImplementedException();
-        }
+        public INode Cons(INode node) =>
+            node switch
+            {
+                _ => 
+                    throw new RuntimeException(
+                        Validator.GetErrorMessage("cons", "ordinal")),
+            };
 
-        public INode Concat(INode node)
-        {
-            throw new NotImplementedException();
-        }
+        public INode Concat(INode node) =>
+            node switch
+            {
+                Node.String y =>
+                    new Node.String(string.Concat(this.value, y.value)),
+                _ => throw new InvalidOperationException(),
+            };
     }
 }
