@@ -2,6 +2,9 @@ namespace Xil2;
 
 public abstract partial class Node
 {
+    /// <summary>
+    /// Represents a symbol node in the interpreter.
+    /// </summary>
     public class Symbol : Node
     {
         private readonly string name;
@@ -13,7 +16,7 @@ public abstract partial class Node
 
         public string Name => this.name;
 
-        public override Operator Op => Operator.Symbol;
+        public override Operand Op => Operand.Symbol;
 
         public override INode Clone() =>
             new Node.Symbol(this.name);

@@ -2,6 +2,9 @@ namespace Xil2;
 
 public abstract partial class Node
 {
+    /// <summary>
+    /// Represents a character node in the interpreter.
+    /// </summary>
     public class Char : Node, IOrdinal
     {
         private readonly char value;
@@ -11,7 +14,7 @@ public abstract partial class Node
             this.value = value;
         }
 
-        public override Operator Op => Operator.Char;
+        public override Operand Op => Operand.Char;
 
         public override bool IsOrdinal => true;
 

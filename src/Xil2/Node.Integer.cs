@@ -1,7 +1,11 @@
 namespace Xil2;
 
+
 public abstract partial class Node
 {
+    /// <summary>
+    /// Represents an integer node in the interpreter.
+    /// </summary>
     public class Integer : Node, IFloatable
     {
         private readonly int value;
@@ -13,7 +17,7 @@ public abstract partial class Node
 
         public int Value => this.value;
 
-        public override Operator Op => Operator.Integer;
+        public override Operand Op => Operand.Integer;
 
         public override bool IsFloatable => true;
 

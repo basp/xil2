@@ -17,15 +17,15 @@ public abstract class Interpreter : Dictionary<string, Action<Interpreter>>
         {
             switch (node.Op)
             {
-                case Operator.None:
+                case Operand.None:
                     break;
-                case Operator.Boolean:
-                case Operator.Integer:
-                case Operator.Char:
-                case Operator.Float:
-                case Operator.String:
-                case Operator.Set:
-                case Operator.List:
+                case Operand.Boolean:
+                case Operand.Integer:
+                case Operand.Char:
+                case Operand.Float:
+                case Operand.String:
+                case Operand.Set:
+                case Operand.List:
                     this.stack.Push(node);
                     break;
                 default:

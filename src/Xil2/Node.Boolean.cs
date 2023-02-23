@@ -11,7 +11,7 @@ public abstract partial class Node
             this.value = value;
         }
 
-        public override Operator Op => Operator.Boolean;
+        public override Operand Op => Operand.Boolean;
 
         public bool Value => this.value;
 

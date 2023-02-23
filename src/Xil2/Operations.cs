@@ -1,5 +1,9 @@
 namespace Xil2;
 
+/// <summary>
+/// This class contains predefined operations that can are used
+/// by various interpreter cores.
+/// </summary>
 public static class Operations
 {
     public static void Add(Interpreter i)

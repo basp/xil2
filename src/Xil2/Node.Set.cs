@@ -2,9 +2,12 @@ namespace Xil2;
 
 public abstract partial class Node
 {
+    /// <summary>
+    /// Represents a set node in the interpreter.
+    /// </summary>
     public class Set : Node, IAggregate
     {
-        public override Operator Op => throw new NotImplementedException();
+        public override Operand Op => throw new NotImplementedException();
 
         public override bool IsAggregate => true;
 

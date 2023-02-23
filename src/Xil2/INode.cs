@@ -19,7 +19,7 @@ public interface INode
     /// <summary>
     /// Gets the type (i.e. list, integer, float, etc.) of this node.
     /// </summary>
-    Operator Op { get; }   
+    Operand Op { get; }   
 
     /// <summary>
     /// Creates a deep clone of this <see cref="INode"/> value.

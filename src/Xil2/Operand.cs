@@ -1,6 +1,6 @@
 namespace Xil2;
 
-public enum Operator
+public enum Operand
 {
     None,
     

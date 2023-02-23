@@ -4,6 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 
 public abstract partial class Node
 {
+    /// <summary>
+    /// Represents a list node in the interpreter.
+    /// </summary>
     public class List : Node, IAggregate
     {
         private readonly IList<INode> elements;
@@ -20,7 +23,7 @@ public abstract partial class Node
 
         public IEnumerable<INode> Elements => this.elements;
 
-        public override Operator Op => Operator.List;
+        public override Operand Op => Operand.List;
 
         public override bool IsAggregate => true;
 

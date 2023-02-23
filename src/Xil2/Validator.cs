@@ -107,7 +107,7 @@ public class Validator
     /// </summary>
     public Validator OneQuote() =>
         this.AddRule(
-            s => s[s.Count - 1].Op == Operator.List,
+            s => s[s.Count - 1].Op == Operand.List,
             "quotation as first argument");
 
     /// <summary>
@@ -115,7 +115,7 @@ public class Validator
     /// </summary>
     public Validator TwoQuotes() => this.OneQuote()
         .AddRule(
-            s => s[s.Count - 2].Op == Operator.List,
+            s => s[s.Count - 2].Op == Operand.List,
             "quotation as second argument");
 
     /// <summary>
@@ -123,7 +123,7 @@ public class Validator
     /// </summary>
     public Validator ThreeQuotes() => this.TwoQuotes()
         .AddRule(
-            s => s[s.Count - 3].Op == Operator.List,
+            s => s[s.Count - 3].Op == Operand.List,
             "quotation as third argument");
 
     /// <summary>
@@ -131,7 +131,7 @@ public class Validator
     /// </summary>
     public Validator FourQuotes() => this.ThreeQuotes()
         .AddRule(
-            s => s[s.Count - 4].Op == Operator.List,
+            s => s[s.Count - 4].Op == Operand.List,
             "quotation as fourth argument");
 
     /// <summary>
@@ -148,8 +148,8 @@ public class Validator
     /// </summary>
     public Validator SymbolOrStringOnTop() =>
         this.AddRule(
-            s => s.Last().Op == Operator.Symbol ||
-                 s.Last().Op == Operator.String,
+            s => s.Last().Op == Operand.Symbol ||
+                 s.Last().Op == Operand.String,
             "string or symbol");
 
     /// <summary>
@@ -158,7 +158,7 @@ public class Validator
     /// </summary>
     public Validator StringOnTop() =>
         this.AddRule(
-            s => s[s.Count - 1].Op == Operator.String,
+            s => s[s.Count - 1].Op == Operand.String,
             "string");
 
     /// <summary>
@@ -167,7 +167,7 @@ public class Validator
     /// </summary>
     public Validator StringAsSecond() =>
         this.AddRule(
-            s => s[s.Count - 2].Op == Operator.String,
+            s => s[s.Count - 2].Op == Operand.String,
             "string as second argument");
 
     /// <summary>

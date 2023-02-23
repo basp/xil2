@@ -2,6 +2,9 @@ namespace Xil2;
 
 public abstract partial class Node
 {
+    /// <summary>
+    /// Represents a string node in the interpreter.
+    /// </summary>
     public class String : Node, IAggregate
     {
         private readonly string value;
@@ -11,7 +14,7 @@ public abstract partial class Node
             this.value = value;
         }
 
-        public override Operator Op => Operator.String;
+        public override Operand Op => Operand.String;
 
         public override bool IsAggregate => true;
 

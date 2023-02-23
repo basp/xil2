@@ -4,6 +4,9 @@ using System.Globalization;
 
 public abstract partial class Node
 {
+    /// <summary>
+    /// Represents a floating point node in the interpreter.
+    /// </summary>
     public class Float : Node, IFloatable
     {
         private double value;
@@ -15,7 +18,7 @@ public abstract partial class Node
 
         public double Value => this.value;
 
-        public override Operator Op => Operator.Float;
+        public override Operand Op => Operand.Float;
 
         public override bool IsFloatable => true;
 
