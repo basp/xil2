@@ -1,5 +1,8 @@
 namespace Xil2;
 
+/// <summary>
+/// Experimental interpreter core based on http://tunes.org/~iepos/joy.html
+/// </summary>
 public class CoreEx : Interpreter
 {
     public CoreEx()

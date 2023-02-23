@@ -4,8 +4,7 @@ using Antlr4.Runtime.Misc;
 
 public class CycleVisitor : JoyBaseVisitor<C5.IStack<INode>>
 {
-    private static readonly FactorVisitor FactorVisitor =
-        new FactorVisitor();
+    private static readonly FactorVisitor FactorVisitor = new FactorVisitor();
 
     private readonly Interpreter interpreter;
 
