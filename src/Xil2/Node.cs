@@ -1,5 +1,10 @@
 namespace Xil2;
 
+/// <summary>
+/// This class provides a shallow implemenation of the <see cref="INode"/> 
+/// interface with some addtional utility methods that are useful during 
+/// runtime.
+/// </summary>
 public abstract partial class Node : INode
 {
     public Position Position { get; set; }
