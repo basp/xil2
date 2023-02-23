@@ -26,6 +26,8 @@ public class CycleVisitor : XilBaseVisitor<C5.IStack<INode>>
             return context.term().Accept(this);
         }
 
+        // If we are neither a `simpleDefinition` or a `term` then we can 
+        // safely regard the input as junk and just return the stack.
         return this.interpreter.Stack;
     }
 
