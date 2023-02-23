@@ -27,7 +27,6 @@ while (true)
         // When we find a dot we have reached the end of our cycle.
         if (input.Trim().EndsWith(dot))
         {
-            buf.Append(dot);
             break;
         }
 
