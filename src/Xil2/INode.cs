@@ -22,8 +22,12 @@ public interface INode
     Operator Op { get; }   
 
     /// <summary>
-    /// Creates a unique clone of this <see cref="INode"/> value.
+    /// Creates a deep clone of this <see cref="INode"/> value.
     /// </summary>
+    /// <remarks>
+    /// Note that this creates a new value that is unique. It does not have
+    /// any references to its origin anymore.
+    /// </remarks>
     INode Clone();
 
     /// <summary>
