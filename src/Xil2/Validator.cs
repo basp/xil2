@@ -230,7 +230,7 @@ public class Validator
     /// <summary>
     /// Tries to validate the given stack with the rules currently
     /// associated with this validator. It will return <c>false</c>
-    /// and set <c>error</c> with an appropriate message in case 
+    /// and assign <c>error</c> with an appropriate message in case 
     /// validation fails. Otherwise it will return true and <c>error</c> 
     /// will be an empty string.
     /// </summary>
