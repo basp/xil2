@@ -1,16 +1,17 @@
-using Antlr4.Runtime.Misc;
-using Joy;
+namespace Xil2;
 
-public class JoyCycleVisitor : JoyBaseVisitor<C5.IStack<INode>>
+using Antlr4.Runtime.Misc;
+
+public class CycleVisitor : JoyBaseVisitor<C5.IStack<INode>>
 {
-    private static readonly JoyFactorVisitor FactorVisitor =
-        new JoyFactorVisitor();
+    private static readonly FactorVisitor FactorVisitor =
+        new FactorVisitor();
 
     private readonly IDictionary<string, Action> definitions;
 
     private readonly C5.IStack<INode> stack = new C5.ArrayList<INode>();
 
-    public JoyCycleVisitor()
+    public CycleVisitor()
     {
         this.definitions = new Dictionary<string, Action>
         {
@@ -147,7 +148,7 @@ public class JoyCycleVisitor : JoyBaseVisitor<C5.IStack<INode>>
     {
         var b = this.Pop<Node.List>();
         var a = this.Pop<Node.List>();
-        var z = new Node.List(b.Elements.Concat(a.Elements));
+        var z = new Node.List(a.Elements.Concat(b.Elements));
         this.Push(z);
     }
 

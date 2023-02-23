@@ -1,6 +1,6 @@
-using System.Globalization;
+namespace Xil2;
 
-namespace Joy;
+using System.Globalization;
 
 public abstract partial class Node
 {

@@ -1,4 +1,4 @@
-namespace Joy;
+namespace Xil2;
 
 public interface INode
 {

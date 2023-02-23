@@ -1,8 +1,9 @@
+namespace Xil2;
+
 using System.Globalization;
 using Antlr4.Runtime.Misc;
-using Joy;
 
-public class JoyFactorVisitor : JoyBaseVisitor<Node>
+public class FactorVisitor : JoyBaseVisitor<Node>
 {
     public override Node VisitBooleanConstant(
         [NotNull] JoyParser.BooleanConstantContext context)

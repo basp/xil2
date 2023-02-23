@@ -1,6 +1,15 @@
 # xil2
 Xil is an implementation of the Joy programming language that can be embedded in .NET applications.
 
+# annotated transcript
+If you execute `dotnet run` in the `Xil2` project directory the interpreter will run. At this point it will read command until it finds a period (`.`) character.
+```
+PS D:\basp\xil2\src\Xil2> dotnet run
+:
+```
+
+The `:` is the Xil prompt. You can now enter either a *definition* (which **manipulates the environment**) or a *term* (which possibly **manipulates the stack**).
+
 # reference transcript
 ```
 PS D:\basp\xil2\src\Xil2> dotnet run

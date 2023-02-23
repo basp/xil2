@@ -1,4 +1,4 @@
-namespace Joy;
+namespace Xil2;
 
 public struct Position
 {
@@ -16,4 +16,29 @@ public abstract partial class Node : INode
     public abstract INode Clone();
 
     public abstract string ToRepresentation();
+
+    public class Set : Node, IAggregate
+    {
+        public override Operator Op => throw new NotImplementedException();
+
+        public override INode Clone()
+        {
+            throw new NotImplementedException();
+        }
+
+        public INode Concat(INode node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public INode Cons(INode node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToRepresentation()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
