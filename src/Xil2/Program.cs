@@ -7,6 +7,7 @@ const string prompt = ": ";
 
 var interpreter = new CycleVisitor(new CoreEx());
 
+// Read cycles (term or definition) of input until the user gets tired.
 while (true)
 {
     // Setup a string buffer to buildup our code in the interactive.
