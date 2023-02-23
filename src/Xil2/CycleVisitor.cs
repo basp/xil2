@@ -146,26 +146,35 @@ public class CycleVisitor : JoyBaseVisitor<C5.IStack<INode>>
     // [B] [A] cat == [B A]
     private void Cat()
     {
+        new Validator("cat")
+            .TwoArguments()
+            .TwoAggregates()
+            .Validate(this.stack);
         var b = this.Pop<Node.List>();
         var a = this.Pop<Node.List>();
-        var z = new Node.List(a.Elements.Concat(b.Elements));
+        var z = a.Concat(b);
         this.Push(z);
     }
 
     // [B] [A] cons == [[B] A]
     private void Cons()
     {
-        var a = this.Pop<Node.List>();
-        var b = this.Pop<Node.List>();
-        var z = new Node.List(
-            new [] { b }
-            .Concat(a.Elements));
+        new Validator("cons")
+            .TwoArguments()
+            .AggregateOnTop()
+            .Validate(this.stack);
+        var a = this.Pop<IAggregate>();
+        var b = this.Pop<INode>();
+        var z = a.Cons(b);
         this.Push(z);
     }
 
     // [A] unit == [[A]]
     private void Unit()
     {
+        new Validator("unit")
+            .OneArgument()
+            .Validate(this.stack);
         var a = this.Pop<INode>();
         var z = new Node.List(a);
         this.Push(z);

@@ -24,6 +24,8 @@ public abstract partial class Node
 
         public override bool IsAggregate => true;
 
+        public int Size => this.elements.Count;
+
         public override INode Clone()
         {
             var xs = this.elements.Select(x => x.Clone());

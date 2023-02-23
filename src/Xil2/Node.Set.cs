@@ -8,6 +8,8 @@ public abstract partial class Node
 
         public override bool IsAggregate => true;
 
+        public int Size => throw new NotImplementedException();
+
         public override INode Clone()
         {
             throw new NotImplementedException();
