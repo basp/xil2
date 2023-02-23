@@ -64,6 +64,9 @@ while (true)
                 pointer = "<- top";
             }
 
+            // This will give us a representation of what
+            // the code would look like for the value on
+            // the stack.
             var repr = stack[i].ToRepresentation();
 
             // Put TOS pointer at column 16 unless the length
@@ -71,6 +74,9 @@ while (true)
             // that case we will just add one space to the
             // length of the representation for separation.
             var offset = Math.Max(repr.Length + 1, 16);
+
+            // Print the stack value along with the TOS pointer
+            // if this value happens to be at the top of the stack.
             Console.WriteLine(
                 string.Concat(repr.PadRight(offset), pointer));
         }
