@@ -4,6 +4,10 @@ public static class Operations
 {
     public static void Add(Interpreter i)
     {
+        new Validator("+")
+            .TwoArguments()
+            .TwoFloatsOrIntegers()
+            .Validate(i.Stack);
         var y = i.Pop<IFloatable>();
         var x = i.Pop<IFloatable>();
         i.Push(x.Add(y));
@@ -11,6 +15,10 @@ public static class Operations
 
     public static void Subtract(Interpreter i)
     {
+        new Validator("+")
+            .TwoArguments()
+            .TwoFloatsOrIntegers()
+            .Validate(i.Stack);
         var y = i.Pop<IFloatable>();
         var x = i.Pop<IFloatable>();
         i.Push(x.Subtract(y));
@@ -18,6 +26,10 @@ public static class Operations
 
     public static void Multiply(Interpreter i)
     {
+        new Validator("+")
+            .TwoArguments()
+            .TwoFloatsOrIntegers()
+            .Validate(i.Stack);
         var y = i.Pop<IFloatable>();
         var x = i.Pop<IFloatable>();
         i.Push(x.Multiply(y));
@@ -25,6 +37,10 @@ public static class Operations
 
     public static void Divide(Interpreter i)
     {
+        new Validator("+")
+            .TwoArguments()
+            .TwoFloatsOrIntegers()
+            .Validate(i.Stack);
         var y = i.Pop<IFloatable>();
         var x = i.Pop<IFloatable>();
         i.Push(x.Divide(y));
@@ -33,6 +49,9 @@ public static class Operations
     // [B] [A] swap == [A] [B]
     public static void Swap(Interpreter i)
     {
+        new Validator("swap")
+            .TwoArguments()
+            .Validate(i.Stack);
         var y = i.Pop<INode>();
         var x = i.Pop<INode>();
         i.Push(y);
@@ -42,6 +61,9 @@ public static class Operations
     // [A] dup == [A] [A]
     public static void Dup(Interpreter i)
     {
+        new Validator("dup")
+            .OneArgument()
+            .Validate(i.Stack);
         var x = i.Stack.Last();
         i.Push(x.Clone());
     }
@@ -49,12 +71,19 @@ public static class Operations
     // [A] zap ==
     public static void Zap(Interpreter i)
     {
+        new Validator("zap")
+            .OneArgument()
+            .Validate(i.Stack);
         i.Pop<INode>();
     }
 
     // [A] i == A
     public static void I(Interpreter i)
     {
+        new Validator("i")
+            .OneArgument()
+            .OneQuote()
+            .Validate(i.Stack);
         var x = i.Pop<Node.List>();
         i.Eval(x.Elements);
     }
@@ -62,10 +91,14 @@ public static class Operations
     // [B] [A] dip == A [B]
     public static void Dip(Interpreter i)
     {
-        var y = i.Pop<Node.List>();
-        var x = i.Pop<INode>();
-        i.Eval(y.Elements);
-        i.Push(x);
+        new Validator("dip")
+            .TwoArguments()
+            .OneQuote()
+            .Validate(i.Stack);
+        var a = i.Pop<Node.List>();
+        var b = i.Pop<INode>();
+        i.Eval(a.Elements);
+        i.Push(b);
     }
 
     // [B] [A] cat == [B A]

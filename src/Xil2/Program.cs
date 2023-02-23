@@ -66,8 +66,12 @@ while (true)
                 pointer));
         }
     }
+    catch (RuntimeException ex)
+    {
+        Console.WriteLine($"Runtime exception: {ex.Message}");
+    }
     catch (Exception ex)
     {
-        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.ToString());
     }
 }
