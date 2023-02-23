@@ -3,13 +3,14 @@ using Antlr4.Runtime;
 using Xil2;
 
 const char dot = '.';
+const string prompt = ": ";
 
 var interpreter = new CycleVisitor(new CoreEx());
 
 while (true)
 {
     var buf = new StringBuilder();
-    Console.Write(": ");
+    Console.Write(prompt);
 
     // Read multiline input until dot is found.
     while (true)
@@ -31,9 +32,8 @@ while (true)
         }
 
         // Since we continue a multiline prompt we'll shift over
-        // the prompt two spaces so it aligns nicely with the starting
-        // prompt. It also provides some visual feedback in the interactive.
-        Console.Write("  ");
+        // the prompt to give some visual feedback in the interactive.
+        Console.Write(string.Empty.PadRight(prompt.Length));
     }
 
     var stream = new AntlrInputStream(buf.ToString());
