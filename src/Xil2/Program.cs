@@ -4,7 +4,7 @@ using Xil2;
 
 const char dot = '.';
 
-var interpreter = new CycleVisitor();
+var interpreter = new CycleVisitor(new CoreEx());
 
 while (true)
 {
