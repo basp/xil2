@@ -1,6 +1,6 @@
 param(
-    [string] $Name = "Test3", 
-    [string] $Root = "expression",
+    [string] $Name = "Xil", 
+    [string] $Root = "cycle",
     [string] $Mode = "gui"
 )
 
