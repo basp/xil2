@@ -1,5 +1,21 @@
 namespace Xil2;
 
+/// <summary>
+/// <p>
+/// A stack <see cref="Validator"/> instance is used to inspect the
+/// stack during runtime operations and to throw a 
+/// <see cref="RuntimeException"/> in case the stack does not meet
+/// expectations. 
+/// </p>
+/// <p>
+/// In particular this is used to verify the amount and kinds of nodes that 
+/// are on the stack before commencing an operation. If the validation
+/// fails the operation will not be executed and a 
+/// <see cref="RuntimeException"/> will be thrown instead. This will give
+/// some additional feedback in the interactive and also will make it less
+/// likely that the current stack will be mutilated by an inproper operation.
+/// </p>
+/// </summary>
 public class Validator
 {
     private readonly string name;
@@ -17,105 +33,184 @@ public class Validator
         this.rules = rules;
     }
 
+    /// <summary>
+    /// Verifies that the argument on top of the stack is a
+    /// <see cref="IFloatable"/> instance.
+    /// </summary>
     public static bool Floatable(C5.IStack<INode> stack) =>
         stack[stack.Count - 1].IsFloatable;
 
+    /// <summary>
+    /// Verifies that the two arguments on top of the stack are
+    /// <see cref="IFloatable"/> instances.
+    /// </summary>
     public static bool Floatable2(C5.IStack<INode> stack) =>
         stack[stack.Count - 1].IsFloatable &&
         stack[stack.Count - 2].IsFloatable;
 
+    /// <summary>
+    /// Returns a standard error message informing the user
+    /// that particular kind of argument is needed for the 
+    /// named operation.
+    /// </summary>
     public static string GetErrorMessage(string name, string message) =>
         $"{message} needed for `{name}`";
 
+    /// <summary>
+    /// Throws a <see cref="RuntimeException"/> informing the user
+    /// that an argument for the named operation is of an incorrect type.
+    /// </summary>
     public static void ThrowBadData(string name) =>
         throw new RuntimeException(
             GetErrorMessage(name, "different type"));
 
+    /// <summary>
+    /// Throws a <see cref="RuntimeException"/> informing the user
+    /// that an argument for the named operation should be an aggregate.
+    /// </summary>
     public static void ThrowBadAggregate(string name) =>
         throw new RuntimeException(
             GetErrorMessage(name, "aggregate"));
 
+    /// <summary>
+    /// Verifies that there is at least one argument on the stack.
+    /// </summary>
     public Validator OneArgument() =>
         this.AddRule(s => s.Count > 0, "one argument");
 
+    /// <summary>
+    /// Verifies that there are at least two arguments on the stack.
+    /// </summary>
     public Validator TwoArguments() =>
         this.AddRule(s => s.Count > 1, "two arguments");
 
+    /// <summary>
+    /// Verifies that there are at least three arguments on the stack.
+    /// </summary>
     public Validator ThreeArguments() =>
         this.AddRule(s => s.Count > 2, "three arguments");
 
+    /// <summary>
+    /// Verifies that there are at least four arguments on the stack.
+    /// </summary>
     public Validator FourArguments() =>
         this.AddRule(s => s.Count > 3, "four arguments");
 
+    /// <summary>
+    /// Verifies that there are at least five arguments on the stack.
+    /// </summary>
     public Validator FiveArguments() =>
         this.AddRule(s => s.Count > 4, "five arguments");
 
+    /// <summary>
+    /// Verifies that the value on top of the stack qualifies as a quotation.
+    /// </summary>
     public Validator OneQuote() =>
         this.AddRule(
             s => s[s.Count - 1].Op == Operator.List,
             "quotation as first argument");
 
+    /// <summary>
+    /// Verifies that the top two values on the stack qualify as a quotation.
+    /// </summary>
     public Validator TwoQuotes() => this.OneQuote()
         .AddRule(
             s => s[s.Count - 2].Op == Operator.List,
             "quotation as second argument");
 
+    /// <summary>
+    /// Verifies that the top three values on the stack qualify as a quotation.
+    /// </summary>
     public Validator ThreeQuotes() => this.TwoQuotes()
         .AddRule(
             s => s[s.Count - 3].Op == Operator.List,
             "quotation as third argument");
 
+    /// <summary>
+    /// Verifies that the top four values on the stack qualify as a quotation.
+    /// </summary>
     public Validator FourQuotes() => this.ThreeQuotes()
         .AddRule(
             s => s[s.Count - 4].Op == Operator.List,
             "quotation as fourth argument");
 
+    /// <summary>
+    /// Verifies that the top two arguments on the stack are of the same type.
+    /// </summary>
     public Validator SameTwoTypes() =>
         this.AddRule(
             s => s[s.Count - 1].Op == s[s.Count - 2].Op,
             "two arguments of the same type");
 
+    /// <summary>
+    /// Verifies that the top argument on the stack is either a
+    /// <see cref="Node.Symbol"/> or a <see cref="Node.String"/>.
+    /// </summary>
     public Validator SymbolOrStringOnTop() =>
         this.AddRule(
             s => s.Last().Op == Operator.Symbol ||
                  s.Last().Op == Operator.String,
             "string or symbol");
 
+    /// <summary>
+    /// Verifies that the top argument on the stack is a 
+    /// <see cref="Node.String"/>.
+    /// </summary>
     public Validator StringOnTop() =>
         this.AddRule(
             s => s[s.Count - 1].Op == Operator.String,
             "string");
 
+    /// <summary>
+    /// Verifies that the second argument on the stack is a
+    /// <see cref="Node.String"/>.
+    /// </summary>
     public Validator StringAsSecond() =>
         this.AddRule(
             s => s[s.Count - 2].Op == Operator.String,
             "string as second argument");
 
+    /// <summary>
+    /// Verifies that the top argument on the stack is a
+    /// <see cref="Node.Float"/> or <see cref="Node.Integer"/>.
+    /// </summary>
     public Validator FloatOrInteger() =>
         this.AddRule(Floatable, "float or integer");
 
+    /// <summary>
+    /// </summary>
     public Validator TwoFloatsOrIntegers() =>
         this.AddRule(Floatable2, "two floats or integers");
 
+    /// <summary>
+    /// </summary>
     public Validator NonZeroOnTop() =>
         this.AddRule(s => !Node.IsZero(s.Last()), "non-zero divisor");
 
+    /// <summary>
+    /// </summary>
     public Validator AggregateOnTop() =>
         this.AddRule(
             s => s[s.Count - 1].IsAggregate,
             "aggregate");
 
+    /// <summary>
+    /// </summary>
     public Validator AggregateAsSecond() =>
         this.AddRule(
             s => s[s.Count - 2].IsAggregate,
             "aggregate as second argument");
 
+    /// <summary>
+    /// </summary>
     public Validator TwoAggregates() =>
         this.AddRule(
             s => s[s.Count - 1].IsAggregate &&
                  s[s.Count - 2].IsAggregate,
             "two aggregate arguments");
 
+    /// <summary>
+    /// </summary>
     public Validator AddRule(Func<C5.IStack<INode>, bool> p, string message)
     {
         var clone = new Validator(this.name, this.rules);
@@ -123,12 +218,14 @@ public class Validator
         return clone;
     }
 
+    /// <summary>
+    /// </summary>
     public bool TryValidate(C5.IStack<INode> stack, out string error)
     {
         error = string.Empty;
         foreach (var rule in this.rules)
         {
-            if (!rule.Apply(stack, out var type))
+            if (!rule.Verify(stack, out var type))
             {
                 error = GetErrorMessage(type);
                 return false;
@@ -138,6 +235,8 @@ public class Validator
         return true;
     }
 
+    /// <summary>
+    /// </summary>
     public Validator Validate(C5.IStack<INode> stack)
     {
         if (!this.TryValidate(stack, out var error))
