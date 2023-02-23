@@ -4,8 +4,17 @@ using Xil2;
 
 const char dot = '.';
 const string prompt = ": ";
+const int pointerOffset = 12;
 
+// The `CoreEx` interpreter is just a minimal test core that
+// functions like a subset of the Joy programming language.
+// The use-case is to allow for any interpreter to be used
+// instead independent of the language syntax but coherent with
+// the language semantics.
 var interpreter = new CoreEx();
+
+// This visitor is a shallow implementation of an ANTLR parse tree 
+// visitor that will either deal with a definition or a term to be evaluated.
 var visitor = new CycleVisitor(interpreter);
 
 // Read cycles (term or definition) of input until the user gets tired.
@@ -25,9 +34,10 @@ while (true)
         var input = Console.ReadLine() + Environment.NewLine;
         if (string.IsNullOrWhiteSpace(input))
         {
-            // This doesn't seem to work...
-            // Input is still being fed to the parser.
-            // Is it because of the new line that we add back in?
+            // This is just a hack to ensure that
+            // an empty string does not result in a
+            // parse error.
+            buf.Append(".");
             break;
         }
 
@@ -80,7 +90,7 @@ while (true)
             // of the representation exceeds this value. In
             // that case we will just add one space to the
             // length of the representation for separation.
-            var offset = Math.Max(repr.Length + 1, 16);
+            var offset = Math.Max(repr.Length + 1, pointerOffset);
 
             // Print the stack value along with the TOS pointer
             // if this value happens to be at the top of the stack.
