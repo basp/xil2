@@ -25,8 +25,8 @@ public interface INode
     /// Creates a deep clone of this <see cref="INode"/> value.
     /// </summary>
     /// <remarks>
-    /// Note that this creates a new value that is unique. It does not have
-    /// any references to its origin anymore.
+    /// Note that this creates a new <see cref="INode"/> that is unique. 
+    /// It does not have any references to its origin anymore.
     /// </remarks>
     INode Clone();
 
