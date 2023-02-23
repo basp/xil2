@@ -50,7 +50,7 @@ public class Validator
 
     /// <summary>
     /// Returns a standard error message informing the user
-    /// that particular kind of argument is needed for the 
+    /// that a particular kind of argument is needed for the 
     /// named operation.
     /// </summary>
     public static string GetErrorMessage(string name, string message) =>
@@ -178,16 +178,20 @@ public class Validator
         this.AddRule(Floatable, "float or integer");
 
     /// <summary>
+    /// Verifies that the top two arguments on the stack are either
+    /// <see cref="Node.Float"/> or <see cref="Node.Integer"/> instances.
     /// </summary>
     public Validator TwoFloatsOrIntegers() =>
         this.AddRule(Floatable2, "two floats or integers");
 
     /// <summary>
+    /// Verifies that the top of the stack contains a non-zero value.
     /// </summary>
     public Validator NonZeroOnTop() =>
         this.AddRule(s => !Node.IsZero(s.Last()), "non-zero divisor");
 
     /// <summary>
+    /// Verifies that there is a <see cref="IAggregate"/> on top of the stack.
     /// </summary>
     public Validator AggregateOnTop() =>
         this.AddRule(
@@ -195,6 +199,8 @@ public class Validator
             "aggregate");
 
     /// <summary>
+    /// Verifies that the second argument on the stack is a 
+    /// <see cref="IAggregate"/>.
     /// </summary>
     public Validator AggregateAsSecond() =>
         this.AddRule(
@@ -202,6 +208,8 @@ public class Validator
             "aggregate as second argument");
 
     /// <summary>
+    /// Verifies that there are two <see cref="IAggregate"/> instances
+    /// on top of the stack.
     /// </summary>
     public Validator TwoAggregates() =>
         this.AddRule(
@@ -210,6 +218,7 @@ public class Validator
             "two aggregate arguments");
 
     /// <summary>
+    /// Adds a rule to this validator's rule listing.
     /// </summary>
     public Validator AddRule(Func<C5.IStack<INode>, bool> p, string message)
     {
@@ -219,6 +228,11 @@ public class Validator
     }
 
     /// <summary>
+    /// Tries to validate the given stack with the rules currently
+    /// associated with this validator. It will return <c>false</c>
+    /// and set the <c>error</c> output with an appropriate message
+    /// in case validation fails. Otherwise it will return true and
+    /// <c>error</c> will be an empty string.
     /// </summary>
     public bool TryValidate(C5.IStack<INode> stack, out string error)
     {
@@ -236,6 +250,8 @@ public class Validator
     }
 
     /// <summary>
+    /// Validates the given stack and throws a <see cref="RuntimeException"/>
+    /// if validation fails. If validation succeeds it will return itself.
     /// </summary>
     public Validator Validate(C5.IStack<INode> stack)
     {
