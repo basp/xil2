@@ -1,6 +1,6 @@
 namespace Xil2;
 
-public abstract class Interpreter : Dictionary<string, Action>
+public abstract class Interpreter : Dictionary<string, Action<Interpreter>>
 {
     private readonly C5.IStack<INode> stack = new C5.ArrayList<INode>();
 
@@ -8,7 +8,7 @@ public abstract class Interpreter : Dictionary<string, Action>
 
     public virtual void AddDefinition(string name, IEnumerable<INode> body)
     {
-        this.Add(name, () => Eval(body));
+        this.Add(name, _ => Eval(body));
     }
 
     public virtual void Eval(IEnumerable<INode> factors)
@@ -32,14 +32,14 @@ public abstract class Interpreter : Dictionary<string, Action>
                     var symbol = (Node.Symbol)node;
                     if (this.TryGetValue(symbol.Name, out var action))
                     {
-                        action();
+                        action(this);
                     }
                     break;
             }
         }
     }
 
-    protected T Pop<T>() where T : INode => (T)this.stack.Pop();
+    public T Pop<T>() where T : INode => (T)this.stack.Pop();
 
-    protected void Push(INode value) => this.stack.Push(value);
+    public void Push(INode value) => this.stack.Push(value);
 }
