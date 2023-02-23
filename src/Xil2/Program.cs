@@ -69,7 +69,7 @@ while (true)
             // Put TOS pointer at column 16 unless the length
             // of the representation exceeds this value. In
             // that case we will just add one space to the
-            // length of the representation.
+            // length of the representation for separation.
             var offset = Math.Max(repr.Length + 1, 16);
             Console.WriteLine(
                 string.Concat(repr.PadRight(offset), pointer));
