@@ -9,7 +9,10 @@ var interpreter = new CycleVisitor(new CoreEx());
 
 while (true)
 {
+    // Setup a string buffer to buildup our code in the interactive.
     var buf = new StringBuilder();
+
+    // Display the prompt that starts a cycle.
     Console.Write(prompt);
 
     // Read multiline input until dot is found.
@@ -20,11 +23,13 @@ while (true)
         var input = Console.ReadLine() + Environment.NewLine;
         if (string.IsNullOrWhiteSpace(input))
         {
-            // This doesn't seem to work... 
+            // This doesn't seem to work...
+            // Input is still being fed to the parser.
             // Is it because of the new line that we add back in?
             break;
         }
 
+        // Append user input to the source buffer.
         buf.Append(input);
 
         // When we find a dot we have reached the end of our cycle.
@@ -33,13 +38,13 @@ while (true)
             break;
         }
 
-        // Since we continue a multiline prompt we'll shift over
-        // the prompt to give some visual feedback in the interactive.
+        // Since we are continuing a multiline prompt we'll shift over
+        // to give some visual feedback in the interactive.
         Console.Write(string.Empty.PadRight(prompt.Length));
     }
 
     // At this point we have collected some input that (at least on the
-    // surface) looks like some code we can parse and execute so let's do it.
+    // surface) looks like some code we can parse and execute so let's try it.
     var stream = new AntlrInputStream(buf.ToString());
     var lexer = new JoyLexer(stream);
     var tokens = new CommonTokenStream(lexer);
@@ -77,7 +82,7 @@ while (true)
 
             // Print the stack value along with the TOS pointer
             // if this value happens to be at the top of the stack.
-            // Otherwise the stack pointer will still be printed
+            // Otherwise the TOS pointer will still be printed
             // but it will be just an empty string.
             Console.WriteLine(
                 string.Concat(repr.PadRight(offset), pointer));
