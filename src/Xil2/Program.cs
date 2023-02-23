@@ -86,9 +86,9 @@ while (true)
             // the stack.
             var repr = stack[i].ToRepresentation();
 
-            // Put TOS pointer at column 16 unless the length
-            // of the representation exceeds this value. In
-            // that case we will just add one space to the
+            // Put TOS pointer at `pointerOffset` unless the 
+            // length of the representation exceeds this value. 
+            // In that case we will just add one space to the
             // length of the representation for separation.
             var offset = Math.Max(repr.Length + 1, pointerOffset);
 
