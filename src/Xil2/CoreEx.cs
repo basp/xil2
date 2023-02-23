@@ -18,8 +18,6 @@ public class CoreEx : Interpreter
         this["unit"] = this.Unit;
     }
 
-
-
     private void Add()
     {
         var y = this.Pop<IFloatable>();
