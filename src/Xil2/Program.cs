@@ -56,7 +56,7 @@ while (true)
         // loop backward in order to print it properly.
         for (var i = stack.Count - 1; i >= 0; i--)
         {
-            // It's nice to have this visual queue to draw
+            // It's nice to have a visual que to draw
             // attention to where the top of the stack is.
             var pointer = "";
             if (i == stack.Count - 1)
