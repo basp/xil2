@@ -1,5 +1,5 @@
 # xil
-Xil is an implementation of the Joy programming language that can be embedded in .NET applications.
+Xil is an implementation of the Joy programming language.
 
 # external references
 * [Joy](https://hypercubed.github.io/joy/joy.html)
