@@ -1,5 +1,14 @@
 namespace Xil2;
 
+/// <summary>
+/// Provides a stack based interpreter environment for Xil code.
+/// </summary>
+/// <remarks>
+/// This class provides a stack based environment for implementing 
+/// an interpreter. It supports evaluating a list of factors and 
+/// pushing and popping values onto the stack. It can also be used
+/// to store user defined symbols (i.e. definitions).
+/// </remarks>
 public abstract class Interpreter : Dictionary<string, Action<Interpreter>>
 {
     private readonly C5.IStack<INode> stack = new C5.ArrayList<INode>();
