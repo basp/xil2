@@ -20,6 +20,8 @@ while (true)
         var input = Console.ReadLine() + Environment.NewLine;
         if (string.IsNullOrWhiteSpace(input))
         {
+            // This doesn't seem to work... 
+            // Is it because of the new line that we add back in?
             break;
         }
 
@@ -36,6 +38,8 @@ while (true)
         Console.Write(string.Empty.PadRight(prompt.Length));
     }
 
+    // At this point we have collected some input that (at least on the
+    // surface) looks like some code we can parse and execute so let's do it.
     var stream = new AntlrInputStream(buf.ToString());
     var lexer = new JoyLexer(stream);
     var tokens = new CommonTokenStream(lexer);
@@ -43,13 +47,17 @@ while (true)
 
     try
     {
+        // A cycle is either a term (to be evaluated immediately) or a
+        // definition that should be stored in the interpreter environment.
         var ctx = parser.cycle();
         var stack = ctx.Accept(interpreter);
 
-        // Top of stack is at stack[stack.Count - 1] so we
-        // need to loop backwards.
+        // Top of stack (TOS) is at stack[stack.Count - 1] so we
+        // loop backward in order to print it properly.
         for (var i = stack.Count - 1; i >= 0; i--)
         {
+            // It's nice to have this visual queue to draw
+            // attention to where the top of the stack is.
             var pointer = "";
             if (i == stack.Count - 1)
             {
