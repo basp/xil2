@@ -231,8 +231,8 @@ public class Validator
     /// Tries to validate the given stack with the rules currently
     /// associated with this validator. It will return <c>false</c>
     /// and assign <c>error</c> with an appropriate message in case 
-    /// validation fails. Otherwise it will return true and <c>error</c> 
-    /// will be an empty string.
+    /// validation fails. Otherwise it will return <c>true</c> and 
+    /// <c>error</c> will be an empty string.
     /// </summary>
     public bool TryValidate(C5.IStack<INode> stack, out string error)
     {
