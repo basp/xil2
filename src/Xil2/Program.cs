@@ -32,8 +32,8 @@ while (true)
         }
 
         // Since we continue a multiline prompt we'll shift over
-        // two spaces so it aligns nicely with the starting 
-        // prompt.
+        // two spaces so it aligns nicely and also to provide
+        // some visual feedback in the interactive.
         Console.Write("  ");
     }
 
