@@ -7,7 +7,6 @@ PS D:\xil2> dotnet run
   +
   .
 5           <- top
-:
 ```
 
 # external references
