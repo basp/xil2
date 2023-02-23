@@ -17,6 +17,7 @@ public abstract partial class Node
 
         public override Operator Op => Operator.Float;
 
+        public override bool IsFloatable => true;
 
         public INode Add(INode node) =>
             node switch

@@ -22,6 +22,8 @@ public abstract partial class Node
 
         public override Operator Op => Operator.List;
 
+        public override bool IsAggregate => true;
+
         public override INode Clone()
         {
             var xs = this.elements.Select(x => x.Clone());

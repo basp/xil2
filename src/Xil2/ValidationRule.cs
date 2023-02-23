@@ -16,8 +16,15 @@ internal class ValidationRule
         this.message = message;
     }
 
-    public bool Apply(C5.IStack<INode> stack)
+    public bool Apply(C5.IStack<INode> stack, out string error)
     {
-        throw new NotImplementedException();
+        error = string.Empty;
+        if (!this.predicate(stack))
+        {
+            error = this.message;
+            return false;
+        }
+
+        return true;
     }
 }

@@ -6,5 +6,11 @@ public interface INode
 
     INode Clone();
 
+    bool IsFloatable { get; }
+
+    bool IsAggregate { get; }
+
+    bool IsOrdinal { get; }
+
     string ToRepresentation();
 }

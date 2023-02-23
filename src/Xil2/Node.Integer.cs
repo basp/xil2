@@ -15,6 +15,10 @@ public abstract partial class Node
 
         public override Operator Op => Operator.Integer;
 
+        public override bool IsFloatable => true;
+
+        public override bool IsOrdinal => true;
+
         public INode Add(INode node) =>
             node switch
             {

@@ -13,6 +13,8 @@ public abstract partial class Node
 
         public override Operator Op => Operator.String;
 
+        public override bool IsAggregate => true;
+
         public override INode Clone() =>
             new Node.String(this.value);
 
