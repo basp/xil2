@@ -5,7 +5,8 @@ using Xil2;
 const char dot = '.';
 const string prompt = ": ";
 
-var interpreter = new CycleVisitor(new CoreEx());
+var interpreter = new CoreEx();
+var visitor = new CycleVisitor(interpreter);
 
 // Read cycles (term or definition) of input until the user gets tired.
 while (true)
@@ -56,7 +57,7 @@ while (true)
         // A cycle is either a term (to be evaluated immediately) or a
         // definition that should be stored in the interpreter environment.
         var ctx = parser.cycle();
-        var stack = ctx.Accept(interpreter);
+        var stack = ctx.Accept(visitor);
 
         // Top of stack (TOS) is at stack[stack.Count - 1] so we
         // loop backward in order to print it properly.
