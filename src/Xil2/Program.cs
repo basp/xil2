@@ -77,6 +77,8 @@ while (true)
 
             // Print the stack value along with the TOS pointer
             // if this value happens to be at the top of the stack.
+            // Otherwise the stack pointer will still be printed
+            // but it will be just an empty string.
             Console.WriteLine(
                 string.Concat(repr.PadRight(offset), pointer));
         }
