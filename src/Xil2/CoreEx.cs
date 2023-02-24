@@ -16,6 +16,7 @@ public class CoreEx : Interpreter
         this["swap"] = new Entry(Operations.Swap);
         this["zap"] = new Entry(Operations.Zap);
         this["i"] = new Entry(Operations.I);
+        this["x"] = new Entry(Operations.X);
         this["dip"] = new Entry(Operations.Dip);
         this["cat"] = new Entry(Operations.Cat);
         this["cons"] = new Entry(Operations.Cons);

@@ -92,6 +92,17 @@ public static class Operations
         i.Pop<INode>();
     }
 
+    // [A] x == [A] A.
+    public static void X(Interpreter i)
+    {
+        new Validator("x")
+            .OneArgument()
+            .OneQuote()
+            .Validate(i.Stack);
+        var x = i.Peek<Node.List>();
+        i.Queue = new Queue<INode>(x.Elements.Concat(i.Queue));
+    }
+
     // [A] i == A
     public static void I(Interpreter i)
     {
@@ -160,18 +171,61 @@ public static class Operations
             .OneQuote()
             .ListAsSecond()
             .Validate(i.Stack);
-        var results = new List<INode>();
+
         var p = i.Pop<Node.List>();
         var a = i.Pop<Node.List>();
+        var z = new List<INode>();
         i.ExecuteScoped(() =>
         {
             foreach (var node in a.Elements)
             {
                 i.Push(node);
                 i.Execute(p.Elements);
-                results.Add(i.Pop<INode>());
+                z.Add(i.Pop<INode>());
             }
-        });
-        i.Push(new Node.List(results));
+        });        
+        i.Push(new Node.List(z));
+    }
+
+    // Tries to produce a map equivalent by unrolling
+    // everything onto the queue but this needs some
+    // tweaking since it doesn't handle the empty list
+    // case well (i.e. it doesn't leave an empty list
+    // on top of the stack).
+    private static void FlatMap(Interpreter i)
+    {
+        new Validator("map")
+            .TwoArguments()
+            .OneQuote()
+            .ListAsSecond()
+            .Validate(i.Stack);
+
+        var p = i.Pop<Node.List>();
+        var a = i.Pop<Node.List>();
+
+        if (!a.Elements.Any())
+        {
+            return;
+        }
+
+        var first = a.Elements.First();
+        var rest = a.Elements.Skip(1);
+
+        var q = new List<INode>();
+        q.Add(first);
+        q.AddRange(p.Elements);
+        q.Add(new Node.Symbol("swap"));
+        q.Add(new Node.Symbol("cons"));
+        q.Add(new Node.List(rest));
+        q.Add(p);
+        q.Add(new Node.Symbol("map"));
+
+        if (rest.Any())
+        {
+            q.Add(new Node.Symbol("cat"));
+        }
+
+        i.Push(new Node.List());
+        i.Queue = new Queue<INode>(q.Concat(i.Queue));        
     }
 }

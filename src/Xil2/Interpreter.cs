@@ -122,6 +122,11 @@ public abstract class Interpreter : Dictionary<string, Entry>
     }
 
     /// <summary>
+    /// Peek at the value on top of the stack.
+    /// </summary>
+    public T Peek<T>() where T : INode => (T)this.stack.Last();
+
+    /// <summary>
     /// Pops a node from the stack.
     /// </summary>
     public T Pop<T>() where T : INode => (T)this.stack.Pop();

@@ -3,7 +3,7 @@ using Antlr4.Runtime;
 using Xil2;
 
 const char dot = '.';
-const string prompt = ": ";
+const string prompt = "xil> ";
 const int pointerOffset = 12;
 
 // The `CoreEx` interpreter is just a minimal test core that
