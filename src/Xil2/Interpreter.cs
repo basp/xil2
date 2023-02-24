@@ -17,12 +17,18 @@ public abstract class Interpreter : Dictionary<string, Entry>
 
     private Queue<INode> queue = new Queue<INode>();
 
+    /// <summary>
+    /// Gets or sets the current stack.
+    /// </summary>
     public C5.IStack<INode> Stack
     {
         get => this.stack;
         set => this.stack = value;
     }
 
+    /// <summary>
+    /// Gets or sets the current queue.
+    /// </summary>
     public Queue<INode> Queue
     {
         get => this.queue;
@@ -57,15 +63,20 @@ public abstract class Interpreter : Dictionary<string, Entry>
         this.Add(name, entry);
     }
 
-    public virtual List<(INode[], INode[])> Trace(IEnumerable<INode> factors)
+    /// <summary>
+    /// Executes a term (i.e. a list of factors).
+    /// </summary>
+    public virtual List<(INode[], INode[])> Execute(IEnumerable<INode> factors, bool trace = false)
     {
-        (INode[], INode[]) trace;
         this.queue = new Queue<INode>(factors);
         var history = new List<(INode[], INode[])>();
         while (this.queue.Any())
         {
-            trace = (this.stack.ToArray(), this.queue.ToArray());
-            history.Add(trace);
+            if (trace)
+            {
+                history.Add((this.stack.ToArray(), this.queue.ToArray()));
+            }
+
             var node = this.queue.Dequeue();
             switch (node.Op)
             {
@@ -102,52 +113,12 @@ public abstract class Interpreter : Dictionary<string, Entry>
             }
         }
 
-        trace = (this.stack.ToArray(), this.queue.ToArray());
-        history.Add(trace);
-        return history;
-    }
-
-    /// <summary>
-    /// Executes a term (i.e. a list of factors).
-    /// </summary>
-    public virtual void Execute(IEnumerable<INode> factors)
-    {
-        this.queue = new Queue<INode>(factors);
-        while (this.queue.Any())
+        if (trace)
         {
-            var node = this.queue.Dequeue();
-            switch (node.Op)
-            {
-                case Operand.None:
-                    break;
-                case Operand.Boolean:
-                case Operand.Integer:
-                case Operand.Char:
-                case Operand.Float:
-                case Operand.String:
-                case Operand.Set:
-                case Operand.List:
-                    this.stack.Push(node);
-                    break;
-                default:
-                    var symbol = (Node.Symbol)node;
-                    if (this.TryGetValue(symbol.Name, out var entry))
-                    {
-                        if (entry.IsUserDefined)
-                        {
-                            this.queue = new Queue<INode>(entry.Body.Concat(this.queue));
-                        }
-                        else
-                        {
-                            entry.Action(this);
-                        }
-                        break;
-                    }
-
-                    var msg = $"Unknown symbol: {symbol.Name}";
-                    throw new RuntimeException(msg);
-            }
+            history.Add((this.stack.ToArray(), this.queue.ToArray()));
         }
+
+        return history;
     }
 
     /// <summary>

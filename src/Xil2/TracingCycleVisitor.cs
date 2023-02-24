@@ -17,7 +17,7 @@ public class TracingCycleVisitor : CycleVisitor
             .factor()
             .Select(x => x.Accept(FactorVisitor))
             .ToArray();
-        var trace = this.interpreter.Trace(factors);
+        var trace = this.interpreter.Execute(factors, trace: true);
         var strings = trace.Select(t => new
         {
             Stack = string.Join(' ', t.Item1.Select(x => x.ToRepresentation())),
