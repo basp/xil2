@@ -17,6 +17,8 @@ public abstract partial class Node : INode
 
     public virtual bool IsOrdinal => false;
 
+    public virtual bool IsQuote => false;
+
     public static bool IsZero(INode node) =>
         node switch
         {

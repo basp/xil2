@@ -21,6 +21,8 @@ public abstract partial class Node
         {
         }
 
+        public override bool IsQuote => this.elements.Any(x => x.Op == Operand.Symbol);
+
         public IEnumerable<INode> Elements => this.elements;
 
         public override Operand Op => Operand.List;
@@ -37,13 +39,17 @@ public abstract partial class Node
 
         public override string ToString()
         {
-            var xs = this.elements.Select(x => x.ToString()).ToArray();
+            var xs = this.elements
+                .Select(x => x.ToString())
+                .ToArray();
             return $"[{string.Join(' ', xs)}]";
         }
 
         public override string ToRepresentation()
         {
-            var xs = this.elements.Select(x => x.ToRepresentation()).ToArray();
+            var xs = this.elements
+                .Select(x => x.ToRepresentation())
+                .ToArray();
             return $"[{string.Join(' ', xs)}]";
         }
 

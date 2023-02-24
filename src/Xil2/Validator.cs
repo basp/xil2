@@ -107,7 +107,7 @@ public class Validator
     /// </summary>
     public Validator OneQuote() =>
         this.AddRule(
-            s => s[s.Count - 1].Op == Operand.List,
+            s => s[s.Count - 1].Op == Operand.List && s[s.Count - 1].IsQuote,
             "quotation as first argument");
 
     /// <summary>
@@ -115,7 +115,7 @@ public class Validator
     /// </summary>
     public Validator TwoQuotes() => this.OneQuote()
         .AddRule(
-            s => s[s.Count - 2].Op == Operand.List,
+            s => s[s.Count - 2].Op == Operand.List && s[s.Count - 2].IsQuote,
             "quotation as second argument");
 
     /// <summary>
@@ -123,7 +123,7 @@ public class Validator
     /// </summary>
     public Validator ThreeQuotes() => this.TwoQuotes()
         .AddRule(
-            s => s[s.Count - 3].Op == Operand.List,
+            s => s[s.Count - 3].Op == Operand.List && s[s.Count - 3].IsQuote,
             "quotation as third argument");
 
     /// <summary>
@@ -131,7 +131,7 @@ public class Validator
     /// </summary>
     public Validator FourQuotes() => this.ThreeQuotes()
         .AddRule(
-            s => s[s.Count - 4].Op == Operand.List,
+            s => s[s.Count - 4].Op == Operand.List && s[s.Count - 4].IsQuote,
             "quotation as fourth argument");
 
     /// <summary>
@@ -169,6 +169,22 @@ public class Validator
         this.AddRule(
             s => s[s.Count - 2].Op == Operand.String,
             "string as second argument");
+
+    public Validator IntegerOnTop() =>
+        this.AddRule(
+            s => s[s.Count - 1].Op == Operand.Integer,
+            "integer");
+
+    public Validator IntegerAsSecond() =>
+        this.AddRule(
+            s => s[s.Count - 2].Op == Operand.Integer,
+            "integer as second argument");
+
+    public Validator TwoIntegers() =>
+        this.AddRule(
+            s => s[s.Count - 1].Op == Operand.Integer &&
+                 s[s.Count - 2].Op == Operand.Integer,
+            "two integers");
 
     /// <summary>
     /// Verifies that the top argument on the stack is a
@@ -216,6 +232,16 @@ public class Validator
             s => s[s.Count - 1].IsAggregate &&
                  s[s.Count - 2].IsAggregate,
             "two aggregate arguments");
+
+    public Validator ListOnTop() =>
+        this.AddRule(
+            s => s[s.Count - 1].Op == Operand.List && !s[s.Count - 1].IsQuote,
+            "list");
+
+    public Validator ListAsSecond() =>
+        this.AddRule(
+            s => s[s.Count - 2].Op == Operand.List && !s[s.Count - 2].IsQuote,
+            "list as second argument");
 
     /// <summary>
     /// Adds a rule to this validator's rule listing.

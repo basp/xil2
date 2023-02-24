@@ -7,18 +7,19 @@ public class CoreEx : Interpreter
 {
     public CoreEx()
     {
-        this["+"] = Operations.Add;
-        this["-"] = Operations.Subtract;
-        this["*"] = Operations.Multiply;
-        this["/"] = Operations.Divide;
-        this["%"] = Operations.Modulo;
-        this["dup"] = Operations.Dup;
-        this["swap"] = Operations.Swap;
-        this["zap"] = Operations.Zap;
-        this["i"] = Operations.I;
-        this["dip"] = Operations.Dip;
-        this["cat"] = Operations.Cat;
-        this["cons"] = Operations.Cons;
-        this["unit"] = Operations.Unit;
+        this["+"] = new Entry(Operations.Add);
+        this["-"] = new Entry(Operations.Subtract);
+        this["*"] = new Entry(Operations.Multiply);
+        this["/"] = new Entry(Operations.Divide);
+        this["%"] = new Entry(Operations.Modulo);
+        this["dup"] = new Entry(Operations.Dup);
+        this["swap"] = new Entry(Operations.Swap);
+        this["zap"] = new Entry(Operations.Zap);
+        this["i"] = new Entry(Operations.I);
+        this["dip"] = new Entry(Operations.Dip);
+        this["cat"] = new Entry(Operations.Cat);
+        this["cons"] = new Entry(Operations.Cons);
+        this["unit"] = new Entry(Operations.Unit);
+        this["map"] = new Entry(Operations.Map);
     }
 }

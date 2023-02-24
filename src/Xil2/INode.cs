@@ -49,6 +49,11 @@ public interface INode
     bool IsOrdinal { get; }
 
     /// <summary>
+    /// Returns a value indicating whether this node is a quotation.
+    /// </summary>
+    bool IsQuote { get; }
+
+    /// <summary>
     /// Returns a <see cref="string"/> representation of what
     /// this value would look like in code.
     /// </summary>

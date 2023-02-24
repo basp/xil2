@@ -1,11 +1,28 @@
 namespace Xil2;
 
+[AttributeUsage(AttributeTargets.Method)]
+public class OperationAttribute : Attribute
+{
+    private readonly string name;
+    
+    // private readonly string summary;
+
+    private readonly string effect;
+
+    public OperationAttribute(string name, string effect)
+    {
+        this.name = name;
+        this.effect = effect;
+    }
+}
+
 /// <summary>
 /// This class contains predefined operations that can are used
 /// by various interpreter cores.
 /// </summary>
 public static class Operations
 {
+    [Operation("+", "M I  ->  N")]
     public static void Add(Interpreter i)
     {
         new Validator("+")
@@ -17,6 +34,7 @@ public static class Operations
         i.Push(x.Add(y));
     }
 
+    [Operation("-", "M I  ->  N")]
     public static void Subtract(Interpreter i)
     {
         new Validator("-")
@@ -100,7 +118,7 @@ public static class Operations
             .OneQuote()
             .Validate(i.Stack);
         var x = i.Pop<Node.List>();
-        i.Eval(x.Elements);
+        i.Execute(x.Elements);
     }
 
     // [B] [A] dip == A [B]
@@ -112,7 +130,7 @@ public static class Operations
             .Validate(i.Stack);
         var a = i.Pop<Node.List>();
         var b = i.Pop<INode>();
-        i.Eval(a.Elements);
+        i.Execute(a.Elements);
         i.Push(b);
     }
 
@@ -151,5 +169,28 @@ public static class Operations
         var a = i.Pop<INode>();
         var z = new Node.List(a);
         i.Push(z);
+    }
+
+    // [A] [P] map == [B]
+    public static void Map(Interpreter i)
+    {
+        new Validator("map")
+            .TwoArguments()
+            .OneQuote()
+            .ListAsSecond()
+            .Validate(i.Stack);
+        var results = new List<INode>();
+        var p = i.Pop<Node.List>();
+        var a = i.Pop<Node.List>();
+        i.ExecuteScoped(() =>
+        {
+            foreach (var node in a.Elements)
+            {
+                i.Push(node);
+                i.Execute(p.Elements);
+                results.Add(i.Pop<INode>());
+            }
+        });
+        i.Push(new Node.List(results));
     }
 }
