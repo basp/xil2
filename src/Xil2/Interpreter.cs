@@ -137,6 +137,11 @@ public abstract class Interpreter : Dictionary<string, Entry>
     /// </summary>
     public void Push(INode node) => this.stack.Push(node);
 
+    /// <summary>
+    /// This is a snaphot of the interpreter at a particular moment
+    /// in time. It will create a new scope and restore the original
+    /// stack when the <see cref="Snapshot"/> is disposed.
+    /// </summary>
     private class Snapshot : IDisposable
     {
         private readonly Interpreter i;
