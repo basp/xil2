@@ -4,6 +4,8 @@ public interface IAggregate : INode
 {
     int Size { get; }
 
+    IEnumerable<INode> Elements { get; }
+
     INode Cons(INode node);
 
     INode Concat(INode node);
@@ -11,4 +13,5 @@ public interface IAggregate : INode
     INode First();
 
     INode Rest();
+
 }

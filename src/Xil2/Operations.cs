@@ -99,8 +99,9 @@ public static class Operations
             .OneArgument()
             .OneQuote()
             .Validate(i.Stack);
+
         var x = i.Peek<Node.List>();
-        i.Queue = new Queue<INode>(x.Elements.Concat(i.Queue));
+        i.Execute(x.Elements);
     }
 
     // [A] i == A
@@ -111,11 +112,40 @@ public static class Operations
             .OneQuote()
             .Validate(i.Stack);
         var x = i.Pop<Node.List>();
+        i.Execute(x.Elements);
+    }
+
+    /// <summary>
+    /// Instead of executing directly this will push the
+    /// equivalent of factors onto the execution queue.
+    /// </summary>
+    public static void IFlat(Interpreter i)
+    {
+        new Validator("i")
+            .OneArgument()
+            .OneQuote()
+            .Validate(i.Stack);
+        var x = i.Pop<Node.List>();
+        i.Queue = new Queue<INode>(x.Elements.Concat(i.Queue));
+    }
+
+
+    /// <summary>
+    /// Instead of executing directly this will push the
+    /// equivalent of factors onto the execution queue.
+    /// </summary>
+    public static void XFlat(Interpreter i)
+    {
+        new Validator("x")
+            .OneArgument()
+            .OneQuote()
+            .Validate(i.Stack);
+        var x = i.Peek<Node.List>();
         i.Queue = new Queue<INode>(x.Elements.Concat(i.Queue));
     }
 
     // [B] [A] dip == A [B]
-    public static void Dip(Interpreter i)
+    public static void DipFlat(Interpreter i)
     {
         new Validator("dip")
             .TwoArguments()
@@ -187,28 +217,30 @@ public static class Operations
         i.Push(new Node.List(z));
     }
 
-    /*
-     *                  . [1 2 3] [dup *] step
-     *          [1 2 3] . [dup *] step
-     *  [1 2 3] [dup *] . step
-     *                  . 1 [dup *] i [2 3] [dup *] step
-     *                1 . dup * [2 3] [dup *] step
-     *              1 1 . * [2 3] [dup *] step
-     *                1 . [2 3] [dup *] step
-     *          1 [2 3] . [dup *] step
-     *  1 [2 3] [dup *] . step
-     *                1 . 2 dup * [3] [dup *] step
-     *              1 2 . dup * [3] [dup *] step
-     *            1 2 2 . * [3] [dup *] step
-     *              1 4 . [3] [dup *] step
-     *          1 4 [3] . [dup *] step
-     *  1 4 [3] [dup *] . step
-     *              1 4 . 3 dup *
-     *            1 4 3 . dup *
-     *          1 4 3 3 . *
-     *            1 4 9 . 
-     */
     public static void Step(Interpreter i)
+    {
+        new Validator("step")
+            .TwoArguments()
+            .OneQuote()
+            .AggregateAsSecond()
+            .Validate(i.Stack);
+
+        var p = i.Pop<Node.List>();
+        var a = i.Pop<IAggregate>();
+
+        if (a.Size == 0)
+        {
+            return;
+        }
+
+        foreach (var node in a.Elements)
+        {
+            i.Push(node);
+            i.Execute(p.Elements);
+        }
+    }
+
+    public static void FlatStep(Interpreter i)
     {
         new Validator("step")
             .TwoArguments()
@@ -262,12 +294,7 @@ public static class Operations
         i.Stack = stack;
     }
 
-    /*
-     *             . [1] [dup *] map
-     *         [1] . [dup *] map
-     * [1] [dup *] . map
-     *             . 1 [dup *] i [] [dup *] 
-     */
+    // This doesn't work either since it leaves the stack all messed up.
     private static void FlatMap(Interpreter i)
     {
         new Validator("map")
@@ -276,32 +303,8 @@ public static class Operations
             .ListAsSecond()
             .Validate(i.Stack);
 
-        var p = i.Pop<Node.List>();
-        var a = i.Pop<Node.List>();
-
-        if (!a.Elements.Any())
-        {
-            return;
-        }
-
-        var first = a.Elements.First();
-        var rest = a.Elements.Skip(1);
-
-        var q = new List<INode>();
-        q.Add(first);
-        q.AddRange(p.Elements);
-        q.Add(new Node.Symbol("swap"));
-        q.Add(new Node.Symbol("cons"));
-        q.Add(new Node.List(rest));
-        q.Add(p);
-        q.Add(new Node.Symbol("map"));
-
-        if (rest.Any())
-        {
-            q.Add(new Node.Symbol("cat"));
-        }
-
-        i.Push(new Node.List());
-        i.Queue = new Queue<INode>(q.Concat(i.Queue));
+        var step = new Node.Symbol("step");
+        i.Queue = new Queue<INode>(new[] { step }.Concat(i.Queue));
+        i.Queue.Enqueue(new Node.Symbol("stack"));
     }
 }

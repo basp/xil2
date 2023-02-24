@@ -5,8 +5,8 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 
 /// <summary>
-/// Evaluates factors into a <see cref="INode"/> that can be pushed 
-/// onto the stack.
+/// Evaluates factors from the parser into a <see cref="INode"/> that can be 
+/// pushed onto the stack.
 /// </summary>
 public class FactorVisitor : XilBaseVisitor<INode>
 {

@@ -20,6 +20,9 @@ public abstract partial class Node
 
         public int Size => throw new NotImplementedException();
 
+        public IEnumerable<INode> Elements =>
+            this.value.Select(x => new Node.Char(x));
+
         public override INode Clone() =>
             new Node.String(this.value);
 

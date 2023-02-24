@@ -95,7 +95,7 @@ public abstract class Interpreter : Dictionary<string, Entry>
                     var symbol = (Node.Symbol)node;
                     if (this.TryGetValue(symbol.Name, out var entry))
                     {
-                        if (entry.IsUserDefined)
+                        if (entry.IsRuntime)
                         {
                             this.queue = new Queue<INode>(entry.Body.Concat(this.queue));
                         }
