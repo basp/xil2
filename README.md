@@ -14,9 +14,9 @@ PS D:\xil2> dotnet run
 Built-in operations can be implemented in various ways and each have their
 own pros and cons.
 
-* They can be implemented directly in C# manipulating `INode` instances and
+* They can be implemented *directly* in C# manipulating `INode` instances and
 the stack directly. This is fast but has the downside that operations become opaque to the tracer. This is probably the preferred way if you plan to run anything serious using **Xil** but let us face it? Who is going to do that in the first place?
-* Most can also be implemented as a new sequence of factors prepended to the existing queue of factors. This is slower than the *direct* implementation but if implemented this way the tracer will be able to record each interpretation step and accurately reflect a detailed view of the stack and queue values at each step of the execution of a term which can be a big help during development. It's also easier to reason about since there is no black box.
+* Most can also be implemented *indirectly* as a new sequence of factors prepended to the existing queue of factors. This is slower than the *direct* implementation but if implemented this way the tracer will be able to record each interpretation step and accurately reflect a detailed view of the stack and queue values at each step of the execution of a term which can be a big help during development. It's also easier to reason about since there is no black box.
 * It is possible to write each *indirect* implementation as a *direct* implementation but the reverse is not true.
 * It is easy to swap out the built-in operations for the interpreter so you can experiement with various implementations of any built-in operator or combinator.
 
