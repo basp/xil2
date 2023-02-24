@@ -13,5 +13,4 @@ public interface IAggregate : INode
     INode First();
 
     INode Rest();
-
 }
