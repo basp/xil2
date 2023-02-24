@@ -2,6 +2,7 @@
 Xil is an implementation of the Joy programming language.
 
 ```
+PS D:\basp\xil2\src\Xil2> dotnet run
 xil> [1 2 3] [dup *] step.
 
                 . [1 2 3] [dup *] step
