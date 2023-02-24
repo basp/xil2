@@ -19,7 +19,7 @@ public static class Operations
 
     public static void Subtract(Interpreter i)
     {
-        new Validator("+")
+        new Validator("-")
             .TwoArguments()
             .TwoFloatsOrIntegers()
             .Validate(i.Stack);
@@ -41,7 +41,7 @@ public static class Operations
 
     public static void Multiply(Interpreter i)
     {
-        new Validator("+")
+        new Validator("*")
             .TwoArguments()
             .TwoFloatsOrIntegers()
             .Validate(i.Stack);
@@ -52,7 +52,7 @@ public static class Operations
 
     public static void Divide(Interpreter i)
     {
-        new Validator("+")
+        new Validator("/")
             .TwoArguments()
             .TwoFloatsOrIntegers()
             .Validate(i.Stack);

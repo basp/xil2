@@ -43,7 +43,13 @@ public abstract class Interpreter : Dictionary<string, Action<Interpreter>>
                     {
                         action(this);
                     }
+                    else
+                    {
+                        var msg = $"Unknown symbol: {symbol.Name}";
+                        throw new RuntimeException(msg);
+                    }
                     break;
+
             }
         }
     }
