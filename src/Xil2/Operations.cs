@@ -6,6 +6,9 @@ namespace Xil2;
 /// </summary>
 public static class Operations
 {
+    /// <summary>
+    /// Pops the top two arguments and performs an addition.
+    /// </summary>
     public static void Add(Interpreter i)
     {
         new Validator("+")
@@ -17,6 +20,9 @@ public static class Operations
         i.Push(x.Add(y));
     }
 
+    /// <summary>
+    /// Pops the top two arguments and performs a subtraction.
+    /// </summary>
     public static void Subtract(Interpreter i)
     {
         new Validator("-")
@@ -28,6 +34,9 @@ public static class Operations
         i.Push(x.Subtract(y));
     }
 
+    /// <summary>
+    /// Pops the top two arguments and performs a modulo.
+    /// </summary>
     public static void Modulo(Interpreter i)
     {
         new Validator("%")
@@ -39,6 +48,9 @@ public static class Operations
         i.Push(b.Modulo(a));
     }
 
+    /// <summary>
+    /// Pops the top two arguments and performs a multiplication.
+    /// </summary>
     public static void Multiply(Interpreter i)
     {
         new Validator("*")
@@ -50,6 +62,9 @@ public static class Operations
         i.Push(x.Multiply(y));
     }
 
+    /// <summary>
+    /// Pops the top two arguments and performs a division.
+    /// </summary>
     public static void Divide(Interpreter i)
     {
         new Validator("/")
@@ -61,7 +76,9 @@ public static class Operations
         i.Push(x.Divide(y));
     }
 
-    // [B] [A] swap == [A] [B]
+    /// <summary>
+    /// [B] [A] swap == [A] [B]
+    /// </summary>
     public static void Swap(Interpreter i)
     {
         new Validator("swap")
@@ -73,7 +90,9 @@ public static class Operations
         i.Push(x);
     }
 
-    // [A] dup == [A] [A]
+    /// <summary>
+    /// [A] dup == [A] [A]
+    /// </summary>
     public static void Dup(Interpreter i)
     {
         new Validator("dup")
@@ -83,7 +102,9 @@ public static class Operations
         i.Push(x.Clone());
     }
 
-    // [A] zap ==
+    /// <summary>
+    /// [A] zap ==
+    /// </summary>
     public static void Zap(Interpreter i)
     {
         new Validator("zap")
@@ -92,7 +113,9 @@ public static class Operations
         i.Pop<INode>();
     }
 
-    // [A] x == [A] A.
+    /// <summary>
+    /// [A] x == [A] A.
+    /// </summary>
     public static void X(Interpreter i)
     {
         new Validator("x")
@@ -104,7 +127,9 @@ public static class Operations
         i.Execute(x.Elements);
     }
 
-    // [A] i == A
+    /// <summary>
+    /// [A] i == A
+    /// </summary>
     public static void I(Interpreter i)
     {
         new Validator("i")
@@ -134,7 +159,12 @@ public static class Operations
     /// Instead of executing directly this will push the
     /// equivalent of factors onto the execution queue.
     /// </summary>
-    public static void XFlat(Interpreter i)
+    /// <remarks>
+    /// Flattening operations will eliminate recursion since
+    /// the factors to be executed are prepended to the queue
+    /// instead.
+    /// </remarks>
+      public static void XFlat(Interpreter i)
     {
         new Validator("x")
             .OneArgument()
@@ -144,7 +174,14 @@ public static class Operations
         i.Queue = new Queue<INode>(x.Elements.Concat(i.Queue));
     }
 
-    // [B] [A] dip == A [B]
+    /// <summary>
+    /// [B] [A] dip == A [B]
+    /// </summary>
+    /// <remarks>
+    /// Flattening operations will eliminate recursion since
+    /// the factors to be executed are prepended to the queue
+    /// instead.
+    /// </remarks>
     public static void DipFlat(Interpreter i)
     {
         new Validator("dip")
@@ -156,7 +193,9 @@ public static class Operations
         i.Queue = new Queue<INode>(a.Elements.Append(b).Concat(i.Queue));
     }
 
-    // [B] [A] cat == [B A]
+    /// <summary>
+    /// [B] [A] cat == [B A]
+    /// </summary>
     public static void Cat(Interpreter i)
     {
         new Validator("cat")
@@ -169,7 +208,9 @@ public static class Operations
         i.Push(z);
     }
 
-    // [B] [A] cons == [[B] A]
+    /// <summary>
+    /// [B] [A] cons == [[B] A]
+    /// </summary>
     public static void Cons(Interpreter i)
     {
         new Validator("cons")
@@ -182,7 +223,9 @@ public static class Operations
         i.Push(z);
     }
 
-    // [A] unit == [[A]]
+    /// <summary>
+    /// [A] unit == [[A]]
+    /// </summary>
     public static void Unit(Interpreter i)
     {
         new Validator("unit")
@@ -193,7 +236,9 @@ public static class Operations
         i.Push(z);
     }
 
-    // [A] [P] map == [B]
+    /// <summary>
+    /// [A] [P] map == [B]
+    /// </summary>
     public static void Map(Interpreter i)
     {
         new Validator("map")
@@ -217,6 +262,9 @@ public static class Operations
         i.Push(new Node.List(z));
     }
 
+    /// <summary>
+    /// [A] [P] step == ...
+    /// </summary>
     public static void Step(Interpreter i)
     {
         new Validator("step")
@@ -240,6 +288,15 @@ public static class Operations
         }
     }
 
+    /// <summary>
+    /// Instead of executing directly this will push the
+    /// equivalent of factors onto the execution queue.
+    /// </summary>
+    /// <remarks>
+    /// Flattening operations will eliminate recursion since
+    /// the factors to be executed are prepended to the queue
+    /// instead.
+    /// </remarks>
     public static void FlatStep(Interpreter i)
     {
         new Validator("step")
@@ -270,6 +327,9 @@ public static class Operations
         i.Queue = new Queue<INode>(q.Concat(i.Queue));
     }
 
+    /// <summary>
+    ///  TODO
+    /// </summary>
     public static void Stack(Interpreter i)
     {
         var xs = new List<INode>();
@@ -282,6 +342,9 @@ public static class Operations
         i.Push(new Node.List(xs));
     }
 
+    /// <summary>
+    ///  TODO
+    /// </summary>
     public static void Unstack(Interpreter i)
     {
         new Validator("unstack")
