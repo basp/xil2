@@ -15,7 +15,7 @@ var interpreter = new CoreEx();
 
 // This visitor is a shallow implementation of an ANTLR parse tree 
 // visitor that will either deal with a definition or a term to be evaluated.
-var visitor = new CycleVisitor(interpreter);
+var visitor = new TracingCycleVisitor(interpreter);
 
 // Read cycles (term or definition) of input until the user gets tired.
 while (true)
@@ -41,7 +41,6 @@ while (true)
             break;
         }
 
-        // Append user input to the source buffer.
         buf.Append(input);
 
         // When we find a dot we have reached the end of our cycle.
@@ -68,6 +67,8 @@ while (true)
         // definition that should be stored in the interpreter environment.
         var ctx = parser.cycle();
         var stack = ctx.Accept(visitor);
+
+        Console.WriteLine();
 
         // Top of stack (TOS) is at stack[stack.Count - 1] so we
         // loop backward in order to print it properly.

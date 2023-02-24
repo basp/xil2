@@ -13,9 +13,21 @@ namespace Xil2;
 /// </remarks>
 public abstract class Interpreter : Dictionary<string, Entry>
 {
-    private C5.ArrayList<INode> stack = new C5.ArrayList<INode>();
+    private C5.IStack<INode> stack = new C5.ArrayList<INode>();
 
-    public C5.IStack<INode> Stack => this.stack;
+    private Queue<INode> queue = new Queue<INode>();
+
+    public C5.IStack<INode> Stack
+    {
+        get => this.stack;
+        set => this.stack = value;
+    }
+
+    public Queue<INode> Queue
+    {
+        get => this.queue;
+        set => this.queue = value;
+    }
 
     /// <summary>
     /// Creates a snapshot of the current stack and returns
@@ -41,17 +53,20 @@ public abstract class Interpreter : Dictionary<string, Entry>
     /// </summary>
     public virtual void AddDefinition(string name, IEnumerable<INode> body)
     {
-        var entry = new Entry(_ => Execute(body), isUserDefined: true);
+        var entry = new Entry(body);
         this.Add(name, entry);
     }
 
-    /// <summary>
-    /// Executes a term (i.e. a list of factors).
-    /// </summary>
-    public virtual void Execute(IEnumerable<INode> factors)
+    public virtual List<(INode[], INode[])> Trace(IEnumerable<INode> factors)
     {
-        foreach (var node in factors)
+        (INode[], INode[]) trace;
+        this.queue = new Queue<INode>(factors);
+        var history = new List<(INode[], INode[])>();
+        while (this.queue.Any())
         {
+            trace = (this.stack.ToArray(), this.queue.ToArray());
+            history.Add(trace);
+            var node = this.queue.Dequeue();
             switch (node.Op)
             {
                 case Operand.None:
@@ -69,7 +84,14 @@ public abstract class Interpreter : Dictionary<string, Entry>
                     var symbol = (Node.Symbol)node;
                     if (this.TryGetValue(symbol.Name, out var entry))
                     {
-                        entry.Action(this);
+                        if (entry.IsUserDefined)
+                        {
+                            this.queue = new Queue<INode>(entry.Body.Concat(this.queue));
+                        }
+                        else
+                        {
+                            entry.Action(this);
+                        }
                     }
                     else
                     {
@@ -77,7 +99,53 @@ public abstract class Interpreter : Dictionary<string, Entry>
                         throw new RuntimeException(msg);
                     }
                     break;
+            }
+        }
 
+        trace = (this.stack.ToArray(), this.queue.ToArray());
+        history.Add(trace);
+        return history;
+    }
+
+    /// <summary>
+    /// Executes a term (i.e. a list of factors).
+    /// </summary>
+    public virtual void Execute(IEnumerable<INode> factors)
+    {
+        this.queue = new Queue<INode>(factors);
+        while (this.queue.Any())
+        {
+            var node = this.queue.Dequeue();
+            switch (node.Op)
+            {
+                case Operand.None:
+                    break;
+                case Operand.Boolean:
+                case Operand.Integer:
+                case Operand.Char:
+                case Operand.Float:
+                case Operand.String:
+                case Operand.Set:
+                case Operand.List:
+                    this.stack.Push(node);
+                    break;
+                default:
+                    var symbol = (Node.Symbol)node;
+                    if (this.TryGetValue(symbol.Name, out var entry))
+                    {
+                        if (entry.IsUserDefined)
+                        {
+                            this.queue = new Queue<INode>(entry.Body.Concat(this.queue));
+                        }
+                        else
+                        {
+                            entry.Action(this);
+                        }
+                        break;
+                    }
+
+                    var msg = $"Unknown symbol: {symbol.Name}";
+                    throw new RuntimeException(msg);
             }
         }
     }

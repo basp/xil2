@@ -7,9 +7,9 @@ using Antlr4.Runtime.Misc;
 /// </summary>
 public class CycleVisitor : XilBaseVisitor<C5.IStack<INode>>
 {
-    private static readonly FactorVisitor FactorVisitor = new FactorVisitor();
+    protected static readonly FactorVisitor FactorVisitor = new FactorVisitor();
 
-    private readonly Interpreter interpreter;
+    protected readonly Interpreter interpreter;
 
     public CycleVisitor([NotNull] Interpreter interpreter)
     {

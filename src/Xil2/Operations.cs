@@ -1,28 +1,11 @@
 namespace Xil2;
 
-[AttributeUsage(AttributeTargets.Method)]
-public class OperationAttribute : Attribute
-{
-    private readonly string name;
-    
-    // private readonly string summary;
-
-    private readonly string effect;
-
-    public OperationAttribute(string name, string effect)
-    {
-        this.name = name;
-        this.effect = effect;
-    }
-}
-
 /// <summary>
 /// This class contains predefined operations that can are used
 /// by various interpreter cores.
 /// </summary>
 public static class Operations
 {
-    [Operation("+", "M I  ->  N")]
     public static void Add(Interpreter i)
     {
         new Validator("+")
@@ -34,7 +17,6 @@ public static class Operations
         i.Push(x.Add(y));
     }
 
-    [Operation("-", "M I  ->  N")]
     public static void Subtract(Interpreter i)
     {
         new Validator("-")
@@ -118,7 +100,7 @@ public static class Operations
             .OneQuote()
             .Validate(i.Stack);
         var x = i.Pop<Node.List>();
-        i.Execute(x.Elements);
+        i.Queue = new Queue<INode>(x.Elements.Concat(i.Queue));
     }
 
     // [B] [A] dip == A [B]
@@ -130,8 +112,7 @@ public static class Operations
             .Validate(i.Stack);
         var a = i.Pop<Node.List>();
         var b = i.Pop<INode>();
-        i.Execute(a.Elements);
-        i.Push(b);
+        i.Queue = new Queue<INode>(a.Elements.Append(b).Concat(i.Queue));
     }
 
     // [B] [A] cat == [B A]
