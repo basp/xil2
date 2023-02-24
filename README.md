@@ -20,10 +20,13 @@ the stack directly. This is fast but has the downside that operations become opa
 
 For example, the `map` combinator is implemented in the *direct* style which manipulates the interpreter using the .NET API. This means that there is no trace output for any intermediate steps the `map` combinator might have. The `step` combinator is implemented indirectly by prepending a new list of factors to the queue. This means that when using this combinator, parts of the stack will essentially be new factors that are preprended to the queue to be executed. Other combinators such as `i` and `x` are also implemented in this fashion.
 
-> Make sure you use the `TracingCycleVisitor` if you wanna see traces.
+> There is an experimental `map` combinator that uses the *indirect* style but this fails to push an empty list when mapping on an empty list so at the moment it is not very useful except for demonstration purposes.
+
+> Make sure you use the `TracingCycleVisitor` if you wanna see traces. If you do not need traces and wanna be a little bit more efficient you can just use the `CycleVisitor` instead. It's recommended to have traces on during development.
 
 # external references
 * [Joy](https://hypercubed.github.io/joy/joy.html)
 * [The Theory of Concatenative Combinators](http://tunes.org/~iepos/joy.html)
 * [Kitten](https://kittenlang.org/)
 * [Joy on Hacker News](https://news.ycombinator.com/item?id=17685548)
+* [Thun](http://joypy.osdn.io/index.html)
