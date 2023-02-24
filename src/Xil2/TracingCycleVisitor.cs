@@ -17,7 +17,7 @@ public class TracingCycleVisitor : CycleVisitor
             .factor()
             .Select(x => x.Accept(FactorVisitor))
             .ToArray();
-        
+
         var trace = this.interpreter.Execute(factors, trace: true);
         var strings = trace.Select(t => new
         {
@@ -25,10 +25,17 @@ public class TracingCycleVisitor : CycleVisitor
             Queue = string.Join(' ', t.Item2.Select(x => x.ToRepresentation())),
         });
 
+        if (!strings.Any())
+        {
+            return this.interpreter.Stack;
+        }
+
+        Console.WriteLine();
+
         // Calculate left padding based on the longest stack string in the
         // trace to make sure everything aligns nicely in the output.
         var padding = strings.Max(x => x.Stack.Length);
-        foreach(var t in trace)
+        foreach (var t in trace)
         {
             var stack = t.Item1.Select(x => x.ToRepresentation());
             var queue = t.Item2.Select(x => x.ToRepresentation());

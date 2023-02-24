@@ -28,6 +28,16 @@ public abstract partial class Node
             throw new NotImplementedException();
         }
 
+        public INode First()
+        {
+            throw new NotImplementedException();
+        }
+
+        public INode Rest()
+        {
+            throw new NotImplementedException();
+        }
+
         public override string ToRepresentation()
         {
             throw new NotImplementedException();

@@ -62,5 +62,9 @@ public abstract partial class Node
                 Node.List y => new List(this.elements.Concat(y.elements)),
                 _ => throw new NotSupportedException(),
             };
+
+        public INode First() => this.elements.First();
+
+        public INode Rest() => new Node.List(this.elements.Skip(1));
     }
 }

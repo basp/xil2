@@ -22,5 +22,8 @@ public class CoreEx : Interpreter
         this["cons"] = new Entry(Operations.Cons);
         this["unit"] = new Entry(Operations.Unit);
         this["map"] = new Entry(Operations.Map);
+        this["step"] = new Entry(Operations.Step);
+        this["stack"] = new Entry(Operations.Stack);
+        this["unstack"] = new Entry(Operations.Unstack);
     }
 }

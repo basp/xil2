@@ -183,15 +183,91 @@ public static class Operations
                 i.Execute(p.Elements);
                 z.Add(i.Pop<INode>());
             }
-        });        
+        });
         i.Push(new Node.List(z));
     }
 
-    // Tries to produce a map equivalent by unrolling
-    // everything onto the queue but this needs some
-    // tweaking since it doesn't handle the empty list
-    // case well (i.e. it doesn't leave an empty list
-    // on top of the stack).
+    /*
+     *                  . [1 2 3] [dup *] step
+     *          [1 2 3] . [dup *] step
+     *  [1 2 3] [dup *] . step
+     *                  . 1 [dup *] i [2 3] [dup *] step
+     *                1 . dup * [2 3] [dup *] step
+     *              1 1 . * [2 3] [dup *] step
+     *                1 . [2 3] [dup *] step
+     *          1 [2 3] . [dup *] step
+     *  1 [2 3] [dup *] . step
+     *                1 . 2 dup * [3] [dup *] step
+     *              1 2 . dup * [3] [dup *] step
+     *            1 2 2 . * [3] [dup *] step
+     *              1 4 . [3] [dup *] step
+     *          1 4 [3] . [dup *] step
+     *  1 4 [3] [dup *] . step
+     *              1 4 . 3 dup *
+     *            1 4 3 . dup *
+     *          1 4 3 3 . *
+     *            1 4 9 . 
+     */
+    public static void Step(Interpreter i)
+    {
+        new Validator("step")
+            .TwoArguments()
+            .OneQuote()
+            .AggregateAsSecond()
+            .Validate(i.Stack);
+
+        var p = i.Pop<Node.List>();
+        var a = i.Pop<IAggregate>();
+
+        if (a.Size == 0)
+        {
+            return;
+        }
+
+        var first = a.First();
+        var rest = a.Rest();
+
+        var q = new Queue<INode>();
+        q.Enqueue(first);
+        q.Enqueue(p);
+        q.Enqueue(new Node.Symbol("i"));
+        q.Enqueue(rest);
+        q.Enqueue(p);
+        q.Enqueue(new Node.Symbol("step"));
+
+        i.Queue = new Queue<INode>(q.Concat(i.Queue));
+    }
+
+    public static void Stack(Interpreter i)
+    {
+        var xs = new List<INode>();
+        var stack = i.Stack;
+        for (var j = stack.Count - 1; j >= 0; j--)
+        {
+            xs.Add(stack[j].Clone());
+        }
+
+        i.Push(new Node.List(xs));
+    }
+
+    public static void Unstack(Interpreter i)
+    {
+        new Validator("unstack")
+            .OneArgument()
+            .ListOnTop()
+            .Validate(i.Stack);
+        var xs = i.Pop<Node.List>();
+        var stack = new C5.ArrayList<INode>();
+        stack.AddAll(xs.Elements.Reverse());
+        i.Stack = stack;
+    }
+
+    /*
+     *             . [1] [dup *] map
+     *         [1] . [dup *] map
+     * [1] [dup *] . map
+     *             . 1 [dup *] i [] [dup *] 
+     */
     private static void FlatMap(Interpreter i)
     {
         new Validator("map")
@@ -226,6 +302,6 @@ public static class Operations
         }
 
         i.Push(new Node.List());
-        i.Queue = new Queue<INode>(q.Concat(i.Queue));        
+        i.Queue = new Queue<INode>(q.Concat(i.Queue));
     }
 }

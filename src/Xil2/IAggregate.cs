@@ -7,4 +7,8 @@ public interface IAggregate : INode
     INode Cons(INode node);
 
     INode Concat(INode node);
+
+    INode First();
+
+    INode Rest();
 }

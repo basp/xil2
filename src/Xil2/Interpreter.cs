@@ -113,7 +113,8 @@ public abstract class Interpreter : Dictionary<string, Entry>
             }
         }
 
-        if (trace)
+        // Add final trace to the history if there's something to display.
+        if (this.stack.Any() || this.queue.Any())
         {
             history.Add((this.stack.ToArray(), this.queue.ToArray()));
         }

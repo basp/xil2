@@ -100,6 +100,14 @@ while (true)
             Console.WriteLine(
                 string.Concat(repr.PadRight(offset), pointer));
         }
+
+        if (stack.Count > 0)
+        {
+            // Print an empty line between the stack print and
+            // the next prompt but only if there are any items on 
+            // the stack.
+            Console.WriteLine();
+        }
     }
     catch (RuntimeException ex)
     {
