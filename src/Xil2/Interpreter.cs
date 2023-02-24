@@ -139,7 +139,7 @@ public abstract class Interpreter : Dictionary<string, Entry>
 
     /// <summary>
     /// This creates a snaphot of the interpreter at a particular moment
-    /// in time. It will create a new scope and restore the original
+    /// in time. It represents a new scope and restores the original
     /// stack when the <see cref="Snapshot"/> is disposed.
     /// </summary>
     private class Snapshot : IDisposable
