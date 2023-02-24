@@ -23,6 +23,7 @@ own pros and cons.
 * It is possible to write each *indirect* implementation as a *direct* implementation but the reverse is not true.
 * It is easy to swap out the built-in operations for the interpreter so you can experiement with various implementations of any built-in operator or combinator. This essentially allows you to compose your own interpreter core, mixing and matching operations.
 * The `Operations` class contains reference implementation for the most common operators and combinators and any other built-ins that are essential to bootstrap an interpreter but it is easy to mix these with your own operations and combinators.
+* the `Flat` operations in the `Operations` class perform the same operation as their non-flat counterparts but they will expand onto the queue instead of operating directly on the stack.
 
 > Make sure you use the `TracingCycleVisitor` if you wanna see traces. If you do not need traces and wanna be a little bit more efficient you can just use the `CycleVisitor` instead. It's recommended to have traces on during development.
 
