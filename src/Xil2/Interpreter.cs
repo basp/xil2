@@ -163,6 +163,7 @@ public abstract class Interpreter : Dictionary<string, Entry>
             {
                 if (disposing)
                 {
+                    // Restore the original stack.
                     this.i.stack = this.saved;
                 }
 
