@@ -33,6 +33,9 @@ xil> [1 2 3] [dup *] step.
 1
 ```
 
+# goals
+The main goal for this project is to keep the **Joy** programming language alive and relevant and also to raise interest in stack based concatenative programming languages in general. This is mainly a toy and should not be used for any serious programming tasks. However, from a theoretical perspective this can be a useful starting point for an investigative tool.
+
 # notes
 Built-in operations can be implemented in various ways and each have their own pros and cons.
 
