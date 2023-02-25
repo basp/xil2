@@ -60,6 +60,10 @@ public abstract class Interpreter : Dictionary<string, Entry>
     /// Saves the current stack before executing the given action.
     /// Afterwards the stack is restored to the saved state.
     /// </summary>
+    /// <remarks>
+    /// This uses the <c>CreateSnapshot</c> to execute the given action in 
+    /// a well-defined scope.
+    /// </remarks>
     public void ExecuteScoped(Action action)
     {
         using (CreateSnapshot())
