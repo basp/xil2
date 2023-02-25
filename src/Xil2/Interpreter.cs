@@ -86,8 +86,8 @@ public abstract class Interpreter : Dictionary<string, Entry>
     /// </summary>
     public virtual List<(INode[], INode[])> Execute(IEnumerable<INode> factors, bool trace = false)
     {
-        this.queue = new Queue<INode>(factors);
         var history = new List<(INode[], INode[])>();
+        this.queue = new Queue<INode>(factors);
         while (this.queue.Any())
         {
             if (trace)
