@@ -41,8 +41,8 @@ Some other features of the current interpreter:
 * It is easy to swap out the built-in operations for the interpreter so you can experiement with various implementations of any built-in operator or combinator. This essentially allows you to compose your own interpreter core, mixing and matching operations.
 * The `Operations` class contains reference implementations for the most common operators and combinators and any other built-ins that are essential to bootstrap an interpreter. 
 * Composing an interpreter core is as easy as implementing the `Interpreter` class and picking and assigning operations to symbols in the interpreter. This means you can easily compose your own interpreter kernel. An `Interpreter` instance is also a dictionary where a name can be mapped to a sequence of `INode` instances.
+* the `Flat` operations (e.g. `IFlat`, `XFlat`, etc.) in the `Operations` class perform the same operation as their non-flat counterparts but they will expand onto the queue instead of operating directly on the stack. You typically don't really need these for production but they can be fun for theoretical purposes.
 * See the `CoreEx` class for an example of an interpreter kernel.
-* the `Flat` operations (e.g. `IFlat`, `XFlat`, etc.) in the `Operations` class perform the same operation as their non-flat counterparts but they will expand onto the queue instead of operating directly on the stack. These are helpful for tracing purposes because when using the non-flat variant the interpreter is not able to record the tracing steps that happen "inside" the combinator.
 
 > Make sure you use the `TracingCycleVisitor` if you want to see traces. If you do not need traces and wanna be a little bit more efficient you can just use the `CycleVisitor` instead. It's recommended to have traces on during development.
 
