@@ -119,7 +119,7 @@ public abstract class Interpreter : Dictionary<string, Entry>
                         else
                         {
                             // This is apparently a built-in action that we can
-                            // only execute in an opague fashion. This means we
+                            // only execute in an opaque fashion. This means we
                             // cannot really look what is happening "inside" so
                             // we will not be able to reflect this in the trace.
                             entry.Action(this);
