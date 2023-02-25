@@ -22,7 +22,7 @@ namespace Xil2;
 /// </p>
 /// <p>
 /// In any case, you can always manipulate the interpreter directly by 
-/// mutilating the stack and queue or just setting them to some other value.
+/// mutilating the stack and queue or just setting them to some value.
 /// </p>
 /// </remarks>
 public abstract class Interpreter : Dictionary<string, Entry>
