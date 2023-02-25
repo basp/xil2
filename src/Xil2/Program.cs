@@ -11,7 +11,9 @@ const int pointerOffset = 12;
 // The use-case is to allow for any interpreter to be used
 // instead independent of the language syntax but coherent with
 // the language semantics.
+
 var interpreter = new CoreEx();
+// var interpreter = new CoreFlat();
 
 // This visitor is a shallow implementation of an ANTLR parse tree 
 // visitor that will either deal with a definition or a term to be evaluated.

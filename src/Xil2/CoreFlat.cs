@@ -11,7 +11,7 @@ public class CoreFlat : Interpreter
         this["%"] = new Entry(Operations.Modulo);
         this["dup"] = new Entry(Operations.Dup);
         this["swap"] = new Entry(Operations.Swap);
-        this["zap"] = new Entry(Operations.Zap);
+        this["zap"] = new Entry(Operations.Pop);
         this["i"] = new Entry(Operations.IFlat);
         this["x"] = new Entry(Operations.XFlat);
         this["dip"] = new Entry(Operations.DipFlat);

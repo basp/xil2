@@ -1,14 +1,16 @@
 namespace Xil2;
 
-public interface IFloatable : INode
+public interface IFloatable : INode, IComparable<IFloatable>
 {
-    INode Add(INode node);
+    internal double FloatValue { get; }
 
-    INode Subtract(INode node);
+    IFloatable Add(INode node);
 
-    INode Modulo(INode node);
+    IFloatable Subtract(INode node);
 
-    INode Multiply(INode node);
+    IFloatable Modulo(INode node);
 
-    INode Divide(INode node);
+    IFloatable Multiply(INode node);
+
+    IFloatable Divide(INode node);
 }

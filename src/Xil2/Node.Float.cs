@@ -22,7 +22,9 @@ public abstract partial class Node
 
         public override bool IsFloatable => true;
 
-        public INode Add(INode node) =>
+        public double FloatValue => this.value;
+
+        public IFloatable Add(INode node) =>
             node switch
             {
                 Node.Integer y => new Node.Float(this.value + y.Value),
@@ -30,7 +32,7 @@ public abstract partial class Node
                 _ => throw new InvalidOperationException(),
             };
 
-        public INode Subtract(INode node) =>
+        public IFloatable Subtract(INode node) =>
             node switch
             {
                 Node.Integer y => new Node.Float(this.value - y.Value),
@@ -38,7 +40,7 @@ public abstract partial class Node
                 _ => throw new InvalidOperationException(),
             };
 
-        public INode Modulo(INode node) =>
+        public IFloatable Modulo(INode node) =>
             node switch
             {
                 Node.Integer y => new Node.Float(this.value % y.Value),
@@ -46,7 +48,7 @@ public abstract partial class Node
                 _ => throw new InvalidOperationException(),
             };
 
-        public INode Divide(INode node) =>
+        public IFloatable Divide(INode node) =>
             node switch
             {
                 Node.Integer y => new Node.Float(this.value / y.Value),
@@ -54,7 +56,7 @@ public abstract partial class Node
                 _ => throw new InvalidOperationException(),
             };
 
-        public INode Multiply(INode node) =>
+        public IFloatable Multiply(INode node) =>
             node switch
             {
                 Node.Integer y => new Node.Float(this.value * y.Value),
@@ -70,5 +72,15 @@ public abstract partial class Node
 
         public override string ToRepresentation() =>
             this.value.ToString(new CultureInfo("en-US"));
+
+        public int CompareTo(IFloatable? other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+
+            return this.FloatValue.CompareTo(other.FloatValue);
+        }
     }
 }

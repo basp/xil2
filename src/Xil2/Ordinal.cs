@@ -2,15 +2,15 @@ namespace Xil2;
 
 public abstract class Ordinal : Node, IOrdinal
 {
-    public abstract int InternalValue { get; }
+    public abstract int OrdinalValue { get; }
 
     public IOrdinal Min(IOrdinal node) =>
-        this.InternalValue <= node.InternalValue
+        this.OrdinalValue <= node.OrdinalValue
             ? this
             : node;
 
     public IOrdinal Max(IOrdinal node) =>
-        this.InternalValue >= node.InternalValue
+        this.OrdinalValue >= node.OrdinalValue
             ? this
             : node;
 
@@ -21,7 +21,7 @@ public abstract class Ordinal : Node, IOrdinal
             return 1;
         }
 
-        return this.InternalValue.CompareTo(other.InternalValue);
+        return this.OrdinalValue.CompareTo(other.OrdinalValue);
     }
 
     public abstract IOrdinal Ord();

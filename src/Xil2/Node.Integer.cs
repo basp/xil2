@@ -23,9 +23,11 @@ public abstract partial class Node
 
         public override bool IsOrdinal => true;
 
-        public override int InternalValue => this.value;
+        public override int OrdinalValue => this.value;
 
-        public INode Add(INode node) =>
+        public double FloatValue => this.value;
+
+        public IFloatable Add(INode node) =>
             node switch
             {
                 Node.Integer y => new Node.Integer(this.value + y.Value),
@@ -33,7 +35,7 @@ public abstract partial class Node
                 _ => throw new InvalidOperationException(),
             };
 
-        public INode Subtract(INode node) =>
+        public IFloatable Subtract(INode node) =>
             node switch
             {
                 Node.Integer y => new Node.Integer(this.value - y.Value),
@@ -41,7 +43,7 @@ public abstract partial class Node
                 _ => throw new InvalidOperationException(),
             };
 
-        public INode Modulo(INode node) =>
+        public IFloatable Modulo(INode node) =>
             node switch
             {
                 Node.Integer y => new Node.Integer(this.value % y.Value),
@@ -49,7 +51,7 @@ public abstract partial class Node
                 _ => throw new InvalidOperationException(),
             };
 
-        public INode Divide(INode node) =>
+        public IFloatable Divide(INode node) =>
             node switch
             {
                 Node.Integer y => new Node.Integer(this.value / y.Value),
@@ -57,7 +59,7 @@ public abstract partial class Node
                 _ => throw new InvalidOperationException(),
             };
 
-        public INode Multiply(INode node) =>
+        public IFloatable Multiply(INode node) =>
             node switch
             {
                 Node.Integer y => new Node.Integer(this.value * y.value),
@@ -81,5 +83,15 @@ public abstract partial class Node
         public override IOrdinal Succ() => new Node.Integer(this.value + 1);
 
         public override IOrdinal Pred() => new Node.Integer(this.value - 1);
+
+        public int CompareTo(IFloatable? other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+
+            return this.FloatValue.CompareTo(other.FloatValue);
+        }
     }
 }

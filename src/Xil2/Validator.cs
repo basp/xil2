@@ -206,6 +206,12 @@ public class Validator
     public Validator NonZeroOnTop() =>
         this.AddRule(s => !Node.IsZero(s.Last()), "non-zero divisor");
 
+    public Validator TwoOrdinalsOnTop() =>
+        this.AddRule(
+            s => s[s.Count - 1].IsOrdinal &&
+                 s[s.Count - 2].IsOrdinal,
+            "two ordinals");
+
     /// <summary>
     /// Verifies that there is a <see cref="IAggregate"/> on top of the stack.
     /// </summary>

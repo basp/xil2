@@ -18,7 +18,7 @@ public abstract partial class Node
 
         public override bool IsOrdinal => true;
 
-        public override int InternalValue => this.value;
+        public override int OrdinalValue => this.value;
 
         public override INode Clone() =>
             new Char(this.value);

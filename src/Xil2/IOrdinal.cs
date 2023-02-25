@@ -1,8 +1,8 @@
 namespace Xil2;
 
-public interface IOrdinal : IComparable<IOrdinal>
+public interface IOrdinal : INode, IComparable<IOrdinal>
 {
-    int InternalValue { get; }
+    internal int OrdinalValue { get; }
 
     IOrdinal Ord();
 
