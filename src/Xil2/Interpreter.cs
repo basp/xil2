@@ -111,10 +111,17 @@ public abstract class Interpreter : Dictionary<string, Entry>
                     {
                         if (entry.IsRuntime)
                         {
+                            // If we have a runtime definition we can just
+                            // prepend the factors to the queue. This will
+                            // enable any tracer to record the step properly.
                             this.queue = new Queue<INode>(entry.Body.Concat(this.queue));
                         }
                         else
                         {
+                            // This is apparently a built-in action that we can
+                            // only execute in an opague fashion. This means we
+                            // cannot really look what is happening "inside" so
+                            // we will not be able to reflect this in the trace.
                             entry.Action(this);
                         }
                     }
