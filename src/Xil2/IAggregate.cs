@@ -1,7 +1,7 @@
 namespace Xil2;
 
 /// <summary>
-/// Provides an interface for aggregates (i.e. list, string or set).
+/// Provides an interface for aggregate (i.e. list, string or set) nodes.
 /// </summary>
 public interface IAggregate : INode
 {

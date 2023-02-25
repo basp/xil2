@@ -1,7 +1,7 @@
 namespace Xil2;
 
 /// <summary>
-/// Provides an interface for ordinals (i.e. int, char, bool).
+/// Provides an interface for ordinal (i.e. int, char, bool) nodes.
 /// </summary>
 public interface IOrdinal : INode, IComparable<IOrdinal>
 {
