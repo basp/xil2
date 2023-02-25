@@ -1,5 +1,5 @@
 # xil
-Xil is an implementation of the Joy programming language. It is a dynamic, functional, conatenative language. It only knows values and operations. Operations are always actions that have a stack as their argument and return a stack as their result.
+Xil is an implementation of the Joy programming language. It is a dynamic, functional, concatenative language. It only knows values and operations. Operations are always actions that have a stack as their argument and return a stack as their result.
 
 It shares some characteristics of the XY programming language by formalizing a a queue alongside the stack although this was mainly inspired by Thun which is also based on Joy and has the concept of a queue as well.
 
