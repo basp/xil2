@@ -6,10 +6,24 @@ namespace Xil2;
 /// Provides a stack based interpreter environment for Xil code.
 /// </summary>
 /// <remarks>
+/// <p>
 /// This class provides a stack based environment for implementing 
 /// an interpreter. It supports evaluating a list of factors and 
 /// pushing and popping values onto the stack. It can also be used
 /// to store user defined symbols (i.e. definitions).
+/// </p>
+/// <p>
+/// Additionally this class also offers some facilities for creating
+/// so called *scoped* actions which restore the stack after the action
+/// has completed. These are generally useful for sequential and mapping
+/// operations. You can either use the <c>ExecuteScoped</c> or the 
+/// <c>CreateSnapshot</c> methods to ensure the stack of the interpreter is
+/// restored after the scope ends. 
+/// </p>
+/// <p>
+/// In any case, you can always manipulate the interpreter directly by 
+/// mutilating the stack and queue or just setting them to some other value.
+/// </p>
 /// </remarks>
 public abstract class Interpreter : Dictionary<string, Entry>
 {
