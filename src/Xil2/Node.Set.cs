@@ -35,7 +35,7 @@ public abstract partial class Node
             throw new NotImplementedException();
         }
 
-        public INode Rest()
+        public IAggregate Rest()
         {
             throw new NotImplementedException();
         }
