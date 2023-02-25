@@ -15,6 +15,11 @@ public abstract partial class Node
 
         public IEnumerable<INode> Elements => throw new NotImplementedException();
 
+        public INode At(int index)
+        {
+            throw new NotImplementedException();
+        }
+
         public override INode Clone()
         {
             throw new NotImplementedException();

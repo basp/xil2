@@ -66,5 +66,7 @@ public abstract partial class Node
         public INode First() => this.elements.First();
 
         public IAggregate Rest() => new Node.List(this.elements.Skip(1));
+
+        public INode At(int index) => this.elements[index];
     }
 }

@@ -51,5 +51,7 @@ public abstract partial class Node
         public INode First() => new Node.Char(this.value[0]);
 
         public IAggregate Rest() => new Node.String(this.value.Substring(1));
+
+        public INode At(int index) => new Node.Char(this.value[index]);
     }
 }
