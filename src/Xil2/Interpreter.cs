@@ -162,10 +162,17 @@ public abstract class Interpreter : Dictionary<string, Entry>
     public void Push(INode node) => this.stack.Push(node);
 
     /// <summary>
-    /// This represents a snapshot of the interpreter at a particular moment
-    /// in time. It will create a a new scope and restores the original
-    /// stack when the <see cref="Snapshot"/> is disposed.
+    /// Stores a snapshot of the interpreter at a particular moment
+    /// in time. It will create a a new "scope" and restore the original
+    /// stack when this <see cref="Snapshot"/> instance is disposed.
     /// </summary>
+    /// <remarks>
+    /// <see cref="Snapshot"/> instances are generally useful when implementing 
+    /// combinators that might possibly mutilate the stack such as 
+    /// (`map` and `i`). By using a <see cref="Snapshot"/> you can make sure 
+    /// that the stack is restored to what is was at the moment when you 
+    /// created the snapshot.
+    /// </remarks>
     private class Snapshot : IDisposable
     {
         private readonly Interpreter i;
