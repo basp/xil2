@@ -31,31 +31,32 @@ public interface INode
     INode Clone();
 
     /// <summary>
-    /// Returns <c>true</c> if this is a <see cref="IFloatable"/>
-    /// otherwise <c>false</c>.
+    /// Returns a <c>bool</c> indicating whether this is a 
+    /// <see cref="IFloatable"/>.
     /// </summary>
     bool IsFloatable { get; }
 
     /// <summary>
-    /// Returns <c>true</c> if this is a <see cref="IAggregate"/>
-    /// otherwise <c>false</c>.
+    /// Returns a <c>bool</c> indicating whether this is a 
+    /// <see cref="IAggregate"/>.
     /// </summary>
     bool IsAggregate { get; }
 
     /// <summary>
-    /// Returns <c>true</c> if this is a <see cref="IOrdinal"/>
-    /// otherwise <c>false</c>.
+    /// Returns a <c>bool</c> indicating whether this is a 
+    /// <see cref="IOrdinal"/>.
     /// </summary>
     bool IsOrdinal { get; }
 
     /// <summary>
-    /// Returns a value indicating whether this node is a quotation.
+    /// Returns a value indicating whether this node is a quotation (i.e. a 
+    /// list that contains symbols).
     /// </summary>
     bool IsQuote { get; }
 
     /// <summary>
-    /// Returns a <see cref="string"/> representation of what
-    /// this value would look like in code.
+    /// Returns a <see cref="string"/> representation of what this value would 
+    /// look like in code.
     /// </summary>
     string ToRepresentation();
 }

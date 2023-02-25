@@ -36,7 +36,9 @@ public class CycleVisitor : XilBaseVisitor<C5.IStack<INode>>
         }
 
         // If we are neither a `simpleDefinition` or a `term` then we can 
-        // safely regard the input as junk and just return the stack.
+        // safely regard the input as junk and just return the stack and
+        // treat this as a no-op. For development this is fine but we might
+        // want to be a bit more strict in production.
         return this.interpreter.Stack;
     }
 
