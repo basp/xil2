@@ -128,8 +128,8 @@ public abstract class Interpreter : Dictionary<string, Entry>
                     else
                     {
                         // At this point we tried to evaluate a symbol that is
-                        // unknown to us. Instead of silently continuing it 
-                        // seems like a good idea to notify the user.
+                        // unknown to us. Probably a good idea to notify the
+                        // user since this is most likely PEBKAC.
                         var msg = $"Unknown symbol: {symbol.Name}";
                         throw new RuntimeException(msg);
                     }
