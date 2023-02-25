@@ -2,13 +2,13 @@ namespace Xil2;
 
 public interface IFloatable : INode
 {
-    public INode Add(INode node);
+    INode Add(INode node);
 
-    public INode Subtract(INode node);
+    INode Subtract(INode node);
 
-    public INode Modulo(INode node);
+    INode Modulo(INode node);
 
-    public INode Multiply(INode node);
+    INode Multiply(INode node);
 
-    public INode Divide(INode node);
+    INode Divide(INode node);
 }
