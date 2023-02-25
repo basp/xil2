@@ -168,10 +168,9 @@ public abstract class Interpreter : Dictionary<string, Entry>
     /// </summary>
     /// <remarks>
     /// <see cref="Snapshot"/> instances are generally useful when implementing 
-    /// combinators that might possibly mutilate the stack such as 
-    /// (`map` and `i`). By using a <see cref="Snapshot"/> you can make sure 
-    /// that the stack is restored to what is was at the moment when you 
-    /// created the snapshot.
+    /// combinators that might otherwise mutilate the stack. By using a 
+    /// <see cref="Snapshot"/> you can make sure that the stack is restored to
+    /// what is was at the moment when you created the snapshot.
     /// </remarks>
     private class Snapshot : IDisposable
     {
