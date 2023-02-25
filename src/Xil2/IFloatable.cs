@@ -2,7 +2,7 @@ namespace Xil2;
 
 public interface IFloatable : INode, IComparable<IFloatable>
 {
-    internal double FloatValue { get; }
+    double FloatValue { get; }
 
     IFloatable Add(INode node);
 
