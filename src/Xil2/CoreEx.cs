@@ -7,6 +7,7 @@ public class CoreEx : Interpreter
 {
     public CoreEx()
     {
+        this["id"] = new Entry(Operations.Id);
         this["true"] = new Entry(Operations.True);
         this["false"] = new Entry(Operations.False);
         this["+"] = new Entry(Operations.Add);
@@ -31,5 +32,7 @@ public class CoreEx : Interpreter
         this["stack"] = new Entry(Operations.Stack);
         this["unstack"] = new Entry(Operations.Unstack);
         this["ifte"] = new Entry(Operations.Ifte);
+        this["first"] = new Entry(Operations.First);
+        this["rest"] = new Entry(Operations.Rest);
     }
 }

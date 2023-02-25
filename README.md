@@ -2,7 +2,23 @@
 Xil is an implementation of the Joy programming language. It also shares some characteristics of the XY programming language by formalizing a a queue alongside the stack. This was mainly inspired by Thun which is also based on Joy and has a concept of a queue as well.
 
 ```
-PS D:\basp\xil2\src\Xil2> dotnet run
+xil> 1 2 "three" "four" 5.0.
+
+                     . 1 2 "three" "four" 5
+                   1 . 2 "three" "four" 5
+                 1 2 . "three" "four" 5
+         1 2 "three" . "four" 5
+  1 2 "three" "four" . 5
+1 2 "three" "four" 5 .
+
+5           <- top
+"four"
+"three"
+2
+1
+```
+
+```
 xil> [1 2 3] [dup *] step.
 
                 . [1 2 3] [dup *] step
