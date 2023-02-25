@@ -6,7 +6,7 @@ public abstract partial class Node
     /// <summary>
     /// Represents an integer node in the interpreter.
     /// </summary>
-    public class Integer : Node, IFloatable
+    public class Integer : Ordinal, IFloatable
     {
         private readonly int value;
 
@@ -22,6 +22,8 @@ public abstract partial class Node
         public override bool IsFloatable => true;
 
         public override bool IsOrdinal => true;
+
+        public override int InternalValue => this.value;
 
         public INode Add(INode node) =>
             node switch
@@ -71,5 +73,13 @@ public abstract partial class Node
 
         public override string ToRepresentation() =>
             this.value.ToString();
+
+        public override IOrdinal Chr() => new Node.Char((char)this.value);
+
+        public override IOrdinal Ord() => new Node.Integer(this.value);
+
+        public override IOrdinal Succ() => new Node.Integer(this.value + 1);
+
+        public override IOrdinal Pred() => new Node.Integer(this.value - 1);
     }
 }
