@@ -128,8 +128,8 @@ public abstract class Interpreter : Dictionary<string, Entry>
                     else
                     {
                         // At this point we tried to evaluate a symbol that is
-                        // known to us. Instead of silently continuing it seems
-                        // like a good idea to notify the user.
+                        // unknown to us. Instead of silently continuing it 
+                        // seems like a good idea to notify the user.
                         var msg = $"Unknown symbol: {symbol.Name}";
                         throw new RuntimeException(msg);
                     }
