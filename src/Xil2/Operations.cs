@@ -254,7 +254,7 @@ public static class Operations
             .OneQuote()
             .Validate(i.Stack);
         var p = i.Pop<Node.List>();
-        var x = i.Peek<INode>();
+        var x = i.Pop<INode>();
         i.Execute(p.Elements);
         i.Push(x);
     }

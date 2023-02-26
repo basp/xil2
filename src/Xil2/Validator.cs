@@ -107,7 +107,7 @@ public class Validator
     /// </summary>
     public Validator OneQuote() =>
         this.AddRule(
-            s => s[s.Count - 1].Op == Operand.List && s[s.Count - 1].IsQuote,
+            s => s[s.Count - 1].Op == Operand.List,
             "quotation as first argument");
 
     /// <summary>
@@ -115,7 +115,7 @@ public class Validator
     /// </summary>
     public Validator TwoQuotes() => this.OneQuote()
         .AddRule(
-            s => s[s.Count - 2].Op == Operand.List && s[s.Count - 2].IsQuote,
+            s => s[s.Count - 2].Op == Operand.List,
             "quotation as second argument");
 
     /// <summary>
@@ -123,7 +123,7 @@ public class Validator
     /// </summary>
     public Validator ThreeQuotes() => this.TwoQuotes()
         .AddRule(
-            s => s[s.Count - 3].Op == Operand.List && s[s.Count - 3].IsQuote,
+            s => s[s.Count - 3].Op == Operand.List,
             "quotation as third argument");
 
     /// <summary>
@@ -131,7 +131,7 @@ public class Validator
     /// </summary>
     public Validator FourQuotes() => this.ThreeQuotes()
         .AddRule(
-            s => s[s.Count - 4].Op == Operand.List && s[s.Count - 4].IsQuote,
+            s => s[s.Count - 4].Op == Operand.List,
             "quotation as fourth argument");
 
     /// <summary>
