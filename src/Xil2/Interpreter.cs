@@ -31,6 +31,7 @@ public class Interpreter
             ["swaack"] = new Entry(Interpreter.Swaack),
             ["infra"] = new Entry(Interpreter.Infra),
             ["map"] = new Entry(Interpreter.Map),
+            ["ifte"] = new Entry(Interpreter.Ifte),
         };
 
     public void AddDefinition(string name, IEnumerable<INode> body)
@@ -142,6 +143,34 @@ public class Interpreter
         i.Push(cons);
     }
 
+    private static readonly Validator IfteValidator =
+        new Validator("ifte")
+            .ThreeArguments()
+            .ThreeQuotes();
+
+    private static void Ifte(Interpreter i)
+    {
+        IfteValidator.Validate(i.Stack);
+
+        var ifte = new Node.List(
+            new Node.Symbol("infra"),
+            new Node.Symbol("first"),
+            new Node.Symbol("choice"),
+            new Node.Symbol("i"));
+
+        i.Queue.InsertFirst(ifte);
+
+        var @else = i.Pop<Node.List>();
+        var @then = i.Pop<Node.List>();
+        var cond = i.Pop<Node.List>();
+        var saved = new Node.List(i.Stack);
+
+        i.Stack.Push(@else);
+        i.Stack.Push(@then);
+        i.Stack.Push(saved);
+        i.Stack.Push(cond);
+    }
+
     private static void Dip(Interpreter i)
     {
         new Validator("dip")
@@ -227,12 +256,14 @@ public class Interpreter
         i.Queue.InsertFirst(quote);
     }
 
-    private static void Swaack(Interpreter i)
-    {
+    private static readonly Validator SwaackValidator =
         new Validator("swaack")
             .OneArgument()
-            .ListOnTop()
-            .Validate(i.Stack);
+            .ListOnTop();
+
+    private static void Swaack(Interpreter i)
+    {
+        SwaackValidator.Validate(i.Stack);
         var @new = i.Pop<Node.List>();
         i.Stack.Reverse();
         var @old = new Node.List(i.Stack);
@@ -241,14 +272,14 @@ public class Interpreter
         i.Push(@old);
     }
 
-    private static void Infra(Interpreter i)
-    {
+    private static readonly Validator InfraValidator =
         new Validator("infra")
             .TwoArguments()
-            .OneQuote()
-            .ListAsSecond()
-            .Validate(i.Stack);
+            .TwoQuotes();
 
+    private static void Infra(Interpreter i)
+    {
+        InfraValidator.Validate(i.Stack);
         var q = i.Pop<Node.List>();
         var a = i.Pop<IAggregate>();
         i.Stack.Reverse();
@@ -259,13 +290,15 @@ public class Interpreter
         i.Stack.AddAll(a.Elements);
     }
 
-    private static void Map(Interpreter i)
-    {
+    private static readonly Validator MapValidator =
         new Validator("map")
             .TwoArguments()
             .OneQuote()
-            .ListAsSecond()
-            .Validate(i.Stack);
+            .ListAsSecond();
+
+    private static void Map(Interpreter i)
+    {
+        MapValidator.Validate(i.Stack);
         var q = i.Pop<Node.List>();
         var a = i.Pop<IAggregate>();
         if (!a.Elements.Any())
