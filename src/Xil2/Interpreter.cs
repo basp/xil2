@@ -4,7 +4,7 @@ namespace Xil2;
 
 public class Interpreter
 {
-    public C5.IStack<INode> Stack { get; set; } =
+    public C5.ArrayList<INode> Stack { get; set; } =
         new C5.ArrayList<INode>();
 
     public C5.ArrayList<Node.List> Queue { get; set; } =
@@ -16,6 +16,7 @@ public class Interpreter
             ["+"] = new Entry(Interpreter.Add),
             ["i"] = new Entry(Interpreter._I),
             ["x"] = new Entry(Interpreter._X),
+            ["pop"] = new Entry(Interpreter.Pop),
             ["swap"] = new Entry(Interpreter.Swap),
             ["dip"] = new Entry(Interpreter.Dip),
             ["cons"] = new Entry(Interpreter.Cons),
@@ -23,6 +24,13 @@ public class Interpreter
             ["clear"] = new Entry(Interpreter.Clear),
             ["trace"] = new Entry(Interpreter.Trace),
             ["branch"] = new Entry(Interpreter.Branch),
+            ["choice"] = new Entry(Interpreter.Choice),
+            ["first"] = new Entry(Interpreter.First),
+            ["rest"] = new Entry(Interpreter.Rest),
+            ["concat"] = new Entry(Interpreter.Concat),
+            ["swaack"] = new Entry(Interpreter.Swaack),
+            ["infra"] = new Entry(Interpreter.Infra),
+            ["map"] = new Entry(Interpreter.Map),
         };
 
     public void AddDefinition(string name, IEnumerable<INode> body)
@@ -76,6 +84,9 @@ public class Interpreter
     /// </summary>
     public void Push(INode node) => this.Stack.Push(node);
 
+    public void Enqueue(INode node) =>
+        this.Queue.InsertFirst(new Node.List(node));
+
     private static void Add(Interpreter i)
     {
         new Validator("+")
@@ -117,6 +128,18 @@ public class Interpreter
         var cond = i.Pop<INode>();
         var cons = Node.IsTruthy(cond) ? @then : @else;
         i.Queue.InsertFirst(cons!);
+    }
+
+    private static void Choice(Interpreter i)
+    {
+        new Validator("choice")
+            .ThreeArguments()
+            .Validate(i.Stack);
+        var cond = i.Pop<INode>();
+        var @then = i.Pop<INode>();
+        var @else = i.Pop<INode>();
+        var cons = Node.IsTruthy(cond) ? @then : @else;
+        i.Push(cons);
     }
 
     private static void Dip(Interpreter i)
@@ -182,7 +205,6 @@ public class Interpreter
             .Validate(i.Stack);
         var x = i.Peek<INode>();
         i.Queue.InsertFirst(new Node.List(x));
-        // i.Queue.InsertFirst(new Node.List(x.Clone()));
     }
 
     private static void _X(Interpreter i)
@@ -205,6 +227,67 @@ public class Interpreter
         i.Queue.InsertFirst(quote);
     }
 
+    private static void Swaack(Interpreter i)
+    {
+        new Validator("swaack")
+            .OneArgument()
+            .ListOnTop()
+            .Validate(i.Stack);
+        var @new = i.Pop<Node.List>();
+        i.Stack.Reverse();
+        var @old = new Node.List(i.Stack);
+        i.Stack = new C5.ArrayList<INode>();
+        i.Stack.AddAll(@new.Elements.Reverse());
+        i.Push(@old);
+    }
+
+    private static void Infra(Interpreter i)
+    {
+        new Validator("infra")
+            .TwoArguments()
+            .OneQuote()
+            .ListAsSecond()
+            .Validate(i.Stack);
+
+        var q = i.Pop<Node.List>();
+        var a = i.Pop<IAggregate>();
+        i.Stack.Reverse();
+        i.Queue.InsertFirst(new Node.List(new Node.Symbol("swaack")));
+        i.Queue.InsertFirst(new Node.List(new Node.List(i.Stack)));
+        i.Queue.InsertFirst(q);
+        i.Stack = new C5.ArrayList<INode>();
+        i.Stack.AddAll(a.Elements);
+    }
+
+    private static void Map(Interpreter i)
+    {
+        new Validator("map")
+            .TwoArguments()
+            .OneQuote()
+            .ListAsSecond()
+            .Validate(i.Stack);
+        var q = i.Pop<Node.List>();
+        var a = i.Pop<IAggregate>();
+        if (!a.Elements.Any())
+        {
+            i.Stack.Push(a);
+            return;
+        }
+
+        var batch = new C5.ArrayList<INode>();
+        foreach (var x in a.Elements)
+        {
+            batch.InsertFirst(new Node.Symbol("first"));
+            batch.InsertFirst(new Node.Symbol("infra"));
+            batch.InsertFirst(q);
+            batch.InsertFirst(new Node.List(x));
+        }
+
+        i.Push(new Node.List());
+        i.Push(new Node.List(batch));
+        i.Queue.InsertFirst(new Node.List(new Node.Symbol("infra")));
+    }
+
     private static void Trace(Interpreter i)
     {
         new Validator("trace")
@@ -217,8 +300,10 @@ public class Interpreter
 
         void Record()
         {
-            var stack = i.Stack.ToArray();
+            // Values in the queue are always quoted so flatten
+            // them in order to produce unnested (i.e. readable) output.
             var queue = i.Queue.SelectMany(x => x.Elements).ToArray();
+            var stack = i.Stack.ToArray();
             history!.Add((stack, queue));
         }
 
