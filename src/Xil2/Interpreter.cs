@@ -1,216 +1,210 @@
-using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace Xil2;
 
-/// <summary>
-/// Provides a stack based interpreter environment for Xil code.
-/// </summary>
-/// <remarks>
-/// <p>
-/// This class provides a stack based environment for implementing 
-/// an interpreter. It supports evaluating a list of factors and 
-/// pushing and popping values onto the stack. It can also be used
-/// to store user defined symbols (i.e. definitions).
-/// </p>
-/// <p>
-/// Additionally this class also offers some facilities for creating
-/// so called *scoped* actions which restore the stack after the action
-/// has completed. These are generally useful for sequential and mapping
-/// operations. You can either use the <c>ExecuteScoped</c> or the 
-/// <c>CreateSnapshot</c> methods to ensure the stack of the interpreter is
-/// restored after the scope ends. 
-/// </p>
-/// <p>
-/// In any case, you can always manipulate the interpreter directly by 
-/// mutilating the stack and queue or just setting them to some value.
-/// </p>
-/// </remarks>
-public abstract class Interpreter : Dictionary<string, Entry>
+public class Interpreter
 {
-    private C5.IStack<INode> stack = new C5.ArrayList<INode>();
+    public C5.IStack<INode> Stack { get; set; } =
+        new C5.ArrayList<INode>();
 
-    private Queue<INode> queue = new Queue<INode>();
+    public C5.ArrayList<Node.List> Queue { get; set; } =
+        new C5.ArrayList<Node.List>();
 
-    /// <summary>
-    /// Gets or sets the current stack.
-    /// </summary>
-    public C5.IStack<INode> Stack
-    {
-        get => this.stack;
-        set => this.stack = value;
-    }
-
-    /// <summary>
-    /// Gets or sets the current queue.
-    /// </summary>
-    public Queue<INode> Queue
-    {
-        get => this.queue;
-        set => this.queue = value;
-    }
-
-    /// <summary>
-    /// Creates a snapshot of the current stack and returns
-    /// an <see cref="IDisposable"/>. The stack is restored when 
-    /// the <see cref="IDisposable"/> is disposed.
-    /// </summary>
-    public IDisposable CreateSnapshot() => new Snapshot(this);
-
-    /// <summary>
-    /// Saves the current stack before executing the given action.
-    /// Afterwards the stack is restored to the saved state.
-    /// </summary>
-    /// <remarks>
-    /// This uses the <c>CreateSnapshot</c> to execute the given action in 
-    /// a well-defined scope.
-    /// </remarks>
-    public void ExecuteScoped(Action action)
-    {
-        using (CreateSnapshot())
+    private IDictionary<string, Entry> Env { get; set; } =
+        new Dictionary<string, Entry>
         {
-            action();
-        }
-    }
+            ["+"] = new Entry(Interpreter.Add),
+            ["i"] = new Entry(Interpreter._I),
+            ["dup"] = new Entry(Interpreter.Dup),
+            ["clear"] = new Entry(Interpreter.Clear),
+            ["trace"] = new Entry(Interpreter.Trace),
+        };
 
-    /// <summary>
-    /// Adds a new definition to the interpreter environment.
-    /// </summary>
-    public virtual void AddDefinition(string name, IEnumerable<INode> body)
+    public void Execute(IEnumerable<INode> factors)
     {
-        var entry = new Entry(body);
-        this.Add(name, entry);
-    }
-
-    /// <summary>
-    /// Executes a term (i.e. a list of factors).
-    /// </summary>
-    public virtual List<(INode[], INode[])> Execute(IEnumerable<INode> factors, bool trace = false)
-    {
-        var history = new List<(INode[], INode[])>();       
-        var saved = this.queue;        
-        this.queue = new Queue<INode>(factors);
-        while (this.queue.Any())
+        this.Queue.Clear();
+        this.Queue.InsertFirst(new Node.List(factors));
+        while (this.TryDequeue(out var node))
         {
-            if (trace)
+            if (node!.Op == Operand.Symbol)
             {
-                history.Add((this.stack.ToArray(), this.queue.ToArray()));
+                var symbol = (Node.Symbol)node;
+                if (!this.Env.TryGetValue(symbol.Name, out var entry))
+                {
+                    var msg = $"Unknown symbol: '{symbol.Name}";
+                    throw new RuntimeException(msg);
+                }
+
+                if (entry.IsRuntime)
+                {
+                    this.Queue.InsertFirst(new Node.List(entry.Body));
+                }
+                else
+                {
+                    entry.Action(this);
+                }
             }
-
-            var node = this.queue.Dequeue();
-            switch (node.Op)
+            else
             {
-                case Operand.None:
-                    break;
-                case Operand.Boolean:
-                case Operand.Integer:
-                case Operand.Char:
-                case Operand.Float:
-                case Operand.String:
-                case Operand.Set:
-                case Operand.List:
-                    this.stack.Push(node);
-                    break;
-                default:
-                    var symbol = (Node.Symbol)node;
-                    if (this.TryGetValue(symbol.Name, out var entry))
-                    {
-                        if (entry.IsRuntime)
-                        {
-                            // If we have a runtime definition we can just
-                            // prepend the factors to the queue. This will
-                            // enable any tracer to record the step properly.
-                            this.queue = new Queue<INode>(entry.Body.Concat(this.queue));
-                        }
-                        else
-                        {
-                            // This is apparently a built-in action that we can
-                            // only execute in an opaque fashion. This means we
-                            // cannot really look what is happening "inside" so
-                            // we will not be able to reflect this in the trace.
-                            entry.Action(this);
-                        }
-                    }
-                    else
-                    {
-                        // At this point we tried to evaluate a symbol that is
-                        // unknown to us. Probably a good idea to notify the
-                        // user since this is most likely PEBKAC.
-                        var msg = $"Unknown symbol: {symbol.Name}";
-                        throw new RuntimeException(msg);
-                    }
-                    break;
+                this.Stack.Push(node);
             }
         }
-
-        // Add final trace to the history if there's something to display.
-        if (this.stack.Any() || this.queue.Any())
-        {
-            history.Add((this.stack.ToArray(), this.queue.ToArray()));
-        }
-
-        this.queue = saved;
-        return history;
     }
 
     /// <summary>
     /// Peek at the value on top of the stack.
     /// </summary>
-    public T Peek<T>() where T : INode => (T)this.stack.Last();
+    public T Peek<T>() where T : INode => (T)this.Stack.Last();
 
     /// <summary>
     /// Pops a node from the stack.
     /// </summary>
-    public T Pop<T>() where T : INode => (T)this.stack.Pop();
+    public T Pop<T>() where T : INode => (T)this.Stack.Pop();
 
     /// <summary>
     /// Pushes a node onto the stack.
     /// </summary>
-    public void Push(INode node) => this.stack.Push(node);
+    public void Push(INode node) => this.Stack.Push(node);
 
-    /// <summary>
-    /// Stores a snapshot of the interpreter at a particular moment
-    /// in time. It will create a a new "scope" and restore the original
-    /// stack when this <see cref="Snapshot"/> instance is disposed.
-    /// </summary>
-    /// <remarks>
-    /// <see cref="Snapshot"/> instances are generally useful when implementing 
-    /// combinators that might otherwise mutilate the stack. By using a 
-    /// <see cref="Snapshot"/> you can make sure that the stack is restored to
-    /// what is was at the moment when you created the snapshot.
-    /// </remarks>
-    private class Snapshot : IDisposable
+    private static void Add(Interpreter i)
     {
-        private readonly Interpreter i;
+        new Validator("+")
+            .TwoArguments()
+            .TwoFloatsOrIntegers()
+            .Validate(i.Stack);
+        var y = i.Pop<IFloatable>();
+        var x = i.Pop<IFloatable>();
+        i.Push(x.Add(y));
+    }
 
-        private readonly C5.ArrayList<INode> saved;
+    private static void Clear(Interpreter i)
+    {
+        i.Stack = new C5.ArrayList<INode>();
+    }
 
-        private bool disposed;
+    private static void Dup(Interpreter i)
+    {
+        new Validator("dup")
+            .OneArgument()
+            .Validate(i.Stack);
+        var x = i.Peek<INode>();
+        i.Queue.InsertFirst(new Node.List(x.Clone()));
+    }
 
-        public Snapshot([NotNull] Interpreter i)
+    private static void _I(Interpreter i)
+    {
+        new Validator("i")
+            .OneArgument()
+            .OneQuote()
+            .Validate(i.Stack);
+        var quote = i.Pop<Node.List>();
+        i.Queue.InsertFirst(quote);
+    }
+
+    private static void Trace(Interpreter i)
+    {
+        new Validator("trace")
+            .OneArgument()
+            .OneQuote()
+            .Validate(i.Stack);
+
+        var saved = i.Queue;
+        var history = new List<(INode[], INode[])>();
+
+        void Record()
         {
-            this.i = i;
-            this.saved = new C5.ArrayList<INode>();
-            this.saved.AddAll(i.Stack);
+            var stack = i.Stack.ToArray();
+            var queue = i.Queue.SelectMany(x => x.Elements).ToArray();
+            history!.Add((stack, queue));
         }
 
-        protected virtual void Dispose(bool disposing)
+        i.Queue = new C5.ArrayList<Node.List>();
+        i.Queue.InsertFirst(i.Pop<Node.List>());
+
+        Record();
+
+        while (i.TryDequeue(out var node))
         {
-            if (!disposed)
+            if (history.Count > 1000)
             {
-                if (disposing)
+                break;
+            }
+
+            if (node!.Op == Operand.Symbol)
+            {
+                var symbol = (Node.Symbol)node;
+                if (!i.Env.TryGetValue(symbol.Name, out var entry))
                 {
-                    // Restore the original stack.
-                    this.i.stack = this.saved;
+                    var msg = $"Unknown symbol: '{symbol.Name}'";
+                    throw new RuntimeException(msg);
                 }
 
-                disposed = true;
+                if (entry.IsRuntime)
+                {
+                    i.Queue.InsertFirst(new Node.List(entry.Body));
+                }
+                else
+                {
+                    entry.Action(i);
+                }
             }
+            else
+            {
+                i.Push(node);
+            }
+
+            Record();
         }
 
-        public void Dispose()
+        i.Queue = saved;
+
+        Console.WriteLine(TraceToString(history));
+    }
+
+    private static string TraceToString(List<(INode[], INode[])> history)
+    {
+        var buf = new StringBuilder();
+        var lines = history.Select(x => new
         {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            Stack = string.Join(' ', x.Item1.Select(x => x.ToRepresentation())),
+            Queue = string.Join(' ', x.Item2.Select(x => x.ToRepresentation())),
+        });
+
+        var padding = lines.Max(x => x.Stack.Length);
+        foreach (var t in lines)
+        {
+            buf.Append(t.Stack.PadLeft(padding));
+            buf.Append(" . ");
+            buf.Append(t.Queue);
+            buf.AppendLine();
         }
+
+        return buf.ToString();
+    }
+
+    private bool TryDequeue(out INode? node) => TryDequeue(this.Queue, out node);
+
+    private static bool TryDequeue(C5.ArrayList<Node.List> queue, out INode? node)
+    {
+        node = null;
+        if (!queue.Any())
+        {
+            return false;
+        }
+
+        var quote = queue.RemoveFirst();
+        node = quote.Elements.FirstOrDefault();
+        if (node == null)
+        {
+            return false;
+        }
+
+        var rest = quote.Elements.Skip(1);
+        if (rest.Any())
+        {
+            queue.InsertFirst(new Node.List(rest));
+        }
+
+        return true;
     }
 }

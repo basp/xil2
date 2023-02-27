@@ -10,11 +10,11 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Joy/bin/Debug/net6.0/Joy.dll",
+            "program": "${workspaceFolder}/src/Xil2/bin/Debug/net6.0/Xil2.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Joy",
+            "cwd": "${workspaceFolder}/src/Xil2",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-            "console": "internalConsole",
+            "console": "externalTerminal",
             "stopAtEntry": false
         },
         {

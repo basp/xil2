@@ -1,4 +1,4 @@
-namespace Xil2;
+namespace Xil2.Old;
 
 /// <summary>
 /// This class contains predefined operations that can are used
