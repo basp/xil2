@@ -14,9 +14,48 @@ When the interpreter starts the parsed term (list of factors) is the queue. Ever
         will prepend its body of factors to the queue to be executed.
 * If the factor is not a symbol we will push the node (i.e. its literal value) onto the stack.
 
+# tracability
 Symbols that are defined at runtime are always traceable and executed transparently. This means you can get a full trace using the `trace` builtin. This is not always the case for builtin operations though. A lot of the primitives are opaque in the sense that they operate on the stack directly in a conceptually atomic operation. Usually this means that they do not use the queue so it makes no sense to trace them.
 
+For example, take the `+` operator. This cannot reduce further so it is a primitive to the interpreter and has to be executed in an opaque way. This means we cannot *see into* the `+` operator. It is a black box:
+```
+xil> [3 2 +] trace.
+
+    . 3 2 +
+  3 . 2 +
+3 2 . +
+  5 .
+
+5           <- top
+```
+
 Most of the combinators (higher order operations) are interpreted transparantely even though they are builtin. This means they will use the queue and they will be traceable. If you need more performance then it is quite easy to implement them in an opaque fashion which can usually be much faster at the expense of losing some visibility into the execution of your program.
+
+Contrast the following `map` example with the `+` operator from above:
+```
+xil> [[1] [dup +] map] trace.
+
+                             . [1] [dup +] map
+                         [1] . [dup +] map
+                 [1] [dup +] . map
+[] [[1] [dup +] infra first] . infra
+                             . [1] [dup +] infra first [] swaack
+                         [1] . [dup +] infra first [] swaack
+                 [1] [dup +] . infra first [] swaack
+                           1 . dup + [] swaack first [] swaack
+                           1 . 1 + [] swaack first [] swaack
+                         1 1 . + [] swaack first [] swaack
+                           2 . [] swaack first [] swaack
+                        2 [] . swaack first [] swaack
+                         [2] . first [] swaack
+                           2 . [] swaack
+                        2 [] . swaack
+                         [2] .
+
+[2]         <- top
+```
+
+The `swaack`'s  swap the stack with the list on top of the stack. They are not too important for this example. The main point here is that the `map` operator is implemented transparently in that it unfolds into ever more primitive operations at the beginning of the queue instead of recursing on the stack. It ends with a final `swaack` and since this operation operates on the stack directly it is implemented as a primitive and thus opaque to the tracer.
 
 # goals
 The main goal for this project is to keep the **Joy** programming language alive and relevant. To make embeddable in .NET environment and to raise interest in stack based concatenative programming languages in general. 
