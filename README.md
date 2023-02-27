@@ -1,10 +1,10 @@
 # xil
 Xil is an implementation of the Joy programming language. It is a dynamic, functional, concatenative language. It only knows values and operations. 
 
-It shares some characteristics of the XY programming language by formalizing a queue alongside the stack. This makes it straightforward to define a lot of operations in a continuation-passing style (CPS).
+In contrast to Joy, which builtins are mostly implemented opaquely. Xil takes some inspiration of the XY programming language by somewhat formalizing a queue alongside the stack. This makes it straightforward to define a lot of operations in a continuation-passing style (CPS).
 
 # interpreter
-When the interpreter starts the parsed nodes are on the queue. Every cycle a factor is dequeued and interpreted:
+When the interpreter starts the parsed term (list of factors) is the queue. Every cycle a factor is dequeued and interpreted:
 
 * If it is a symbol we attempt a lookup in the interpreter environment.
     * If this fails we throw a `RuntimeException`.
@@ -14,9 +14,9 @@ When the interpreter starts the parsed nodes are on the queue. Every cycle a fac
         will prepend its body of factors to the queue to be executed.
 * If the factor is not a symbol we will push the node (i.e. its literal value) onto the stack.
 
-Symbols that are defined at runtime are always traceable. This means you can get a full trace using the `trace` builtin. This is not always the case for builtin operations though. A lot of the primitives are opaque in the sense that they operate on the stack directly in a conceptually atomic operation. Usually this means that they do not use the queue so it makes no sense to trace them.
+Symbols that are defined at runtime are always traceable and executed transparently. This means you can get a full trace using the `trace` builtin. This is not always the case for builtin operations though. A lot of the primitives are opaque in the sense that they operate on the stack directly in a conceptually atomic operation. Usually this means that they do not use the queue so it makes no sense to trace them.
 
-Most of the combinators are operated transparantely even though they are builtin. This means they will use the queue and they will be traceable. If you need more performance then it is quite easy to implement them in an opaque fashion which can usually be much faster at the expense of losing some visibility into the execution of your program.
+Most of the combinators (higher order operations) are interpreted transparantely even though they are builtin. This means they will use the queue and they will be traceable. If you need more performance then it is quite easy to implement them in an opaque fashion which can usually be much faster at the expense of losing some visibility into the execution of your program.
 
 # goals
 The main goal for this project is to keep the **Joy** programming language alive and relevant. To make embeddable in .NET environment and to raise interest in stack based concatenative programming languages in general. 
