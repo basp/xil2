@@ -259,6 +259,25 @@ public static class Operations
         i.Push(x);
     }
 
+    /// <summary>
+    /// [B] [A] dip == A [B]
+    /// </summary>
+    /// <remarks>
+    /// Flattening operations will eliminate recursion since
+    /// the factors to be executed are prepended to the queue
+    /// instead.
+    /// </remarks>
+    public static void DipFlat(Interpreter i)
+    {
+        new Validator("dip")
+            .TwoArguments()
+            .OneQuote()
+            .Validate(i.Stack);
+        var a = i.Pop<Node.List>();
+        var b = i.Pop<INode>();
+        i.Queue = new Queue<INode>(a.Elements.Append(b).Concat(i.Queue));
+    }
+
     public static void Ifte(Interpreter i)
     {
         new Validator("ifte")
@@ -282,25 +301,6 @@ public static class Operations
         {
             i.Execute(f.Elements);
         }
-    }
-
-    /// <summary>
-    /// [B] [A] dip == A [B]
-    /// </summary>
-    /// <remarks>
-    /// Flattening operations will eliminate recursion since
-    /// the factors to be executed are prepended to the queue
-    /// instead.
-    /// </remarks>
-    public static void DipFlat(Interpreter i)
-    {
-        new Validator("dip")
-            .TwoArguments()
-            .OneQuote()
-            .Validate(i.Stack);
-        var a = i.Pop<Node.List>();
-        var b = i.Pop<INode>();
-        i.Queue = new Queue<INode>(a.Elements.Append(b).Concat(i.Queue));
     }
 
     /// <summary>
