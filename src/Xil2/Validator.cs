@@ -249,6 +249,44 @@ public class Validator
             s => s[s.Count - 2].Op == Operand.List && !s[s.Count - 2].IsQuote,
             "list as second argument");
 
+    public Validator NonEmptyAggregateOnTop<T>()
+        where T : IAggregate =>
+            this.AddRule(s =>
+            {
+                if (s[s.Count - 1] is T x)
+                {
+                    return x.Size > 0;
+                }
+
+                return false;
+            },
+            "non-empty aggregate");
+
+    public Validator NonEmptyAggregateAsSecond<T>()
+        where T : IAggregate =>
+            this.AddRule(s =>
+            {
+                if (s[s.Count - 2] is T x)
+                {
+                    return x.Size > 0;
+                }
+
+                return false;
+            },
+            "non-empty aggregate");
+
+    public Validator NonEmptyListOnTop() =>
+        this.AddRule(s =>
+        {
+            if (s[s.Count - 1] is Node.List x)
+            {
+                return x.Size > 0;
+            }
+
+            return false;
+        },
+        "non-empty list");
+
     /// <summary>
     /// Adds a rule to this validator's rule listing.
     /// </summary>

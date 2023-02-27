@@ -56,8 +56,7 @@ public class CycleVisitor : XilBaseVisitor<C5.IStack<INode>>
             .factor()
             .Select(x => x.Accept(FactorVisitor))
             .ToList();
-        // TODO: Not yet supported by Interpreter2.
-        // this.interpreter.AddDefinition(name, factors);
+        this.interpreter.AddDefinition(name, factors);
         return this.interpreter.Stack;
     }
 

@@ -10,15 +10,25 @@ public class Interpreter
     public C5.ArrayList<Node.List> Queue { get; set; } =
         new C5.ArrayList<Node.List>();
 
-    private IDictionary<string, Entry> Env { get; set; } =
+    public IDictionary<string, Entry> Env { get; set; } =
         new Dictionary<string, Entry>
         {
             ["+"] = new Entry(Interpreter.Add),
             ["i"] = new Entry(Interpreter._I),
+            ["x"] = new Entry(Interpreter._X),
+            ["swap"] = new Entry(Interpreter.Swap),
+            ["dip"] = new Entry(Interpreter.Dip),
+            ["cons"] = new Entry(Interpreter.Cons),
             ["dup"] = new Entry(Interpreter.Dup),
             ["clear"] = new Entry(Interpreter.Clear),
             ["trace"] = new Entry(Interpreter.Trace),
+            ["branch"] = new Entry(Interpreter.Branch),
         };
+
+    public void AddDefinition(string name, IEnumerable<INode> body)
+    {
+        this.Env.Add(name, new Entry(body));
+    }
 
     public void Execute(IEnumerable<INode> factors)
     {
@@ -77,6 +87,89 @@ public class Interpreter
         i.Push(x.Add(y));
     }
 
+    private static void Swap(Interpreter i)
+    {
+        var y = i.Pop<INode>();
+        var x = i.Pop<INode>();
+        i.Push(y);
+        i.Push(x);
+    }
+
+    private static void Cons(Interpreter i)
+    {
+        new Validator("cons")
+            .TwoArguments()
+            .ListOnTop()
+            .Validate(i.Stack);
+        var a = i.Pop<Node.List>();
+        var x = i.Pop<INode>();
+        i.Push(a.Cons(x));
+    }
+
+    private static void Branch(Interpreter i)
+    {
+        new Validator("branch")
+            .ThreeArguments()
+            .TwoQuotes()
+            .Validate(i.Stack);
+        var @then = i.Pop<Node.List>();
+        var @else = i.Pop<Node.List>();
+        var cond = i.Pop<INode>();
+        var cons = Node.IsTruthy(cond) ? @then : @else;
+        i.Queue.InsertFirst(cons!);
+    }
+
+    private static void Dip(Interpreter i)
+    {
+        new Validator("dip")
+            .TwoArguments()
+            .OneQuote()
+            .Validate(i.Stack);
+        var quote = i.Pop<Node.List>();
+        var x = i.Pop<INode>();
+        i.Queue.InsertFirst(new Node.List(x));
+        i.Queue.InsertFirst(quote);
+    }
+
+    private static void Concat(Interpreter i)
+    {
+        new Validator("concat")
+            .TwoArguments()
+            .TwoQuotes()
+            .Validate(i.Stack);
+        var y = i.Pop<Node.List>();
+        var x = i.Pop<Node.List>();
+        i.Push(x.Concat(y));
+    }
+
+    private static void Pop(Interpreter i)
+    {
+        new Validator("pop")
+            .OneArgument()
+            .Validate(i.Stack);
+        i.Pop<INode>();
+    }
+
+    private static void First(Interpreter i)
+    {
+        new Validator("first")
+            .OneArgument()
+            .AggregateOnTop()
+            .Validate(i.Stack);
+        var xs = i.Pop<IAggregate>();
+        i.Push(xs.First());
+    }
+
+    private static void Rest(Interpreter i)
+    {
+        new Validator("rest")
+            .OneArgument()
+            .NonEmptyAggregateOnTop<IAggregate>()
+            .Validate(i.Stack);
+        var xs = i.Pop<IAggregate>();
+        i.Push(xs.Rest());
+    }
+
     private static void Clear(Interpreter i)
     {
         i.Stack = new C5.ArrayList<INode>();
@@ -88,7 +181,18 @@ public class Interpreter
             .OneArgument()
             .Validate(i.Stack);
         var x = i.Peek<INode>();
-        i.Queue.InsertFirst(new Node.List(x.Clone()));
+        i.Queue.InsertFirst(new Node.List(x));
+        // i.Queue.InsertFirst(new Node.List(x.Clone()));
+    }
+
+    private static void _X(Interpreter i)
+    {
+        new Validator("x")
+            .OneArgument()
+            .OneQuote()
+            .Validate(i.Stack);
+        var quote = i.Peek<Node.List>();
+        i.Queue.InsertFirst(quote);
     }
 
     private static void _I(Interpreter i)
@@ -187,6 +291,7 @@ public class Interpreter
     private static bool TryDequeue(C5.ArrayList<Node.List> queue, out INode? node)
     {
         node = null;
+
         if (!queue.Any())
         {
             return false;
