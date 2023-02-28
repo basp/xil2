@@ -32,6 +32,7 @@ public class Interpreter : Dictionary<string, Entry>
         this["infra"] = new Entry(Operations.Infra);
         this["map"] = new Entry(Operations.Map);
         this["ifte"] = new Entry(Operations.Ifte);
+        this["unit"] = new Entry(Operations.Unit);
     }
 
     /// <summary>

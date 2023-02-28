@@ -47,6 +47,17 @@ public static class Operations
             ? Node.Boolean.True
             : Node.Boolean.False);
 
+    private static readonly Validator UnitValidator =
+        new Validator("unit")
+            .OneArgument();
+
+    public static void Unit(Interpreter i)
+    {
+        UnitValidator.Validate(i.Stack);
+        var x = i.Pop<INode>();
+        i.Push(new Node.List(x));
+    }
+
     public static void Swap(Interpreter i)
     {
         Validators.SwapValidator.Validate(i.Stack);
@@ -84,15 +95,16 @@ public static class Operations
         i.Push(cons);
     }
 
-    public static void Ifte(Interpreter i)
-    {
-        Validators.IfteValidator.Validate(i.Stack);
-
-        var ifte = new Node.List(
+    private static readonly Node.List ifte =
+        new Node.List(
             Node.Symbol.Get("infra"),
             Node.Symbol.Get("first"),
             Node.Symbol.Get("choice"),
             Node.Symbol.Get("i"));
+
+    public static void Ifte(Interpreter i)
+    {
+        Validators.IfteValidator.Validate(i.Stack);
 
         i.Queue.InsertFirst(ifte);
 
