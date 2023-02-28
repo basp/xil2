@@ -49,7 +49,7 @@ xil> [3 2 +] trace [3 2 +] trace [-] trace.
 0           <- top
 ```
 
-In contrast to XY which allows programmers to also manipulate the queue directly, Xil only allows this in the context of some combinators. The queue can be implicitly manipulated but it is not possible to manipulate it directly as is possible with the stack. The `i` and `x` combinators in particular are an exception in that they resemble the `/` (`use`) operation in XY and directly manipulate the queue by prepending the top of the stack as a quotation onto the queue to be executed.
+In contrast to XY which offers a variety of operations to manipulate the queue directly, Xil only allows this in the context of some combinators. The `i` and `x` combinators in particular are an exception in that they resemble the `/` (use) operation in XY and directly manipulate the queue by prepending the top of the stack as a quotation onto the queue to be executed.
 
 For example:
 ```
