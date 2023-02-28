@@ -278,8 +278,34 @@ public static class Operations
             .OneArgument()
             .Validate(i.Stack);
         var x = i.Pop<INode>();
-        i.Push(new Node.String(x.Op.ToString()));
+        i.Push(Node.Integer.Get((int)x.Op));
     }
+
+    public static void Int(Interpreter i)
+    {
+        i.Push(Node.Integer.Get((int)Operand.Integer));
+    }
+
+    public static void String(Interpreter i)
+    {
+        i.Push(Node.Integer.Get((int)Operand.String));
+    }
+
+    public static void Char(Interpreter i)
+    {
+        i.Push(Node.Integer.Get((int)Operand.Char));
+    }
+
+    public static void Float(Interpreter i)
+    {
+        i.Push(Node.Integer.Get((int)Operand.Float));
+    }
+
+    public static void Bool(Interpreter i)
+    {
+        i.Push(Node.Integer.Get((int)Operand.Boolean));
+    }
+
 
     /// <summary>
     /// ... A [Q] def  ->  ...

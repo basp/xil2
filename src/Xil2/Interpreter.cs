@@ -40,6 +40,10 @@ public class Interpreter : Dictionary<string, Entry>
         this["unstack"] = new Entry(Operations.Unstack);
         this["def"] = new Entry(Operations.Def);
         this["type"] = new Entry(Operations.Type);
+        this["char"] = new Entry(Operations.Char);
+        this["int"] = new Entry(Operations.Int);
+        this["float"] = new Entry(Operations.Float);
+        this["bool"] = new Entry(Operations.Bool);
     }
 
     /// <summary>
