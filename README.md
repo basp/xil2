@@ -193,7 +193,7 @@ xil> [[1] [dup +] map] trace.
 
 An interesting thing to observe is how the `map` operator by itself could be considered rather opaque in the sense that it mostly operates on the stack instead of the queue. However, it does not really gobble up any values and just reshuffles and recombines them with new values. And, by virtue of it reducing to `infra`, we still get a lot of transparency.
 
-> The implementation of `map` (and the usage of `swaack`) was directly inspired by [Thun](https://joypy.osdn.io/index.html). Even today it is somewhat magical to see it at work.
+> The implementation of `map` (and the usage of `swaack` and `infra`) was directly inspired by [Thun](https://joypy.osdn.io/index.html). Even today it is somewhat magical to see it at work.
 
 ## goals
 The main goal for this project is to keep the **Joy** programming language alive and relevant and to raise interest in stack based concatenative programming languages in general. 
