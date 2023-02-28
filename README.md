@@ -18,6 +18,16 @@ All values are *thruthy* in that they can be evaluated to `true` or `false`.
 
 ### basic math
 All `Integer` nodes will readily convert to `Float` nodes via the `IFloatable` interface which also supplies the binary arithmetic for basic math such as `+`, `-`, `/`, `*`, etc. Xil will implicitly convert `Integer` to `Float` when they are combined in a single operation. However, when you have two `Integer` nodes on the stack and perform `/` operation you *will* get an `Integer` node back.
+```
+xil> 2 3 /.
+
+0           <- top
+
+xil> 2.0 3 /.
+
+0.6666666666666666 <- top
+0
+```
 
 ### ordinals
 * All `Integer`, `Char` and `Bool` values support ordinal operations (such as `succ` and `pred`) via the `IOrdinal` interface. 
