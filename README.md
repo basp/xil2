@@ -200,11 +200,14 @@ Another possible scenario is to have a higher level language and transpile it to
 For now, this project is a toy and should not be used for production systems. It can be a useful playground to play with ideas though.
 
 ## random
+This is just a section documenting some random but interesting aspects about the syntax and semantics of Xil.
+
 ### crazy identifier names
-Joy and by deduction Xil both allow for some pretty crazy identifier names. Most things are a go. For example you can have identifiers like `,foo`, `*bar`, `$frotz`, `#.234*foo` etc. If there's a printable character in front that is not a number it's likely good to go.
+Joy and by deduction Xil both allow for some pretty crazy identifier names. Most things are a go. For example you can have identifiers like `,foo`, `*bar`, `$frotz`, `#.234*foo` etc. If there's a *printable* (a very loose definition) character in front that is not a number it's likely good to go. 
+> The parser tries to respect this freedom but currently it does get confused by stuff like `123_foo` where it will parse an integer `123` and a symbol `_foo`.
 
 ### fooling the parser
-The parser chokes on symbols starting with a digit (i.e. `0..9`) but since the interpreter does not care it is possible to push symbols starting with an digit onto the stack using the `intern` operator.
+As mentioned in the previous section, the parser chokes on symbols starting with a digit (i.e. `0..9`) but since the interpreter does not care it is possible to push symbols starting with an digit onto the stack using the `intern` operator.
 ```
 xil> [3_foo] i.
 
@@ -216,18 +219,38 @@ xil> "3_foo" intern.
 ```
 
 ### fooling the parser twice
-Using the `def` operator it is also possible to define runtime symbols that have an "illegal" name. This requires a threesome between the `intern`, `i` and `unit` operators:
+Using the `def` operator it is also possible to define runtime symbols that have an *illegal* name (at least according to the parser and grammar). This requires a threesome between the `intern`, `i` and `unit` operators:
 ```
-xil> ["2+3" intern] i [3 2 +] def.
+xil> clear.
 
-xil> ["2+3" intern] i unit i.
+xil> [["2+3" intern] i [3 2 +] def ["2+3" intern] i unit i] trace.
+
+               . ["2+3" intern] i [3 2 +] def ["2+3" intern] i unit i
+["2+3" intern] . i [3 2 +] def ["2+3" intern] i unit i
+               . "2+3" intern [3 2 +] def ["2+3" intern] i unit i
+         "2+3" . intern [3 2 +] def ["2+3" intern] i unit i
+           2+3 . [3 2 +] def ["2+3" intern] i unit i
+   2+3 [3 2 +] . def ["2+3" intern] i unit i
+               . ["2+3" intern] i unit i
+["2+3" intern] . i unit i
+               . "2+3" intern unit i
+         "2+3" . intern unit i
+           2+3 . unit i
+         [2+3] . i
+               . 2+3
+               . 3 2 +
+             3 . 2 +
+           3 2 . +
+             5 .
 
 5           <- top
 ```
-It is not clear how useful this is in practice but it is kinda neat.
+It is not clear how useful this is in practice but it is kind of neat. This is more or less the motto of Xil.
+
+> I'm not sure if the `def` operator has an equivalent in Joy. As far as I know it does not. It is just another way to manipulate the three key aspects of the interpreter: the stack, the queue and the environment. It is already possible to manipulate the stack (and queue) so it should be equally possible to manipulate the environment from the program itself instead of activating it from the top-level.
 
 ### to stack or enqueue
-It is possible to change the semantics of the language in interesting ways by pushing nodes either to the stack or the queue. For example, the `ifte` operator can be implemented lazily by pushing part of its quotation on the stack instead of enqueuing. In essence the result on the stack will not be an actual result but an actual program that has to be evaluated by applying a combinator (such as `i` or `x`).
+It is possible to change the semantics of the language in interesting ways by pushing nodes either to the stack or the queue. For example, the `ifte` operator can be implemented lazily by pushing part of its quotation on the stack instead of enqueuing. In essence the result on the stack will not be an actual result but an lazy value (a program) that has to be evaluated by applying a combinator (such as `i` or `x`).
 
 ## external references
 * [Joy](https://hypercubed.github.io/joy/joy.html)
