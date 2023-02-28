@@ -156,7 +156,7 @@ xil> ["foo" intern unit i] trace.
 > A caveat to all of this is that we do not support the module semantics as defined in the Joy papers (i.e. the `LIBRA`, `HIDE`, `IN`, `DEFINE` stuff). The module system is not super great and while the interpreter is still not complete it does not make much sense to have a module system in the first place. There will be definitely some kind of way to read in a list of definitions order to setup the interpreter environment in the near future but a fully fledged module system will have to wait until later.
 
 ## execution
-The interpreter is started by a call to `Execute` from a client application. The client is responsible for supplying a *term* (a sequence of `INode` instances called *factors*) as an argument when invoking the `Execute` method. When the interpreter starts it will initialize its queue to the list of factors supplied. Next it will loop continuously until it is unable to dequeue a node from the queue. Every loop the interpreter will look at the first node at the queue and evaluate it using the following algorithm:
+The interpreter is started by a call to `Execute` from a client application. The client is responsible for supplying a *term* (a sequence of `INode` instances called *factors*) as an argument when invoking the `Execute` method. When the interpreter starts it will initialize its queue to the list of factors supplied. Next it will loop continuously until it is unable to dequeue a node from the queue. Every loop the interpreter will look at the dequeued node and evaluate it using the following algorithm:
 
 * If it is a symbol we attempt a lookup in the interpreter environment.
     * If this fails we throw a `RuntimeException`.
