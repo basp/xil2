@@ -9,6 +9,8 @@ public class Interpreter : Dictionary<string, Entry>
         this["id"] = new Entry(_ => { });
         this["+"] = new Entry(Operations.Add);
         this["-"] = new Entry(Operations.Sub);
+        this["*"] = new Entry(Operations.Mul);
+        this["/"] = new Entry(Operations.Div);
         this["<"] = new Entry(Operations.Lt);
         this[">"] = new Entry(Operations.Gt);
         this["<="] = new Entry(Operations.Lte);
