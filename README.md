@@ -30,7 +30,7 @@ xil> 2.0 3 /.
 ```
 
 ### ordinals
-* All `Integer`, `Char` and `Bool` values support ordinal operations (such as `succ` and `pred`) via the `IOrdinal` interface. 
+All `Integer`, `Char` and `Bool` values support ordinal operations (such as `succ` and `pred`) via the `IOrdinal` interface. 
 
 ### aggregates
 `List`, `String` and `Set` implement the `IAggregate` interface which means they support (amongst other) `first`, `rest`, `concat` and `cons` operations.
