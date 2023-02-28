@@ -58,7 +58,7 @@ Most of the combinators (higher order operations) are interpreted transparantely
 
 Contrast the following `map` example with the `+` operator from above, you can see that `map` translates into a bunch of `infra`, `first` and `swaack` stuff with the current stack `["foo", "bar"]` meshed in between them.
 
-We will push some strings on the stack beforehand to show how this preserves the original stack:
+We will push some strings on the stack beforehand to indicate how this preserves the current stack by enqueing at a list just in front of the `swaack`.
 ```
 xil> "foo" "bar".
 
