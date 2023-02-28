@@ -154,7 +154,7 @@ xil> [3 2 +] trace.
 5           <- top
 ```
 
-Most of the combinators (higher order operations) are interpreted transparantely even though they are builtin. This means they will use the queue and they will be traceable. If you need more performance then it is quite easy to implement them in an opaque fashion which can usually be much faster at the expense of losing some visibility into the execution of your program.
+Most of the combinators (higher order operations) are interpreted transparantely even though they are built-in. This means they will use the queue (as much as possible) and they will be traceable.
 
 Contrast the following `map` example with the `+` operator from above, you can see that `map` translates into a bunch of `infra`, `first` and `swaack` stuff with the current stack `["foo", "bar"]` meshed in between them.
 
