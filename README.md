@@ -8,7 +8,7 @@ In contrast to XY which allows programmers to also manipulate the queue directly
 The `i` combinator in particular resembles the `->` operation in XY and it and its family of interpreting operators (such as the conditional and mapping combinators) do allow some queue manipulation within the semantics of the Joy language.
 
 For example:
-``
+```
 xil> [[3 2 +] i] trace.
 
         . [3 2 +] i
@@ -18,7 +18,8 @@ xil> [[3 2 +] i] trace.
     3 2 . +
       5 .
 
-5           <- top``
+5           <- top
+```
 
 In contrast to Thun this was meant to be embeddable in any .NET application. As such the interface has to be a little bit more static as well. Another key difference is that we support definitions in the Joy language itself so you can just start up the interactive and do the following:
 ```
