@@ -272,6 +272,15 @@ public static class Operations
         i.Queue.InsertFirst(new Node.List(Node.Symbol.Get("infra")));
     }
 
+    public static void Type(Interpreter i)
+    {
+        new Validator("type")
+            .OneArgument()
+            .Validate(i.Stack);
+        var x = i.Pop<INode>();
+        i.Push(new Node.String(x.Op.ToString()));
+    }
+
     /// <summary>
     /// ... A [Q] def  ->  ...
     ///

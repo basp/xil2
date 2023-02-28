@@ -10,6 +10,13 @@ using Antlr4.Runtime.Misc;
 /// </summary>
 public class FactorVisitor : XilBaseVisitor<INode>
 {
+    public override INode VisitCharacterConstant(
+        [NotNull] XilParser.CharacterConstantContext context)
+    {
+        var value = context.GetText().TrimStart('\'');
+        return new Node.Char(value[0]);
+    }
+
     public override Node VisitBooleanConstant(
         [NotNull] XilParser.BooleanConstantContext context)
     {

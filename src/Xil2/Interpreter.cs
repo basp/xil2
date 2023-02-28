@@ -6,6 +6,7 @@ public class Interpreter : Dictionary<string, Entry>
 {
     public Interpreter()
     {
+        this["id"] = new Entry(_ => { });
         this["+"] = new Entry(Operations.Add);
         this["-"] = new Entry(Operations.Sub);
         this["<"] = new Entry(Operations.Lt);
@@ -38,6 +39,7 @@ public class Interpreter : Dictionary<string, Entry>
         this["stack"] = new Entry(Operations.Stack);
         this["unstack"] = new Entry(Operations.Unstack);
         this["def"] = new Entry(Operations.Def);
+        this["type"] = new Entry(Operations.Type);
     }
 
     /// <summary>
