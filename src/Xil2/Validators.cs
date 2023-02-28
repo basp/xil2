@@ -73,6 +73,10 @@ public static class Validators
             .OneArgument()
             .OneQuote();
 
+    public static readonly Validator UnstackValidator =
+        new Validator("unstack")
+            .OneArgument()
+            .ListOnTop();
 
     public static readonly Validator SwaackValidator =
         new Validator("swaack")

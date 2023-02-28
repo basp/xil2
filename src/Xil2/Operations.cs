@@ -217,10 +217,7 @@ public static class Operations
     /// </summary>
     public static void Unstack(Interpreter i)
     {
-        new Validator("unstack")
-            .OneArgument()
-            .ListOnTop()
-            .Validate(i.Stack);
+        Validators.UnstackValidator.Validate(i.Stack);
         var x = i.Pop<Node.List>();
         i.Stack.Clear();
         i.Stack.AddAll(x.Elements);

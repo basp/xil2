@@ -201,6 +201,16 @@ For now, this project is a toy and should not be used for production systems. It
 
 # random
 * Joy and by deduction Xil both allow for some pretty crazy identifier names. Most things are a go. For example you can have identifiers like `,foo`, `*bar`, `$frotz`, `#.234*foo` etc. If there's a printable character in front that is not a number it's likely good to go.
+* The parser does not accept symbols starting with a digit (i.e. `0..9`) but since the interpreter does not care it is possible to push symbols starting with an digit onto the stack using the `intern` operator.
+```
+xil> [3_foo] i.
+
+Runtime exception: Unknown symbol: '_foo'
+
+xil> "3_foo" intern.
+
+3_foo       <- top
+```
 * It is possible to change the semantics of the language in interesting ways by pushing nodes either to the stack or the queue. For example, the `ifte` operator can be implemented lazily by pushing part of its quotation on the stack instead of enqueuing. In essence the result on the stack will not be an actual result but an actual program that has to be evaluated by applying a combinator (such as `i` or `x`).
 
 # external references
