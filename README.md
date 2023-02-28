@@ -272,7 +272,7 @@ It is not clear how useful this is in practice but it is kind of neat.
 It is possible to change the semantics of the language in interesting ways by pushing nodes either to the stack or the queue. For example, the `ifte` operator can be implemented lazily by pushing part of its quotation on the stack instead of enqueuing. In essence the result on the stack will not be an actual result but an lazy value (a program) that has to be evaluated by applying a combinator (such as `i` or `x`).
 
 ## operations
-This section is a list of built-in operations and their stack effects. Any interpreter is free to support zero or all of them. Some of the more basic operations are described generally.
+This will be a sort of reference but for now it is just some general notes on arithmetic and logical operations.
 
 ### arithmetic
 These are supported by all types that implement the `IFloatable` interface. This interface will support other basic math operations such as `Sqrt`, `Sin`, `Pow` and such in the near future.
