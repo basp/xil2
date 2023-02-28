@@ -7,16 +7,25 @@ In contrast to Joy, where built-ins are mostly implemented opaquely. Xil takes s
 At a very basic level Xil is just a calculator. You push things to a **stack** memory, invoke an operation denoted by a *symbol* and it will replace zero or more values on the current stack with zero or more computed values. Unlike a basic calculator, Xil is also symbolic in that programs are just data. This means that a program is a list and a list is also a program. Xil is dynamic so it does not care what is on the stack up until the moment it actually tries to use these values for an operation. 
 
 If the stack does not contain the right amount or right kinds of factors then it will complain. Xil is type-safe at runtime but will try to do some basic type inference when its convenient. 
-* All values are *thruthy* in that they can be evaluated to `true` or `false`.
-    * `Boolean` values are interpreted as `true` or `false`.
-    * `Integer` values are `true` when they are non-zero.
-    * The same is true for `Float` values.
-    * `List` values are *thruthy* when they have more than zero elements.
-    * All other values are thruthy.
-* All `Integer` nodes will readily convert to `Float` nodes via the `IFloatable` interface which also supplies the binary arithmetic for basic math such as `+`, `-`, `/`, `*`, etc. Xil will implicitly convert `Integer` to `Float` when they are combined in a single operation. However, when you have two `Integer` nodes on the stack and perform `/` operation you *will* get an `Integer` node back.
-* All `Integer`, `Char` and `Bool` values support ordinal operations (such as `succ` and `pred`) via the `IOrdinal` interface. 
-* `List`, `String` and `Set` implement the `IAggregate` interface which means they support (amongst other) `first`, `rest`, `concat` and `cons` operations.
 
+### thruthymess
+All values are *thruthy* in that they can be evaluated to `true` or `false`.
+* `Boolean` values are interpreted as `true` or `false`.
+* `Integer` values are `true` when they are non-zero.
+* The same is true for `Float` values.
+* `List` values are *thruthy* when they have more than zero elements.
+* All other values are thruthy.
+
+### basic math
+All `Integer` nodes will readily convert to `Float` nodes via the `IFloatable` interface which also supplies the binary arithmetic for basic math such as `+`, `-`, `/`, `*`, etc. Xil will implicitly convert `Integer` to `Float` when they are combined in a single operation. However, when you have two `Integer` nodes on the stack and perform `/` operation you *will* get an `Integer` node back.
+
+### ordinals
+* All `Integer`, `Char` and `Bool` values support ordinal operations (such as `succ` and `pred`) via the `IOrdinal` interface. 
+
+### aggregates
+`List`, `String` and `Set` implement the `IAggregate` interface which means they support (amongst other) `first`, `rest`, `concat` and `cons` operations.
+
+## stack and queue
 The list of remaining *factors* (or nodes) to be executed is called the **queue**. In the example below we construct a *quotation* (a list of factors) and push it onto the stack. Then we invoke the `trace` *combinator* which takes the program and prepends it to the queue as a program to be executed (a combinator is not unlike a higher order function). The interpreter will then to proceed to execute this program normally while keeping a record of the stack and queue at each evaluation step (i.e. each factor in the queue). When the `trace` operator completes, the trace history will be printed before the usual stack display.
 ```
 xil> [2 3 +].
