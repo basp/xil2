@@ -123,7 +123,7 @@ xil> ["foo" intern unit i] trace.
 
 > A caveat to all of this is that we do not support the module semantics as defined in the Joy papers (i.e. the `LIBRA`, `HIDE`, `IN`, `DEFINE` stuff). The module system is not super great and while the interpreter is still not complete it does not make much sense to have a module system in the first place. There will be definitely some kind of way to read in a list of definitions order to setup the interpreter environment in the near future but a fully fledged module system will have to wait until later.
 
-# execution
+## execution
 The interpreter is started by a call to `Execute` from a client application. The client is responsible for supplying a *term* (a sequence of `INode` instances called *factors*) as an argument when invoking the `Execute` method. When the interpreter starts it will initialize its queue to the list of factors supplied. Next it will loop continuously until it is unable to dequeue a node from the queue. Every loop the interpreter will look at the first node at the queue and evaluate it using the following algorithm:
 
 * If it is a symbol we attempt a lookup in the interpreter environment.
@@ -189,19 +189,22 @@ xil> [[1] [dup +] map] trace.
 
 An interesting thing to observe is how the `map` operator by itself could be considered rather opaque in the sense that it mostly operates on the stack instead of the queue. However, it does not really gobble up any values and just reshuffles and recombines them with new values. And, by virtue of it reducing to `infra`, we still get a lot of transparency.
 
-# goals
+## goals
 The main goal for this project is to keep the **Joy** programming language alive and relevant and to raise interest in stack based concatenative programming languages in general. 
 
 This is meant to be embeddable in any .NET application. The main use case is embedding one or more interpreters to execute realitively simple programs in parallel or sequence or delayed by time (so that we can delay tasks on a queue of things to execute). 
 
 Another possible scenario is to have a higher level language and transpile it to Joy/Xil. In fact, the original (somewhat ambitious) goal was to have an X intermediate language (where the name Xil comes from) that could serve as a general purpose, high level stack based IL for virtual machines.
 
-# disclaimer
+## disclaimer
 For now, this project is a toy and should not be used for production systems. It can be a useful playground to play with ideas though.
 
-# random
-* Joy and by deduction Xil both allow for some pretty crazy identifier names. Most things are a go. For example you can have identifiers like `,foo`, `*bar`, `$frotz`, `#.234*foo` etc. If there's a printable character in front that is not a number it's likely good to go.
-* The parser chokes on symbols starting with a digit (i.e. `0..9`) but since the interpreter does not care it is possible to push symbols starting with an digit onto the stack using the `intern` operator.
+## random
+### crazy identifier names
+Joy and by deduction Xil both allow for some pretty crazy identifier names. Most things are a go. For example you can have identifiers like `,foo`, `*bar`, `$frotz`, `#.234*foo` etc. If there's a printable character in front that is not a number it's likely good to go.
+
+### fooling the parser
+The parser chokes on symbols starting with a digit (i.e. `0..9`) but since the interpreter does not care it is possible to push symbols starting with an digit onto the stack using the `intern` operator.
 ```
 xil> [3_foo] i.
 
@@ -211,7 +214,9 @@ xil> "3_foo" intern.
 
 3_foo       <- top
 ```
-* Using the `def` operator it is also possible to define runtime symbols that have an "illegal" name. This requires a threesome between the `intern`, `i` and `unit` operators:
+
+### fooling the parser twice
+Using the `def` operator it is also possible to define runtime symbols that have an "illegal" name. This requires a threesome between the `intern`, `i` and `unit` operators:
 ```
 xil> ["2+3" intern] i [3 2 +] def.
 
@@ -220,9 +225,11 @@ xil> ["2+3" intern] i unit i.
 5           <- top
 ```
 It is not clear how useful this is in practice but it is kinda neat.
-* It is possible to change the semantics of the language in interesting ways by pushing nodes either to the stack or the queue. For example, the `ifte` operator can be implemented lazily by pushing part of its quotation on the stack instead of enqueuing. In essence the result on the stack will not be an actual result but an actual program that has to be evaluated by applying a combinator (such as `i` or `x`).
 
-# external references
+### to stack or enqueue
+It is possible to change the semantics of the language in interesting ways by pushing nodes either to the stack or the queue. For example, the `ifte` operator can be implemented lazily by pushing part of its quotation on the stack instead of enqueuing. In essence the result on the stack will not be an actual result but an actual program that has to be evaluated by applying a combinator (such as `i` or `x`).
+
+## external references
 * [Joy](https://hypercubed.github.io/joy/joy.html)
 * [The Theory of Concatenative Combinators](http://tunes.org/~iepos/joy.html)
 * [Kitten](https://kittenlang.org/)
