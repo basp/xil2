@@ -164,7 +164,7 @@ xil> [[1] [dup +] map] trace.
 
 > This is more or less equivalent to where any other interpreter would save the current stack frame by pushing it onto the stack but in this case we just wrap the stack into a list value and sqeeze it into the the queue instead, eliminating any recursion in the process.
 
-The `swaack`'s  swap the stack with the list on top of the stack. They are not important for this example. The main point here is that the `map` operator is implemented transparently in that it unfolds into ever more primitive operations at the beginning of the queue instead of recursing on the stack. It ends with a final `swaack` and since this operation has to operate on the stack directly it is implemented as a primitive and thus opaque to the tracer. You can see how it saves the current stack in the queue by enqueing `["bar" "foo"]` before the final `swaack`. In this way the original stack will be restored before `swaack` is interpreted.
+An interesting thing to observe is how the `map` operator by itself could be considered rather opaque in the sense that it mostly operates on the stack instead of the queue. However, it does not really gobble up any values and just reshuffles and recombines them with new values. And, by virtue of it reducing to `infra`, we still get a lot of transparency.
 
 # goals
 The main goal for this project is to keep the **Joy** programming language alive and relevant. To make embeddable in .NET environment and to raise interest in stack based concatenative programming languages in general. 
