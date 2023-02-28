@@ -272,6 +272,18 @@ public static class Operations
         i.Queue.InsertFirst(new Node.List(Node.Symbol.Get("infra")));
     }
 
+    /// <summary>
+    /// ... A [Q] def  ->  ...
+    ///
+    /// The value <c>A</c> should be a symbol. Taking the symbolic name of 
+    /// <c>A</c> this will assign <c>[Q]</c> as the body of <c>A</c> adding it
+    /// to the entries in the interpreter environment.
+    /// </summary>
+    /// <remarks>
+    /// This is equivelent to writing <c>A == Q.</c> but does not require the
+    /// parser to be in cycle mode. In essence this allows you to have global
+    /// variables.
+    /// </remarks>
     public static void Def(Interpreter i)
     {
         new Validator("def")
@@ -279,9 +291,9 @@ public static class Operations
             .OneQuote()
             .SymbolAsSecond()
             .Validate(i.Stack);
-        var p = i.Pop<Node.List>();
+        var q = i.Pop<Node.List>();
         var n = i.Pop<Node.Symbol>();
-        i.AddDefinition(n.Name, p.Elements);
+        i.AddDefinition(n.Name, q.Elements);
     }
 
     public static void Trace(Interpreter i)
