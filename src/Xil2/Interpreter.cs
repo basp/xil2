@@ -124,8 +124,8 @@ public class Interpreter
             .ThreeArguments()
             .TwoQuotes()
             .Validate(i.Stack);
-        var @then = i.Pop<Node.List>();
         var @else = i.Pop<Node.List>();
+        var @then = i.Pop<Node.List>();
         var cond = i.Pop<INode>();
         var cons = Node.IsTruthy(cond) ? @then : @else;
         i.Queue.InsertFirst(cons!);
@@ -380,7 +380,8 @@ public class Interpreter
 
         i.Queue = saved;
 
-        Console.WriteLine(TraceToString(history));
+        var s = TraceToString(history);
+        Console.WriteLine(s);
     }
 
     private static string TraceToString(List<(INode[], INode[])> history)

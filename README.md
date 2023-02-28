@@ -1,7 +1,29 @@
 # xil
-Xil is an implementation of the Joy programming language. It is a dynamic, functional, concatenative language. It only knows values and operations. 
+Xil is an implementation of the Joy programming language. It is a dynamic, functional, concatenative language. It only knows values and operations. It is a subset of Joy and shares some semantical concepts with XY. The implementation was inspired by Thun.
 
 In contrast to Joy, which builtins are mostly implemented opaquely. Xil takes some inspiration of the XY programming language by somewhat formalizing a queue alongside the stack. This makes it straightforward to define a lot of operations in a continuation-passing style (CPS).
+
+In contrast to XY which allows programmers to also manipulate the queue directly, Xil does not really allow this. The queue can be implicitly manipulated by interpreting operations but it is not really possible to manipulate it directly as is possible with the stack.
+
+In contrast to Thun this was meant to be embeddable in any .NET application. As such the interface has to be a little bit more static as well. Another key difference is that we support definitions in the Joy language itself so it is perfectly ok to start up an interactive and do the following:
+```
+xil> If == [3 2 +].
+xil> Else == [4 5 +].
+xil> [true If Else branch] trace.
+
+                     . true If Else branch
+                true . If Else branch
+                true . [3 2 +] Else branch
+        true [3 2 +] . Else branch
+        true [3 2 +] . [4 5 +] branch
+true [3 2 +] [4 5 +] . branch
+                     . 3 2 +
+                   3 . 2 +
+                 3 2 . +
+                   5 .
+
+5           <- top
+```
 
 # interpreter
 When the interpreter starts the parsed term (list of factors) is the queue. Every cycle a factor is dequeued and interpreted:
@@ -32,6 +54,7 @@ xil> [3 2 +] trace.
 Most of the combinators (higher order operations) are interpreted transparantely even though they are builtin. This means they will use the queue and they will be traceable. If you need more performance then it is quite easy to implement them in an opaque fashion which can usually be much faster at the expense of losing some visibility into the execution of your program.
 
 Contrast the following `map` example with the `+` operator from above, you can see that `map` translates into a bunch of `infra`, `first` and `swaack` stuff with the current stack `["foo", "bar"]` meshed in between them.
+
 ```
 xil> "foo" "bar".
 
@@ -61,6 +84,8 @@ xil> [[1] [dup +] map] trace.
 "bar"
 "foo"
 ```
+
+> This is more or less equivalent to where any other interpreter would save the current stack frame by pushing it onto the stack but in this case we just unwrap the quotation into the equivalent of nodes on the queue instead eliminating any recursion in the process. This is called continuation-passing style (CPS) and has been a main stay of stack based languages for a long time.
 
 The `swaack`'s  swap the stack with the list on top of the stack. They are not important for this example. The main point here is that the `map` operator is implemented transparently in that it unfolds into ever more primitive operations at the beginning of the queue instead of recursing on the stack. It ends with a final `swaack` and since this operation has to operate on the stack directly it is implemented as a primitive and thus opaque to the tracer. You can see how it saves the current stack in the queue by enqueing `["bar" "foo"]` before the final `swaack`. In this way the original stack will be restored before `swaack` is interpreted.
 

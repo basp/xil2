@@ -41,12 +41,13 @@ while (true)
         Console.Write(string.Empty.PadRight(prompt.Length));
     }
 
-    Console.WriteLine();
 
     var stream = new AntlrInputStream(buf.ToString());
     var lexer = new XilLexer(stream);
     var tokens = new CommonTokenStream(lexer);
     var parser = new XilParser(tokens);
+
+    Console.WriteLine();
 
     try
     {
