@@ -80,7 +80,7 @@ xil> [[3 2 +] x] trace.
 [3 2 +]
 ```
 
-We can also define things at runtime. In the example below we are defining the `true` and `false` clauses for a `branch` combinator.
+We can also define things by associating a term to a symbol. In the example below we are defining the `If` and `Else` (`true` and `false`) clauses for a `branch` combinator.
 ```
 xil> If == [3 2 +].
 
@@ -104,7 +104,7 @@ true [3 2 +] [4 5 +] . branch
 
 This uses the default Joy syntax for definitions (i.e. `A == B.`). These are handled in defintion mode and not evaluated, they are added to the interpreter environment as is (unevaluated factors). 
 
-In contrast to Joy, there is an additional way to create definitions in Xil using the `def` operator. This will pop a quotation and a symbol and define the symbol in the interpreter dynamically. There's some more info in the notes at the end.
+> In contrast to Joy, there is an additional way to create definitions in Xil using the `def` operator. This will pop a quotation and a symbol and define the symbol in the interpreter dynamically. There's some more info in the notes at the end.
 
 By using the `intern` operator to transform strings into symbols in conjunction with the `unit` operator we can also compose dynamic calls as shown in the following example.
 ```
