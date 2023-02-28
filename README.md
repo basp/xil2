@@ -27,7 +27,7 @@ true [3 2 +] [4 5 +] . branch
 5           <- top
 ```
 
-> A caveat to all of this is that we do not support the module semantics as defined in the Joy papers (i.e. the 'LIBRA', 'HIDE', 'IN', 'DEFINE' stuff). The module system is not super great and while the interpreter is still not complete it does not make much sense to have a module system in the first place. There will be definitely some kind of way to read in a list of definitions order to setup the interpreter environment in the near future but a fully fledged module system will have to wait until later.
+> A caveat to all of this is that we do not support the module semantics as defined in the Joy papers (i.e. the `LIBRA`, `HIDE`, `IN`, `DEFINE` stuff). The module system is not super great and while the interpreter is still not complete it does not make much sense to have a module system in the first place. There will be definitely some kind of way to read in a list of definitions order to setup the interpreter environment in the near future but a fully fledged module system will have to wait until later.
 
 When the interpreter starts the parsed term (list of factors) is the queue. Every cycle a factor is dequeued and interpreted:
 
