@@ -84,6 +84,25 @@ public abstract partial class Node
 
         public override IOrdinal Pred() => new Node.Integer(this.value - 1);
 
+        public override bool Equals(object? obj)
+        {
+            if (object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            var other = obj as Integer;
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.value == other.value;
+        }
+
+        public override int GetHashCode() =>
+            HashCode.Combine(Tags.Integer, this.value.GetHashCode());
+
         public int CompareTo(IFloatable? other)
         {
             if (other == null)

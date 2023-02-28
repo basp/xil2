@@ -73,6 +73,25 @@ public abstract partial class Node
         public override string ToRepresentation() =>
             this.value.ToString(new CultureInfo("en-US"));
 
+        public override bool Equals(object? obj)
+        {
+            if (object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            var other = obj as Float;
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.value == other.value;
+        }
+
+        public override int GetHashCode() =>
+            HashCode.Combine(Tags.Float, this.value.GetHashCode());
+
         public int CompareTo(IFloatable? other)
         {
             if (other == null)

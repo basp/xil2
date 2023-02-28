@@ -47,7 +47,10 @@ public static class Operations
             ? Node.Boolean.True
             : Node.Boolean.False);
 
-    
+    public static void Gte(Interpreter i) =>
+        BinaryLogic(i, ">=", (x, y) => x.CompareTo(y) >= 0
+            ? Node.Boolean.True
+            : Node.Boolean.False);
 
     public static void Swap(Interpreter i)
     {

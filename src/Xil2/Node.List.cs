@@ -53,6 +53,25 @@ public abstract partial class Node
             return $"[{string.Join(' ', xs)}]";
         }
 
+        public override bool Equals(object? obj)
+        {
+            if (object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            var other = obj as List;
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.elements == other.elements;
+        }
+
+        public override int GetHashCode() =>
+            HashCode.Combine(Tags.List, this.elements.GetHashCode());
+
         public INode Cons(INode node) =>
             new List(new[] { node }.Concat(this.elements));
 

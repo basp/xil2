@@ -32,10 +32,29 @@ public abstract partial class Node
         public override string ToRepresentation() =>
             string.Concat('"', this.value, '"');
 
+        public override bool Equals(object? obj)
+        {
+            if (object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            var other = obj as String;
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.value == other.value;
+        }
+
+        public override int GetHashCode() =>
+            HashCode.Combine(Tags.String, this.value.GetHashCode());
+
         public INode Cons(INode node) =>
             node switch
             {
-                _ => 
+                _ =>
                     throw new RuntimeException(
                         Validator.GetErrorMessage("cons", "ordinal")),
             };
