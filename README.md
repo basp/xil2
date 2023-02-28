@@ -3,7 +3,22 @@ Xil is an implementation of the Joy programming language. It is a dynamic, funct
 
 In contrast to Joy, which builtins are mostly implemented opaquely. Xil takes some inspiration of the XY programming language by somewhat formalizing a queue alongside the stack. This makes it straightforward to define a lot of operations in a continuation-passing style (CPS).
 
-In contrast to XY which allows programmers to also manipulate the queue directly, Xil does not really allow this. The queue can be implicitly manipulated by interpreting operations but it is not really possible to manipulate it directly as is possible with the stack. The `i` combinator in particular resembles the `->` operation in XY. 
+In contrast to XY which allows programmers to also manipulate the queue directly, Xil does not really allow this. The queue can be implicitly manipulated by interpreting operations but it is not really possible to manipulate it directly as is possible with the stack. 
+
+The `i` combinator in particular resembles the `->` operation in XY and it and its family of interpreting operators (such as the conditional and mapping combinators) do allow some queue manipulation within the semantics of the Joy language.
+
+For example:
+``
+xil> [[3 2 +] i] trace.
+
+        . [3 2 +] i
+[3 2 +] . i
+        . 3 2 +
+      3 . 2 +
+    3 2 . +
+      5 .
+
+5           <- top``
 
 In contrast to Thun this was meant to be embeddable in any .NET application. As such the interface has to be a little bit more static as well. Another key difference is that we support definitions in the Joy language itself so you can just start up the interactive and do the following:
 ```
