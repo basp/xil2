@@ -243,7 +243,11 @@ xil> [["2+3" intern] i [3 2 +] def ["2+3" intern] i unit i] trace.
 
 5           <- top
 ```
-It is not clear how useful this is in practice but it is kind of neat. This is more or less the motto of Xil.
+* `intern` converts a string into a symbol for the interpreter (bypassing any parser rules).
+* `i` evalues a quotation on the stack, basically predending it to the queue.
+* `unit` wraps a value into a quotation (i.e. `x unit = [x]`).
+
+It is not clear how useful this is in practice but it is kind of neat.
 
 > I'm not sure if the `def` operator has an equivalent in Joy. As far as I know it does not. It is just another way to manipulate the three key aspects of the interpreter: the stack, the queue and the environment. It is already possible to manipulate the stack (and queue) so it should be equally possible to manipulate the environment from the program itself instead of activating it from the top-level.
 
