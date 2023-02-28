@@ -201,7 +201,7 @@ For now, this project is a toy and should not be used for production systems. It
 
 # random
 * Joy and by deduction Xil both allow for some pretty crazy identifier names. Most things are a go. For example you can have identifiers like `,foo`, `*bar`, `$frotz`, `#.234*foo` etc. If there's a printable character in front that is not a number it's likely good to go.
-* The parser does not accept symbols starting with a digit (i.e. `0..9`) but since the interpreter does not care it is possible to push symbols starting with an digit onto the stack using the `intern` operator.
+* The parser chokes on symbols starting with a digit (i.e. `0..9`) but since the interpreter does not care it is possible to push symbols starting with an digit onto the stack using the `intern` operator.
 ```
 xil> [3_foo] i.
 
@@ -211,7 +211,7 @@ xil> "3_foo" intern.
 
 3_foo       <- top
 ```
-* Using the `def` operator it is also possible to define runtime symbols that have an "illegal" name when used in conjuction with the `intern` operator:
+* Using the `def` operator it is also possible to define runtime symbols that have an "illegal" name. This requires a threesome between the `intern`, `i` and `unit` operators:
 ```
 xil> ["2+3" intern] i [3 2 +] def.
 
