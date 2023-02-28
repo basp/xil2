@@ -6,6 +6,24 @@ In contrast to Joy, where builtins are mostly implemented opaquely. Xil takes so
 This is meant to be embeddable in any .NET application. The main use case is embedding one or more interpreters to execute realitively simple programs in parallel or sequence or delayed by time (so that we can delay tasks on a queue of things to execute). 
 
 ## overview
+At a very basic level Xil is just a calculator. You push things to a stack, invoke an operation and it will replace zero or more values on the stack with a newly computed value. Unlike a basic calculator, Xil is also symbolic in that programs are just data. This means that a program is a list and a list is also a program.
+
+The list of remaining factors (or nodes) to be executed is called the queue. In the example below we construct a quotation (a list of factor) and push it onto the stack. Then we invoke the `trace` combinator which takes the program and prepends it to the queue as a program to be executed. The `trace` operator will then to proceed to execute this program normally while keeping a record of the stack and queue at each evaluation step. When the `trace` operator completes, the trace history will be printed before the stack is displayed.
+```
+xil> [2 3 +].
+
+[2 3 +]     <- top
+
+xil> trace.
+
+    . 2 3 +
+  2 . 3 +
+2 3 . +
+  5 .
+
+5           <- top
+```
+
 In contrast to XY which allows programmers to also manipulate the queue directly, Xil does not really allow this. The queue can be implicitly manipulated but it is not possible to manipulate it directly as is possible with the stack. 
 
 The `i` combinator in particular resembles the `/` (`use`) operation in XY and directly manipulates the queue by prepending the top of the stack as a quotation onto the queue to be executed.
