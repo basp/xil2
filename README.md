@@ -21,7 +21,7 @@ xil> [[3 2 +] i] trace.
 5           <- top
 ```
 
-In contrast to Thun this was meant to be embeddable in any .NET application. As such the interface has to be a little bit more static as well. Another key difference is that we support definitions in the Joy language itself so you can just start up the interactive and do the following:
+In contrast to Thun this is meant to be embeddable in any .NET application. The main use case is embedding one or more interpreters to execute realitively simple programs in parallel or sequence or delayed by time (so that we can delay tasks on a queue of things to execute). We can also define things at runtime. In the example below we are defining the `true` and `false` clauses of a `branch` as definition which we use to push their definitions onto the stack.
 ```
 xil> If == [3 2 +].
 

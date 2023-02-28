@@ -6,9 +6,6 @@ const char dot = '.';
 const string prompt = "xil> ";
 const int pointerOffset = 12;
 
-// var interpreter = new CoreEx();
-// var interpreter = new CoreFlat();
-
 var interpreter = new Interpreter();
 var visitor = new CycleVisitor(interpreter);
 
