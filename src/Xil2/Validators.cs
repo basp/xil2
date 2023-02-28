@@ -2,6 +2,10 @@ namespace Xil2;
 
 public static class Validators
 {
+    public static readonly Validator UnitValidator =
+        new Validator("unit")
+            .OneArgument();
+
     public static readonly Validator SwapValidator =
         new Validator("swap")
             .TwoArguments();
@@ -10,6 +14,11 @@ public static class Validators
         new Validator("cons")
             .TwoArguments()
             .ListOnTop();
+
+    public static readonly Validator InternValidator =
+        new Validator("intern")
+            .OneArgument()
+            .StringOnTop();
 
     public static readonly Validator BranchValidator =
         new Validator("branch")

@@ -14,6 +14,8 @@ public abstract partial class Node
             this.value = value;
         }
 
+        public string Value => this.value;
+
         public override Operand Op => Operand.String;
 
         public override bool IsAggregate => true;

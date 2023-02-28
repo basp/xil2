@@ -33,6 +33,7 @@ public class Interpreter : Dictionary<string, Entry>
         this["map"] = new Entry(Operations.Map);
         this["ifte"] = new Entry(Operations.Ifte);
         this["unit"] = new Entry(Operations.Unit);
+        this["intern"] = new Entry(Operations.Intern);
     }
 
     /// <summary>
@@ -76,7 +77,7 @@ public class Interpreter : Dictionary<string, Entry>
                 var symbol = (Node.Symbol)node;
                 if (!this.TryGetValue(symbol.Name, out var entry))
                 {
-                    var msg = $"Unknown symbol: '{symbol.Name}";
+                    var msg = $"Unknown symbol: '{symbol.Name}'";
                     throw new RuntimeException(msg);
                 }
 

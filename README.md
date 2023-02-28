@@ -1,11 +1,14 @@
 # xil
-Xil is an implementation of the Joy programming language. It is a dynamic, functional, concatenative language. It only knows values and operations. It is a subset of Joy and shares some semantical concepts with XY. The implementation was inspired by Thun.
+Xil is an implementation the [Joy](https://hypercubed.github.io/joy/joy.html) programming language. It is a dynamic, functional, concatenative language. It only knows values and operations. It shares a few semantical concepts with [XY](https://nsl.com/k/xy/xy.htm) which in turn is also inspired by Joy. The implementation was inspired by [Thun](https://joypy.osdn.io/notebooks/Intro.html).
 
-In contrast to Joy, which builtins are mostly implemented opaquely. Xil takes some inspiration of the XY programming language by somewhat formalizing a queue alongside the stack. This makes it straightforward to define a lot of operations in a continuation-passing style (CPS).
+In contrast to Joy, where builtins are mostly implemented opaquely. Xil takes some inspiration of the XY programming language by somewhat formalizing a queue alongside the stack. This makes it straightforward to define a lot of operations in a continuation-passing style (CPS).
 
-In contrast to XY which allows programmers to also manipulate the queue directly, Xil does not really allow this. The queue can be implicitly manipulated by interpreting operations but it is not really possible to manipulate it directly as is possible with the stack. 
+This is meant to be embeddable in any .NET application. The main use case is embedding one or more interpreters to execute realitively simple programs in parallel or sequence or delayed by time (so that we can delay tasks on a queue of things to execute). 
 
-The `i` combinator in particular resembles the `->` operation in XY and it and its family of interpreting operators (such as the conditional and mapping combinators) do allow some queue manipulation within the semantics of the Joy language.
+## overview
+In contrast to XY which allows programmers to also manipulate the queue directly, Xil does not really allow this. The queue can be implicitly manipulated but it is not possible to manipulate it directly as is possible with the stack. 
+
+The `i` combinator in particular resembles the `/` (`use`) operation in XY and directly manipulates the queue by prepending the top of the stack as a quotation onto the queue to be executed.
 
 For example:
 ```
@@ -21,7 +24,22 @@ xil> [[3 2 +] i] trace.
 5           <- top
 ```
 
-In contrast to Thun this is meant to be embeddable in any .NET application. The main use case is embedding one or more interpreters to execute realitively simple programs in parallel or sequence or delayed by time (so that we can delay tasks on a queue of things to execute). We can also define things at runtime. In the example below we are defining the `true` and `false` clauses of a `branch` as definition which we use to push their definitions onto the stack.
+The `x` combinator does the same but it leaves the original program on the stack:
+```
+xil> [[3 2 +] x] trace.
+
+            . [3 2 +] x
+    [3 2 +] . x
+    [3 2 +] . 3 2 +
+  [3 2 +] 3 . 2 +
+[3 2 +] 3 2 . +
+  [3 2 +] 5 .
+
+5           <- top
+[3 2 +]
+```
+
+We can also define things at runtime. In the example below we are defining the `true` and `false` clauses for a `branch` combinator.
 ```
 xil> If == [3 2 +].
 
@@ -43,19 +61,40 @@ true [3 2 +] [4 5 +] . branch
 5           <- top
 ```
 
+By using the `intern` operator to transform strings into symbols in conjunction with the `unit` operator we can also compose dynamic calls as shown in the following example.
+```
+xil> foo == 3 2 +.
+
+xil> ["foo" intern unit i] trace.
+
+      . "foo" intern unit i
+"foo" . intern unit i
+  foo . unit i
+[foo] . i
+      . foo
+      . 3 2 +
+    3 . 2 +
+  3 2 . +
+    5 .
+
+5           <- top
+```
+
 > A caveat to all of this is that we do not support the module semantics as defined in the Joy papers (i.e. the `LIBRA`, `HIDE`, `IN`, `DEFINE` stuff). The module system is not super great and while the interpreter is still not complete it does not make much sense to have a module system in the first place. There will be definitely some kind of way to read in a list of definitions order to setup the interpreter environment in the near future but a fully fledged module system will have to wait until later.
 
-When the interpreter starts, the parsed term (list of factors) is the queue. Every cycle a factor is dequeued and interpreted:
+# execution
+The interpreter is started by a call to `Execute` from a client application. The client is responsible for supplying a *term* (a sequence of `INode` instances called *factors*) as an argument when invoking the `Execute` method. When the interpreter starts it will initialize its queue to the list of factors supplied. Next it will loop continuously until it is unable to dequeue a node from the queue. Every loop the interpreter will look at the first node at the queue and evaluate it using the following algorithm:
 
 * If it is a symbol we attempt a lookup in the interpreter environment.
     * If this fails we throw a `RuntimeException`.
-    * If this succeeds we check wheter this is a builtin symbol.
-        * If this is a builtin then we just execute the associated action which is defined in C# code.
+    * If the lookup succeeds we check wheter this is a built-in symbol.
+        * If this is a built-in then we just execute the associated 
+        `Action<Interpreter>` which is defined in C# code.
         * If this symbol was defined at runtime (as a Joy definition) we
         will prepend its body of factors to the queue to be executed.
 * If the factor is not a symbol we will push the node (i.e. its literal value) onto the stack.
 
-# tracability
+## tracability
 Symbols that are defined at runtime are always traceable and executed transparently. This means you can get a full trace using the `trace` builtin. This is not always the case for builtin operations though. A lot of the primitives are opaque in the sense that they operate on the stack directly in a conceptually atomic operation. Usually this means that they do not use the queue so it makes no sense to trace them.
 
 For example, take the `+` operator. This cannot reduce further so it is a primitive to the interpreter and has to be executed in an opaque way. This means we cannot *see into* the `+` operator. It is a black box and we can only see the stack before and after, there is no queue manipulation:

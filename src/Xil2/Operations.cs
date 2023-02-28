@@ -47,15 +47,18 @@ public static class Operations
             ? Node.Boolean.True
             : Node.Boolean.False);
 
-    private static readonly Validator UnitValidator =
-        new Validator("unit")
-            .OneArgument();
-
     public static void Unit(Interpreter i)
     {
-        UnitValidator.Validate(i.Stack);
+        Validators.UnitValidator.Validate(i.Stack);
         var x = i.Pop<INode>();
         i.Push(new Node.List(x));
+    }
+
+    public static void Intern(Interpreter i)
+    {
+        Validators.InternValidator.Validate(i.Stack);
+        var x = i.Pop<Node.String>();
+        i.Push(Node.Symbol.Get(x.Value));
     }
 
     public static void Swap(Interpreter i)
