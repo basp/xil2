@@ -13,6 +13,7 @@ public class Interpreter : Dictionary<string, Entry>
     public Interpreter()
     {
         this["+"] = new Entry(Operations.Add);
+        this["-"] = new Entry(Operations.Sub);
         this["i"] = new Entry(Operations._I);
         this["x"] = new Entry(Operations._X);
         this["pop"] = new Entry(Operations.Pop);

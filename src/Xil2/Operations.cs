@@ -2,19 +2,29 @@ namespace Xil2;
 
 public static class Operations
 {
-    public static void Add(Interpreter i)
+    public static void Add(Interpreter i) =>
+        BinaryArithmetic(i, "+", (x, y) => x.Add(y));
+
+    public static void Sub(Interpreter i) =>
+        BinaryArithmetic(i, "-", (x, y) => x.Subtract(y));
+
+    public static void Mul(Interpreter i) =>
+        BinaryArithmetic(i, "*", (x, y) => x.Multiply(y));
+
+    public static void Div(Interpreter i) =>
+        BinaryArithmetic(i, "/", (x, y) => x.Divide(y));
+
+    public static void Mod(Interpreter i) =>
+        BinaryArithmetic(i, "%", (x, y) => x.Modulo(y));
+
+    public static void Lt(Interpreter i)
     {
-        new Validator("+")
-            .TwoArguments()
-            .TwoFloatsOrIntegers()
-            .Validate(i.Stack);
-        var y = i.Pop<IFloatable>();
-        var x = i.Pop<IFloatable>();
-        i.Push(x.Add(y));
+        var y = i.Pop<IOrdinal>();
     }
 
     public static void Swap(Interpreter i)
     {
+        Validators.SwapValidator.Validate(i.Stack);
         var y = i.Pop<INode>();
         var x = i.Pop<INode>();
         i.Push(y);
@@ -23,10 +33,7 @@ public static class Operations
 
     public static void Cons(Interpreter i)
     {
-        new Validator("cons")
-            .TwoArguments()
-            .ListOnTop()
-            .Validate(i.Stack);
+        Validators.ConsValidator.Validate(i.Stack);
         var a = i.Pop<Node.List>();
         var x = i.Pop<INode>();
         i.Push(a.Cons(x));
@@ -34,10 +41,7 @@ public static class Operations
 
     public static void Branch(Interpreter i)
     {
-        new Validator("branch")
-            .ThreeArguments()
-            .TwoQuotes()
-            .Validate(i.Stack);
+        Validators.BranchValidator.Validate(i.Stack);
         var @else = i.Pop<Node.List>();
         var @then = i.Pop<Node.List>();
         var cond = i.Pop<INode>();
@@ -47,9 +51,7 @@ public static class Operations
 
     public static void Choice(Interpreter i)
     {
-        new Validator("choice")
-            .ThreeArguments()
-            .Validate(i.Stack);
+        Validators.ChoiceValidator.Validate(i.Stack);
         var cond = i.Pop<INode>();
         var @then = i.Pop<INode>();
         var @else = i.Pop<INode>();
@@ -57,14 +59,9 @@ public static class Operations
         i.Push(cons);
     }
 
-    private static readonly Validator IfteValidator =
-        new Validator("ifte")
-            .ThreeArguments()
-            .ThreeQuotes();
-
     public static void Ifte(Interpreter i)
     {
-        IfteValidator.Validate(i.Stack);
+        Validators.IfteValidator.Validate(i.Stack);
 
         var ifte = new Node.List(
             new Node.Symbol("infra"),
@@ -87,10 +84,7 @@ public static class Operations
 
     public static void Dip(Interpreter i)
     {
-        new Validator("dip")
-            .TwoArguments()
-            .OneQuote()
-            .Validate(i.Stack);
+        Validators.DipValidator.Validate(i.Stack);
         var quote = i.Pop<Node.List>();
         var x = i.Pop<INode>();
         i.Queue.InsertFirst(new Node.List(x));
@@ -99,10 +93,7 @@ public static class Operations
 
     public static void Concat(Interpreter i)
     {
-        new Validator("concat")
-            .TwoArguments()
-            .TwoQuotes()
-            .Validate(i.Stack);
+        Validators.ConcatValidator.Validate(i.Stack);
         var y = i.Pop<Node.List>();
         var x = i.Pop<Node.List>();
         i.Push(x.Concat(y));
@@ -110,28 +101,20 @@ public static class Operations
 
     public static void Pop(Interpreter i)
     {
-        new Validator("pop")
-            .OneArgument()
-            .Validate(i.Stack);
+        Validators.PopValidator.Validate(i.Stack);
         i.Pop<INode>();
     }
 
     public static void First(Interpreter i)
     {
-        new Validator("first")
-            .OneArgument()
-            .AggregateOnTop()
-            .Validate(i.Stack);
+        Validators.FirstValidator.Validate(i.Stack);
         var xs = i.Pop<IAggregate>();
         i.Push(xs.First());
     }
 
     public static void Rest(Interpreter i)
     {
-        new Validator("rest")
-            .OneArgument()
-            .NonEmptyAggregateOnTop<IAggregate>()
-            .Validate(i.Stack);
+        Validators.RestValidator.Validate(i.Stack);
         var xs = i.Pop<IAggregate>();
         i.Push(xs.Rest());
     }
@@ -143,41 +126,28 @@ public static class Operations
 
     public static void Dup(Interpreter i)
     {
-        new Validator("dup")
-            .OneArgument()
-            .Validate(i.Stack);
+        Validators.DupValidator.Validate(i.Stack);
         var x = i.Peek<INode>();
         i.Queue.InsertFirst(new Node.List(x));
     }
 
     public static void _X(Interpreter i)
     {
-        new Validator("x")
-            .OneArgument()
-            .OneQuote()
-            .Validate(i.Stack);
+        Validators._XValidator.Validate(i.Stack);
         var quote = i.Peek<Node.List>();
         i.Queue.InsertFirst(quote);
     }
 
     public static void _I(Interpreter i)
     {
-        new Validator("i")
-            .OneArgument()
-            .OneQuote()
-            .Validate(i.Stack);
+        Validators._IValidator.Validate(i.Stack);
         var quote = i.Pop<Node.List>();
         i.Queue.InsertFirst(quote);
     }
 
-    private static readonly Validator SwaackValidator =
-        new Validator("swaack")
-            .OneArgument()
-            .ListOnTop();
-
     public static void Swaack(Interpreter i)
     {
-        SwaackValidator.Validate(i.Stack);
+        Validators.SwaackValidator.Validate(i.Stack);
         var @new = i.Pop<Node.List>();
         i.Stack.Reverse();
         var @old = new Node.List(i.Stack);
@@ -186,14 +156,9 @@ public static class Operations
         i.Push(@old);
     }
 
-    private static readonly Validator InfraValidator =
-        new Validator("infra")
-            .TwoArguments()
-            .TwoQuotes();
-
     public static void Infra(Interpreter i)
     {
-        InfraValidator.Validate(i.Stack);
+        Validators.InfraValidator.Validate(i.Stack);
         var q = i.Pop<Node.List>();
         var a = i.Pop<IAggregate>();
         i.Stack.Reverse();
@@ -204,15 +169,9 @@ public static class Operations
         i.Stack.AddAll(a.Elements);
     }
 
-    private static readonly Validator MapValidator =
-        new Validator("map")
-            .TwoArguments()
-            .OneQuote()
-            .ListAsSecond();
-
     public static void Map(Interpreter i)
     {
-        MapValidator.Validate(i.Stack);
+        Validators.MapValidator.Validate(i.Stack);
         var q = i.Pop<Node.List>();
         var a = i.Pop<IAggregate>();
         if (!a.Elements.Any())
@@ -237,10 +196,7 @@ public static class Operations
 
     public static void Trace(Interpreter i)
     {
-        new Validator("trace")
-            .OneArgument()
-            .OneQuote()
-            .Validate(i.Stack);
+        Validators.TraceValidator.Validate(i.Stack);
 
         var history = new Trace();
         var saved = i.Queue;
@@ -286,5 +242,29 @@ public static class Operations
         i.Queue = saved;
 
         Console.WriteLine(history.ToString());
+    }
+
+    private static void BinaryLogic(
+        Interpreter i,
+        string name)
+    {
+        new Validator(name)
+            .TwoArguments()
+            .TwoOrdinalsOnTop()
+            .Validate(i.Stack);
+    }
+
+    private static void BinaryArithmetic(
+        Interpreter i,
+        string name,
+        Func<IFloatable, IFloatable, IFloatable> op)
+    {
+        new Validator(name)
+            .TwoArguments()
+            .TwoFloatsOrIntegers()
+            .Validate(i.Stack);
+        var y = i.Pop<IFloatable>();
+        var x = i.Pop<IFloatable>();
+        i.Push(op(x, y));
     }
 }

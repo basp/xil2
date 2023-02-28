@@ -5,10 +5,9 @@ using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// Represents a symbol to the interpreter. This can either
 /// be a built-in (represented by a <see cref="Action"/> instance)
-/// or a *user-defined* symbol that is represented by a body
-/// of <see cref="INode"/> instances. The <c>IsUserDefined</c> property
-/// can be queried to find out whether the <c>Action</c> or <c>Body</c>
-/// property is relevant.
+/// or a runtime definition that is represented by a body of <see cref="INode"/> 
+/// instances. The <c>IsRuntime</c> property can be queried to find out whether 
+/// the <c>Action</c> or <c>Body</c> property is relevant.
 /// </summary>
 public class Entry
 {
@@ -50,8 +49,8 @@ public class Entry
     public IEnumerable<INode> Body { get; }
 
     /// <summary>
-    /// Gets a value that indicates whether this entry that is defined
-    /// during runtime.
+    /// Gets a value that indicates whether this entry is defined during 
+    /// runtime (i.e. it is a Joy definition and not a built-in).
     /// </summary>
     public bool IsRuntime => this.Body.Any();
 }
