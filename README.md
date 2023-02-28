@@ -89,7 +89,7 @@ xil> [[1] [dup +] map] trace.
 "foo"
 ```
 
-> This is more or less equivalent to where any other interpreter would save the current stack frame by pushing it onto the stack but in this case we just unwrap the quotation into the equivalent of nodes on the queue instead eliminating any recursion in the process. This is called continuation-passing style (CPS) and has been a main stay of stack based languages for a long time.
+> This is more or less equivalent to where any other interpreter would save the current stack frame by pushing it onto the stack but in this case we just wrap the stack into a list value and sqeeze it into the the queue instead, eliminating any recursion in the process.
 
 The `swaack`'s  swap the stack with the list on top of the stack. They are not important for this example. The main point here is that the `map` operator is implemented transparently in that it unfolds into ever more primitive operations at the beginning of the queue instead of recursing on the stack. It ends with a final `swaack` and since this operation has to operate on the stack directly it is implemented as a primitive and thus opaque to the tracer. You can see how it saves the current stack in the queue by enqueing `["bar" "foo"]` before the final `swaack`. In this way the original stack will be restored before `swaack` is interpreted.
 
