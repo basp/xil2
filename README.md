@@ -1,7 +1,7 @@
 # xil
 Xil is an implementation the [Joy](https://hypercubed.github.io/joy/joy.html) programming language. It is a dynamic, functional, concatenative language. It only knows values and operations. It shares a few semantical concepts with [XY](https://nsl.com/k/xy/xy.htm) which in turn is also inspired by Joy. The implementation was inspired by [Thun](https://joypy.osdn.io/notebooks/Intro.html).
 
-In contrast to Joy, where builtins are mostly implemented opaquely. Xil takes some inspiration of the XY programming language by somewhat formalizing a queue alongside the stack. This makes it straightforward to define a lot of operations in a continuation-passing style (CPS).
+In contrast to Joy, where builtins are mostly implemented opaquely. Xil takes some inspiration of the XY programming language by formalizing a queue alongside the stack in its execution semantics.
 
 ## overview
 At a very basic level Xil is just a calculator. You push things to a stack, invoke an operation and it will replace zero or more values on the stack with a newly computed value. Unlike a basic calculator, Xil is also symbolic in that programs are just data. This means that a program is a list and a list is also a program.
