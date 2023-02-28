@@ -174,9 +174,9 @@ Another possible scenario is to have a higher level language and transpile it to
 # disclaimer
 For now, this project is a toy and should not be used for production systems. It can be a useful playground to play with ideas though.
 
-# quircks
+# random
 * Joy and by deduction Xil both allow for some pretty crazy identifier names. Most things are a go. For example you can have identifiers like `,foo`, `*bar`, `$frotz`, `#.234*foo` etc. If there's a printable character in front that is not a number it's likely good to go.
-* It is possible to change the semantics of the language in interesting ways by pushing nodes either to the stack or the queue. For example, the `ifte` operator can be implemented lazily by pushing part of its quotation on the stack instead of enqueuing.
+* It is possible to change the semantics of the language in interesting ways by pushing nodes either to the stack or the queue. For example, the `ifte` operator can be implemented lazily by pushing part of its quotation on the stack instead of enqueuing. In essence the result on the stack will not be an actual result but an actual program that has to be evaluated by applying a combinator (such as `i` or `x`).
 
 # external references
 * [Joy](https://hypercubed.github.io/joy/joy.html)
