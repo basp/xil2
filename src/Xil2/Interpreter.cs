@@ -34,6 +34,9 @@ public class Interpreter : Dictionary<string, Entry>
         this["ifte"] = new Entry(Operations.Ifte);
         this["unit"] = new Entry(Operations.Unit);
         this["intern"] = new Entry(Operations.Intern);
+        this["name"] = new Entry(Operations.Name);
+        this["stack"] = new Entry(Operations.Stack);
+        this["unstack"] = new Entry(Operations.Unstack);
     }
 
     /// <summary>

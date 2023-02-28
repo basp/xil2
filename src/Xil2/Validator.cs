@@ -241,12 +241,12 @@ public class Validator
 
     public Validator ListOnTop() =>
         this.AddRule(
-            s => s[s.Count - 1].Op == Operand.List && !s[s.Count - 1].IsQuote,
+            s => s[s.Count - 1].Op == Operand.List, // && !s[s.Count - 1].IsQuote,
             "list");
 
     public Validator ListAsSecond() =>
         this.AddRule(
-            s => s[s.Count - 2].Op == Operand.List && !s[s.Count - 2].IsQuote,
+            s => s[s.Count - 2].Op == Operand.List, //&& !s[s.Count - 2].IsQuote,
             "list as second argument");
 
     public Validator NonEmptyAggregateOnTop<T>()

@@ -47,6 +47,23 @@ public static class Operations
             ? Node.Boolean.True
             : Node.Boolean.False);
 
+    public readonly static Validator BodyValidator =
+        new Validator("body")
+            .OneArgument();
+
+    public readonly static Validator NameValidator =
+        new Validator("name")
+            .OneArgument();
+
+    public static void Name(Interpreter i)
+    {
+        NameValidator.Validate(i.Stack);
+        var x = i.Pop<INode>();
+        var z = x.Op == Operand.Symbol
+            ? new Node.String(((Node.Symbol)x).Name)
+            : new Node.String(x.Op.ToString());
+    }
+
     public static void Unit(Interpreter i)
     {
         Validators.UnitValidator.Validate(i.Stack);
@@ -183,6 +200,30 @@ public static class Operations
         Validators._IValidator.Validate(i.Stack);
         var quote = i.Pop<Node.List>();
         i.Queue.InsertFirst(quote);
+    }
+
+    /// <summary>
+    /// stack       :  .. X Y Z  ->  .. X Y Z [Z Y X ..]
+    /// Pushes the stack as a list.
+    /// </summary>
+    public static void Stack(Interpreter i)
+    {
+        i.Push(new Node.List(i.Stack.Reverse<INode>()));
+    }
+
+    /// <summary>
+    /// unstack     :  [X Y ..]  ->  ..Y X
+    /// The list [X Y ..] becomes the new stack.    
+    /// </summary>
+    public static void Unstack(Interpreter i)
+    {
+        new Validator("unstack")
+            .OneArgument()
+            .ListOnTop()
+            .Validate(i.Stack);
+        var x = i.Pop<Node.List>();
+        i.Stack.Clear();
+        i.Stack.AddAll(x.Elements);
     }
 
     public static void Swaack(Interpreter i)
