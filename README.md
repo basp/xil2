@@ -252,7 +252,7 @@ xil> [["2+3" intern] i [3 2 +] def ["2+3" intern] i unit i] trace.
 5           <- top
 ```
 * `intern` converts a string into a symbol for the interpreter (bypassing any parser rules).
-* `i` evalues a quotation on the stack, basically predending it to the queue.
+* `i` evalues a quotation on the stack, prepending it onto the queue.
 * `unit` wraps a value into a quotation (i.e. `x unit = [x]`).
 
 It is not clear how useful this is in practice but it is kind of neat.
