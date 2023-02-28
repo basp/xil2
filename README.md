@@ -209,7 +209,7 @@ For now, this project is a toy and should not be used for production systems. It
 This is just a section documenting some random but interesting aspects about the syntax and semantics of Xil.
 
 ### crazy identifier names
-Joy and by deduction Xil both allow for some pretty crazy identifier names. Most things are a go. For example you can have identifiers like `,foo`, `*bar`, `$frotz`, `#.234*foo` etc. If there's a *printable* (a very loose definition) character in front that is not a number it's likely good to go. 
+Joy and by deduction Xil both allow for some pretty crazy identifier names. Most things are a go. For example you can have identifiers like `,foo`, `*bar`, `$frotz`, `#.234*foo` etc. If there's a *printable* (a very oldschool definition) character in front that is not a number it's likely good to go. 
 > The parser tries to respect this freedom but currently it does get confused by stuff like `123_foo` where it will parse an integer `123` and a symbol `_foo`.
 
 ### fooling the parser
