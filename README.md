@@ -24,6 +24,8 @@ xil> trace.
 5           <- top
 ```
 
+In the trace history, the stack is displayed on the left of the dot (`.`) and the queue is displayed on the right. The rightmost item on the stack is the top of the stack (TOS) and the leftmost item in the queue is the factor to be evaluated.
+
 In contrast to XY which allows programmers to also manipulate the queue directly, Xil only allows this in the context of some combinators. The queue can be implicitly manipulated but it is not possible to manipulate it directly as is possible with the stack. The `i` and `x` combinators in particular are an exception in that they resemble the `/` (`use`) operation in XY and directly manipulate the queue by prepending the top of the stack as a quotation onto the queue to be executed.
 
 For example:
