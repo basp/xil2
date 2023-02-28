@@ -13,7 +13,7 @@ If the stack does not contain the right amount or right kinds of factors then it
     * The same is true for `Float` values.
     * `List` values are *thruthy* when they have more than zero elements.
     * All other values are thruthy.
-* All `Integer` nodes will readily convert to `Float` nodes via the `IFloatable` interface which also supplies the binary arithmetic for basic math such as `+`, `-`, `/`, `*`, etc.
+* All `Integer` nodes will readily convert to `Float` nodes via the `IFloatable` interface which also supplies the binary arithmetic for basic math such as `+`, `-`, `/`, `*`, etc. If possible the most *abstract* type is kept. This means that when there are two `Integer` nodes on the stack and you perform a `*` operation then you will get an `Integer` back (the same is true for `+`, `-` and other operations that are defined in the same domain). However if you place two `Integer` nodes on the stack and perform a `/` operation then you will always get a `Float` back.
 * All `Integer`, `Char` and `Bool` values support ordinal operations (such as `succ` and `pred`) via the `IOrdinal` interface. 
 * `List`, `String` and `Set` implement the `IAggregate` interface which means they support (amongst other) `first`, `rest`, `concat` and `cons` operations.
 
