@@ -260,7 +260,7 @@ public static class Operations
             if (node!.Op == Operand.Symbol)
             {
                 var symbol = (Node.Symbol)node;
-                if (!i.Env.TryGetValue(symbol.Name, out var entry))
+                if (!i.TryGetValue(symbol.Name, out var entry))
                 {
                     var msg = $"Unknown symbol: '{symbol.Name}'";
                     throw new RuntimeException(msg);

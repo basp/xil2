@@ -2,7 +2,7 @@ using System.Text;
 
 namespace Xil2;
 
-public class Interpreter
+public class Interpreter : Dictionary<string, Entry>
 {
     public C5.ArrayList<INode> Stack { get; set; } =
         new C5.ArrayList<INode>();
@@ -10,33 +10,32 @@ public class Interpreter
     public C5.ArrayList<Node.List> Queue { get; set; } =
         new C5.ArrayList<Node.List>();
 
-    public IDictionary<string, Entry> Env { get; set; } =
-        new Dictionary<string, Entry>
-        {
-            ["+"] = new Entry(Operations.Add),
-            ["i"] = new Entry(Operations._I),
-            ["x"] = new Entry(Operations._X),
-            ["pop"] = new Entry(Operations.Pop),
-            ["swap"] = new Entry(Operations.Swap),
-            ["dip"] = new Entry(Operations.Dip),
-            ["cons"] = new Entry(Operations.Cons),
-            ["dup"] = new Entry(Operations.Dup),
-            ["clear"] = new Entry(Operations.Clear),
-            ["trace"] = new Entry(Operations.Trace),
-            ["branch"] = new Entry(Operations.Branch),
-            ["choice"] = new Entry(Operations.Choice),
-            ["first"] = new Entry(Operations.First),
-            ["rest"] = new Entry(Operations.Rest),
-            ["concat"] = new Entry(Operations.Concat),
-            ["swaack"] = new Entry(Operations.Swaack),
-            ["infra"] = new Entry(Operations.Infra),
-            ["map"] = new Entry(Operations.Map),
-            ["ifte"] = new Entry(Operations.Ifte),
-        };
+    public Interpreter()
+    {
+        this["+"] = new Entry(Operations.Add);
+        this["i"] = new Entry(Operations._I);
+        this["x"] = new Entry(Operations._X);
+        this["pop"] = new Entry(Operations.Pop);
+        this["swap"] = new Entry(Operations.Swap);
+        this["dip"] = new Entry(Operations.Dip);
+        this["cons"] = new Entry(Operations.Cons);
+        this["dup"] = new Entry(Operations.Dup);
+        this["clear"] = new Entry(Operations.Clear);
+        this["trace"] = new Entry(Operations.Trace);
+        this["branch"] = new Entry(Operations.Branch);
+        this["choice"] = new Entry(Operations.Choice);
+        this["first"] = new Entry(Operations.First);
+        this["rest"] = new Entry(Operations.Rest);
+        this["concat"] = new Entry(Operations.Concat);
+        this["swaack"] = new Entry(Operations.Swaack);
+        this["infra"] = new Entry(Operations.Infra);
+        this["map"] = new Entry(Operations.Map);
+        this["ifte"] = new Entry(Operations.Ifte);
+    }
 
     public void AddDefinition(string name, IEnumerable<INode> body)
     {
-        this.Env.Add(name, new Entry(body));
+        this.Add(name, new Entry(body));
     }
 
     public void Execute(IEnumerable<INode> factors)
@@ -48,7 +47,7 @@ public class Interpreter
             if (node!.Op == Operand.Symbol)
             {
                 var symbol = (Node.Symbol)node;
-                if (!this.Env.TryGetValue(symbol.Name, out var entry))
+                if (!this.TryGetValue(symbol.Name, out var entry))
                 {
                     var msg = $"Unknown symbol: '{symbol.Name}";
                     throw new RuntimeException(msg);
