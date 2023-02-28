@@ -80,7 +80,7 @@ xil> [[3 2 +] x] trace.
 [3 2 +]
 ```
 
-We can also define things by associating a term to a symbol. In the example below we are defining the `If` and `Else` (`true` and `false`) clauses for a `branch` combinator.
+We can also define things by associating a term to with a symbol. In the example below we are defining the `If` and `Else` (`true` and `false`) clauses for a `branch` combinator.
 ```
 xil> If == [3 2 +].
 
