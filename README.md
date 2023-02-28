@@ -221,8 +221,6 @@ xil> "3_foo" intern.
 ### fooling the parser twice
 Using the `def` operator it is also possible to define runtime symbols that have an *illegal* name (at least according to the parser and grammar). This requires a threesome between the `intern`, `i` and `unit` operators:
 ```
-xil> clear.
-
 xil> [["2+3" intern] i [3 2 +] def ["2+3" intern] i unit i] trace.
 
                . ["2+3" intern] i [3 2 +] def ["2+3" intern] i unit i
