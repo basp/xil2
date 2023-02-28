@@ -27,7 +27,7 @@ public abstract partial class Node
 
         public override string ToRepresentation() => $"'{this.value}";
 
-        public override IOrdinal Ord() => new Node.Integer(this.value);
+        public override IOrdinal Ord() => Node.Integer.Get(this.value);
 
         public override IOrdinal Chr() => new Node.Char(this.value);
 

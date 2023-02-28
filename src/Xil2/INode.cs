@@ -12,11 +12,6 @@ namespace Xil2;
 public interface INode
 {
     /// <summary>
-    /// Gets the position of this node in the original source code.
-    /// </summary>
-    Position Position { get; }
-
-    /// <summary>
     /// Gets the type (i.e. list, integer, float, etc.) of this node.
     /// </summary>
     Operand Op { get; }   

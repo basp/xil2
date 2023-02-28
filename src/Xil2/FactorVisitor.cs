@@ -14,49 +14,35 @@ public class FactorVisitor : XilBaseVisitor<INode>
         [NotNull] XilParser.BooleanConstantContext context)
     {
         var value = bool.Parse(context.GetText());
-        var node = Node.Boolean.Get(value);
-        node.Position = GetPosition(context);
-        return node;
+        return Node.Boolean.Get(value);
     }
 
     public override Node VisitIntegerConstant(
         [NotNull] XilParser.IntegerConstantContext context)
     {
         var value = int.Parse(context.GetText());
-        return new Node.Integer(value)
-        {
-            Position = GetPosition(context),
-        };
+        return Node.Integer.Get(value);
     }
 
     public override Node VisitFloatConstant(
         [NotNull] XilParser.FloatConstantContext context)
     {
         var value = double.Parse(context.GetText(), new CultureInfo("en-US"));
-        return new Node.Float(value)
-        {
-            Position = GetPosition(context),
-        };
+        return new Node.Float(value);
     }
 
     public override Node VisitStringConstant(
         [NotNull] XilParser.StringConstantContext context)
     {
         var value = context.GetText().Trim('"');
-        return new Node.String(value)
-        {
-            Position = GetPosition(context),
-        };
+        return new Node.String(value);
     }
 
     public override Node VisitAtomicSymbol(
         [NotNull] XilParser.AtomicSymbolContext context)
     {
         var name = context.GetText();
-        return new Node.Symbol(name)
-        {
-            Position = GetPosition(context),
-        };
+        return Node.Symbol.Get(name);
     }
 
     public override Node VisitQuotationLiteral(
@@ -69,16 +55,6 @@ public class FactorVisitor : XilBaseVisitor<INode>
             elements.Add(node);
         }
 
-        return new Node.List(elements)
-        {
-            Position = GetPosition(context),
-        };
+        return new Node.List(elements);
     }
-
-    private static Position GetPosition(ParserRuleContext context) =>
-        new Position
-        {
-            Line = context.Start.Line,
-            Column = context.Start.Column,
-        };
 }

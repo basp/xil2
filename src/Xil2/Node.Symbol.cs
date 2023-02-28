@@ -7,9 +7,24 @@ public abstract partial class Node
     /// </summary>
     public class Symbol : Node
     {
+        private static readonly IDictionary<string, Symbol> interned =
+            new Dictionary<string, Symbol>();
+
         private readonly string name;
 
-        public Symbol(string name)
+        public static Symbol Get(string name)
+        {
+            if (interned.TryGetValue(name, out var node))
+            {
+                return node;
+            }
+
+            node = new Symbol(name);
+            interned.Add(name, node);
+            return node;
+        }
+
+        private Symbol(string name)
         {
             this.name = name;
         }

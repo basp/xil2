@@ -89,10 +89,10 @@ public static class Operations
         Validators.IfteValidator.Validate(i.Stack);
 
         var ifte = new Node.List(
-            new Node.Symbol("infra"),
-            new Node.Symbol("first"),
-            new Node.Symbol("choice"),
-            new Node.Symbol("i"));
+            Node.Symbol.Get("infra"),
+            Node.Symbol.Get("first"),
+            Node.Symbol.Get("choice"),
+            Node.Symbol.Get("i"));
 
         i.Queue.InsertFirst(ifte);
 
@@ -187,7 +187,7 @@ public static class Operations
         var q = i.Pop<Node.List>();
         var a = i.Pop<IAggregate>();
         i.Stack.Reverse();
-        i.Queue.InsertFirst(new Node.List(new Node.Symbol("swaack")));
+        i.Queue.InsertFirst(new Node.List(Node.Symbol.Get("swaack")));
         i.Queue.InsertFirst(new Node.List(new Node.List(i.Stack)));
         i.Queue.InsertFirst(q);
         i.Stack = new C5.ArrayList<INode>();
@@ -208,15 +208,15 @@ public static class Operations
         var batch = new C5.ArrayList<INode>();
         foreach (var x in a.Elements)
         {
-            batch.InsertFirst(new Node.Symbol("first"));
-            batch.InsertFirst(new Node.Symbol("infra"));
+            batch.InsertFirst(Node.Symbol.Get("first"));
+            batch.InsertFirst(Node.Symbol.Get("infra"));
             batch.InsertFirst(q);
             batch.InsertFirst(new Node.List(x));
         }
 
         i.Push(new Node.List());
         i.Push(new Node.List(batch));
-        i.Queue.InsertFirst(new Node.List(new Node.Symbol("infra")));
+        i.Queue.InsertFirst(new Node.List(Node.Symbol.Get("infra")));
     }
 
     public static void Trace(Interpreter i)

@@ -69,7 +69,7 @@ public class CycleVisitor : XilBaseVisitor<C5.IStack<INode>>
         var factors = context
             .factor()
             .Select(x => x.Accept(FactorVisitor))
-            .ToArray();
+            .ToList();
         this.interpreter.Execute(factors);
         return this.interpreter.Stack;
     }

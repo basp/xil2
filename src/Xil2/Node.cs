@@ -7,8 +7,6 @@ namespace Xil2;
 /// </summary>
 public abstract partial class Node : INode
 {
-    public Position Position { get; set; }
-
     public abstract Operand Op { get; }
 
     public virtual bool IsFloatable => false;

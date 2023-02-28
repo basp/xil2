@@ -8,9 +8,18 @@ public abstract partial class Node
     /// </summary>
     public class Integer : Ordinal, IFloatable
     {
+        private static readonly IDictionary<int, Integer> interned =
+            Enumerable.Range(-128, 128)
+                .ToDictionary(x => x, x => new Integer(x));
+
         private readonly int value;
 
-        public Integer(int value)
+        public static Integer Get(int value) =>
+            interned.TryGetValue(value, out var node)
+                ? node
+                : new Integer(value);
+
+        private Integer(int value)
         {
             this.value = value;
         }
