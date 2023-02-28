@@ -211,6 +211,15 @@ xil> "3_foo" intern.
 
 3_foo       <- top
 ```
+* Using the `def` operator it is also possible to define runtime symbols that have an "illegal" name when used in conjuction with the `intern` operator:
+```
+xil> ["2+3" intern] i [3 2 +] def.
+
+xil> ["2+3" intern] i unit i.
+
+5           <- top
+```
+It is not clear how useful this is in practice but it is kinda neat.
 * It is possible to change the semantics of the language in interesting ways by pushing nodes either to the stack or the queue. For example, the `ifte` operator can be implemented lazily by pushing part of its quotation on the stack instead of enqueuing. In essence the result on the stack will not be an actual result but an actual program that has to be evaluated by applying a combinator (such as `i` or `x`).
 
 # external references

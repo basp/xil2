@@ -272,6 +272,18 @@ public static class Operations
         i.Queue.InsertFirst(new Node.List(Node.Symbol.Get("infra")));
     }
 
+    public static void Def(Interpreter i)
+    {
+        new Validator("def")
+            .TwoArguments()
+            .OneQuote()
+            .SymbolAsSecond()
+            .Validate(i.Stack);
+        var p = i.Pop<Node.List>();
+        var n = i.Pop<Node.Symbol>();
+        i.AddDefinition(n.Name, p.Elements);
+    }
+
     public static void Trace(Interpreter i)
     {
         Validators.TraceValidator.Validate(i.Stack);

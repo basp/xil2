@@ -37,6 +37,7 @@ public class Interpreter : Dictionary<string, Entry>
         this["name"] = new Entry(Operations.Name);
         this["stack"] = new Entry(Operations.Stack);
         this["unstack"] = new Entry(Operations.Unstack);
+        this["def"] = new Entry(Operations.Def);
     }
 
     /// <summary>

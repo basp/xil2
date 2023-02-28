@@ -152,6 +152,11 @@ public class Validator
                  s.Last().Op == Operand.String,
             "string or symbol");
 
+    public Validator SymbolAsSecond() =>
+        this.AddRule(
+            s => s[s.Count - 2].Op == Operand.Symbol,
+            "string as second argument");
+
     /// <summary>
     /// Verifies that the top argument on the stack is a 
     /// <see cref="Node.String"/>.
