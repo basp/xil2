@@ -3,12 +3,14 @@ Xil is an implementation of the Joy programming language. It is a dynamic, funct
 
 In contrast to Joy, which builtins are mostly implemented opaquely. Xil takes some inspiration of the XY programming language by somewhat formalizing a queue alongside the stack. This makes it straightforward to define a lot of operations in a continuation-passing style (CPS).
 
-In contrast to XY which allows programmers to also manipulate the queue directly, Xil does not really allow this. The queue can be implicitly manipulated by interpreting operations but it is not really possible to manipulate it directly as is possible with the stack.
+In contrast to XY which allows programmers to also manipulate the queue directly, Xil does not really allow this. The queue can be implicitly manipulated by interpreting operations but it is not really possible to manipulate it directly as is possible with the stack. The `i` combinator in particular resembles the `->` operation in XY. 
 
-In contrast to Thun this was meant to be embeddable in any .NET application. As such the interface has to be a little bit more static as well. Another key difference is that we support definitions in the Joy language itself so it is perfectly ok to start up an interactive and do the following:
+In contrast to Thun this was meant to be embeddable in any .NET application. As such the interface has to be a little bit more static as well. Another key difference is that we support definitions in the Joy language itself so you can just start up the interactive and do the following:
 ```
 xil> If == [3 2 +].
+
 xil> Else == [4 5 +].
+
 xil> [true If Else branch] trace.
 
                      . true If Else branch
@@ -25,7 +27,8 @@ true [3 2 +] [4 5 +] . branch
 5           <- top
 ```
 
-# interpreter
+> A caveat to all of this is that we do not support the module semantics as defined in the Joy papers (i.e. the 'LIBRA', 'HIDE', 'IN', 'DEFINE' stuff). The module system is not super great and while the interpreter is still not complete it does not make much sense to have a module system in the first place. There will be definitely some kind of way to read in a list of definitions order to setup the interpreter environment in the near future but a fully fledged module system will have to wait until later.
+
 When the interpreter starts the parsed term (list of factors) is the queue. Every cycle a factor is dequeued and interpreted:
 
 * If it is a symbol we attempt a lookup in the interpreter environment.
