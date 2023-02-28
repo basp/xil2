@@ -31,31 +31,38 @@ xil> [3 2 +] trace.
 
 Most of the combinators (higher order operations) are interpreted transparantely even though they are builtin. This means they will use the queue and they will be traceable. If you need more performance then it is quite easy to implement them in an opaque fashion which can usually be much faster at the expense of losing some visibility into the execution of your program.
 
-Contrast the following `map` example with the `+` operator from above:
+Contrast the following `map` example with the `+` operator from above, you can see that `map` translates into a bunch of `infra`, `first` and `swaack` stuff with the current stack (empty) meshed in between them.
 ```
+xil> "foo" "bar".
+
+"bar"       <- top
+"foo"
+
 xil> [[1] [dup +] map] trace.
 
-                             . [1] [dup +] map
-                         [1] . [dup +] map
-                 [1] [dup +] . map
-[] [[1] [dup +] infra first] . infra
-                             . [1] [dup +] infra first [] swaack
-                         [1] . [dup +] infra first [] swaack
-                 [1] [dup +] . infra first [] swaack
-                           1 . dup + [] swaack first [] swaack
-                           1 . 1 + [] swaack first [] swaack
-                         1 1 . + [] swaack first [] swaack
-                           2 . [] swaack first [] swaack
-                        2 [] . swaack first [] swaack
-                         [2] . first [] swaack
-                           2 . [] swaack
-                        2 [] . swaack
-                         [2] .
+                             "foo" "bar" . [1] [dup +] map
+                         "foo" "bar" [1] . [dup +] map
+                 "foo" "bar" [1] [dup +] . map
+"foo" "bar" [] [[1] [dup +] infra first] . infra
+                                         . [1] [dup +] infra first ["bar" "foo"] swaack
+                                     [1] . [dup +] infra first ["bar" "foo"] swaack
+                             [1] [dup +] . infra first ["bar" "foo"] swaack
+                                       1 . dup + [] swaack first ["bar" "foo"] swaack
+                                       1 . 1 + [] swaack first ["bar" "foo"] swaack
+                                     1 1 . + [] swaack first ["bar" "foo"] swaack
+                                       2 . [] swaack first ["bar" "foo"] swaack
+                                    2 [] . swaack first ["bar" "foo"] swaack
+                                     [2] . first ["bar" "foo"] swaack
+                                       2 . ["bar" "foo"] swaack
+                         2 ["bar" "foo"] . swaack
+                         "foo" "bar" [2] .
 
 [2]         <- top
+"bar"
+"foo"
 ```
 
-The `swaack`'s  swap the stack with the list on top of the stack. They are not too important for this example. The main point here is that the `map` operator is implemented transparently in that it unfolds into ever more primitive operations at the beginning of the queue instead of recursing on the stack. It ends with a final `swaack` and since this operation operates on the stack directly it is implemented as a primitive and thus opaque to the tracer.
+The `swaack`'s  swap the stack with the list on top of the stack. They are not important for this example. The main point here is that the `map` operator is implemented transparently in that it unfolds into ever more primitive operations at the beginning of the queue instead of recursing on the stack. It ends with a final `swaack` and since this operation has to operate on the stack directly it is implemented as a primitive and thus opaque to the tracer. You can see how it saves the current stack in the queue by enqueing `["bar" "foo"]` before the final `swaack`. In this way the original stack will be restored before `swaack` is interpreted.
 
 # goals
 The main goal for this project is to keep the **Joy** programming language alive and relevant. To make embeddable in .NET environment and to raise interest in stack based concatenative programming languages in general. 
