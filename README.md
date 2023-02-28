@@ -4,9 +4,9 @@ Xil is an implementation the [Joy](https://hypercubed.github.io/joy/joy.html) pr
 In contrast to Joy, where builtins are mostly implemented opaquely. Xil takes some inspiration of the XY programming language by formalizing a queue alongside the stack in its execution semantics.
 
 ## overview
-At a very basic level Xil is just a calculator. You push things to a **stack**, invoke an operation denoted by a *symbol* and it will replace zero or more values on the stack with zero or more computed values. Unlike a basic calculator, Xil is also symbolic in that programs are just data. This means that a program is a list and a list is also a program.
+At a very basic level Xil is just a calculator. You push things to a **stack**, invoke an operation denoted by a *symbol* and it will replace zero or more values on the stack with zero or more computed values. Unlike a basic calculator, Xil is also symbolic in that programs are just data. This means that a program is a list and a list is also a program. Xil is dynamic so it does not care what is on the stack up until the moment it actually tries to use these values for an operation. If the stack does not contain the right amount or right kinds of factors then it will complain and refuse to execute the operation.
 
-The list of remaining *factors* (or nodes) to be executed is called the **queue**. In the example below we construct a *quotation* (a list of factors) and push it onto the stack. Then we invoke the `trace` *combinator* which takes the program and prepends it to the queue as a program to be executed (a combinator is not unlike a higher order function). The `trace` operator will then to proceed to execute this program normally while keeping a record of the stack and queue at each evaluation step. When the `trace` operator completes, the trace history will be printed before the stack is displayed.
+The list of remaining *factors* (or nodes) to be executed is called the **queue**. In the example below we construct a *quotation* (a list of factors) and push it onto the stack. Then we invoke the `trace` *combinator* which takes the program and prepends it to the queue as a program to be executed (a combinator is not unlike a higher order function). The interpreter will then to proceed to execute this program normally while keeping a record of the stack and queue at each evaluation step (i.e. each factor in the queue). When the `trace` operator completes, the trace history will be printed before the usual stack display.
 ```
 xil> [2 3 +].
 
@@ -23,6 +23,26 @@ xil> trace.
 ```
 
 In the trace history, the stack is displayed on the left of the dot (`.`) and the queue is displayed on the right. The rightmost item on the stack is the top of the stack (TOS) and the leftmost item in the queue is the factor to be evaluated.
+
+It is possible to have multiple traces in a single term:
+```
+xil> [3 2 +] trace [3 2 +] trace [-] trace.
+
+    . 3 2 +
+  3 . 2 +
+3 2 . +
+  5 .
+
+    5 . 3 2 +
+  5 3 . 2 +
+5 3 2 . +
+  5 5 .
+
+5 5 . -
+  0 .
+
+0           <- top
+```
 
 In contrast to XY which allows programmers to also manipulate the queue directly, Xil only allows this in the context of some combinators. The queue can be implicitly manipulated but it is not possible to manipulate it directly as is possible with the stack. The `i` and `x` combinators in particular are an exception in that they resemble the `/` (`use`) operation in XY and directly manipulate the queue by prepending the top of the stack as a quotation onto the queue to be executed.
 
