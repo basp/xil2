@@ -34,5 +34,24 @@ public abstract partial class Node
         public override IOrdinal Succ() => new Node.Char((char)(this.value + 1));
 
         public override IOrdinal Pred() => new Node.Char((char)(this.value - 1));
+
+        public override bool Equals(object? obj)
+        {
+            if (object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            var other = obj as Char;
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.value == other.value;
+        }
+
+        public override int GetHashCode() =>
+            HashCode.Combine(HashTags.Char, this.value.GetHashCode());
     }
 }

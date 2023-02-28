@@ -44,6 +44,6 @@ public abstract partial class Node
         }
 
         public override int GetHashCode() =>
-            HashCode.Combine(Tags.Symbol, this.name.GetHashCode());
+            HashCode.Combine(HashTags.Symbol, this.name.GetHashCode());
     }
 }

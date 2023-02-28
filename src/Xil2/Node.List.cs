@@ -70,7 +70,7 @@ public abstract partial class Node
         }
 
         public override int GetHashCode() =>
-            HashCode.Combine(Tags.List, this.elements.GetHashCode());
+            HashCode.Combine(HashTags.List, this.elements.GetHashCode());
 
         public INode Cons(INode node) =>
             new List(new[] { node }.Concat(this.elements));

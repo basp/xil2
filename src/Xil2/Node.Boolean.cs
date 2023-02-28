@@ -29,5 +29,24 @@ public abstract partial class Node
 
         public override string ToRepresentation() =>
             this.value.ToString().ToLower();
+
+        public override bool Equals(object? obj)
+        {
+            if (object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            var other = obj as Boolean;
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.value == other.value;
+        }
+
+        public override int GetHashCode() =>
+            HashCode.Combine(HashTags.Boolean, this.value.GetHashCode());
     }
 }

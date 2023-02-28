@@ -4,17 +4,16 @@ namespace Xil2;
 
 public class Interpreter : Dictionary<string, Entry>
 {
-    public C5.ArrayList<INode> Stack { get; set; } =
-        new C5.ArrayList<INode>();
-
-    public C5.ArrayList<Node.List> Queue { get; set; } =
-        new C5.ArrayList<Node.List>();
-
     public Interpreter()
     {
         this["+"] = new Entry(Operations.Add);
         this["-"] = new Entry(Operations.Sub);
         this["<"] = new Entry(Operations.Lt);
+        this[">"] = new Entry(Operations.Gt);
+        this["<="] = new Entry(Operations.Lte);
+        this[">="] = new Entry(Operations.Gte);
+        this["="] = new Entry(Operations.Eq);
+        this["!="] = new Entry(Operations.Neq);
         this["i"] = new Entry(Operations._I);
         this["x"] = new Entry(Operations._X);
         this["pop"] = new Entry(Operations.Pop);
@@ -35,11 +34,36 @@ public class Interpreter : Dictionary<string, Entry>
         this["ifte"] = new Entry(Operations.Ifte);
     }
 
+    /// <summary>
+    /// Gets or sets the interpreter stack.
+    /// </summary>
+    public C5.ArrayList<INode> Stack { get; set; } =
+        new C5.ArrayList<INode>();
+
+    /// <summary>
+    /// Gets or sets the interpreter queue.
+    /// </summary>
+    public C5.ArrayList<Node.List> Queue { get; set; } =
+        new C5.ArrayList<Node.List>();
+
+    /// <summary>
+    /// Adds a new runtime definition to the interpreter environment.
+    /// </summary>
     public void AddDefinition(string name, IEnumerable<INode> body)
     {
         this.Add(name, new Entry(body));
     }
 
+    /// <summary>
+    /// Executes a term (a list of factors) as a new queue.
+    /// </summary>
+    /// <remarks>
+    /// Note that this should only be called (once) every cycle from the 
+    /// top-level since it will reset the current queue. It is not
+    /// recommended to invoke this from inside an interpreter operation
+    /// unless you save and restore the queue or intentionally want
+    /// to destroy it.
+    /// </remarks>
     public void Execute(IEnumerable<INode> factors)
     {
         this.Queue.Clear();

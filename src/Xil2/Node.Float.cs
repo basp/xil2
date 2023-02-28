@@ -90,7 +90,7 @@ public abstract partial class Node
         }
 
         public override int GetHashCode() =>
-            HashCode.Combine(Tags.Float, this.value.GetHashCode());
+            HashCode.Combine(HashTags.Float, this.value.GetHashCode());
 
         public int CompareTo(IFloatable? other)
         {

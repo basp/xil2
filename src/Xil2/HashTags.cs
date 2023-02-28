@@ -1,7 +1,11 @@
 namespace Xil2;
 
-public static class Tags
+public static class HashTags
 {
+    public const int Boolean = 13;
+
+    public const int Char = 37;
+
     public const int Integer = 73;
 
     public const int Float = 661;

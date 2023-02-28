@@ -49,7 +49,7 @@ public abstract partial class Node
         }
 
         public override int GetHashCode() =>
-            HashCode.Combine(Tags.String, this.value.GetHashCode());
+            HashCode.Combine(HashTags.String, this.value.GetHashCode());
 
         public INode Cons(INode node) =>
             node switch
