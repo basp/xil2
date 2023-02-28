@@ -9,7 +9,7 @@ At a very basic level Xil is just a calculator. You push things to a **stack** m
 If the stack does not contain the right amount or right kinds of factors then it will complain. Xil will try to do some basic type inference when its convenient. * All values are *thruthy* in that they can be evaluated to `true` or `false`.
 * All `Integer` nodes will readily convert to `Float` nodes via the `IFloatable` interface which also supplies the binary arithmetic for basic math such as `+`, `-`, `/`, `*`, etc.
 * All `Integer`, `Char` and `Bool` values support ordinal operations (such as `succ` and `pred`) via the `IOrdinal` interface. 
-* `List`s, `String`s and `Set`s implement the `IAggregate` interface which means they support (amongst other) `first`, `rest`, `concat` and `cons` operations.
+* `List`, `String` and `Set` implement the `IAggregate` interface which means they support (amongst other) `first`, `rest`, `concat` and `cons` operations.
 
 The list of remaining *factors* (or nodes) to be executed is called the **queue**. In the example below we construct a *quotation* (a list of factors) and push it onto the stack. Then we invoke the `trace` *combinator* which takes the program and prepends it to the queue as a program to be executed (a combinator is not unlike a higher order function). The interpreter will then to proceed to execute this program normally while keeping a record of the stack and queue at each evaluation step (i.e. each factor in the queue). When the `trace` operator completes, the trace history will be printed before the usual stack display.
 ```
