@@ -87,6 +87,28 @@ public class Interpreter : Dictionary<string, Entry>
     public void Enqueue(INode node) =>
         this.Queue.InsertFirst(new Node.List(node));
 
+    /// <summary>
+    /// Tries to dequeue a value from the queue.
+    /// </summary>
+    /// <remarks>
+    /// <p>
+    /// This method will first check if there is a quotation on the queue. If
+    /// there is and if the quotation has any elements then it will remove the 
+    /// first node from the quotation and use this as the <c>node</c> output 
+    /// argument. If the quotation has any elements left then they will be
+    /// enqueued for further processing. After all this the value <c>true</c> 
+    /// will be returned. If there are no nodes to be dequeued then the 
+    /// <c>node</c> output parameter will be <c>null</c> and the method will 
+    /// return <c>false</c>.
+    /// </p>
+    /// <p>
+    /// Values on the queue are always assumed to be quoted. This means that 
+    /// a list literal such as <c>[1 2 3]</c> will appear as <c>[[1 2 3]]</c> 
+    /// and literals such as <c>true</c>, <c>1</c>, <c>"foo"</c> will appear 
+    /// as <c>[true]</c>, <c>[1]</c> and <c>["foo"]</c> or <c>[true 1 "foo"]</c>
+    /// when packed together in a single quotation.
+    /// </p>
+    /// </remarks>
     public bool TryDequeue(out INode? node) => TryDequeue(this.Queue, out node);
 
     private static bool TryDequeue(C5.ArrayList<Node.List> queue, out INode? node)
