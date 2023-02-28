@@ -8,7 +8,7 @@ This is meant to be embeddable in any .NET application. The main use case is emb
 ## overview
 At a very basic level Xil is just a calculator. You push things to a stack, invoke an operation and it will replace zero or more values on the stack with a newly computed value. Unlike a basic calculator, Xil is also symbolic in that programs are just data. This means that a program is a list and a list is also a program.
 
-The list of remaining factors (or nodes) to be executed is called the queue. In the example below we construct a quotation (a list of factor) and push it onto the stack. Then we invoke the `trace` combinator which takes the program and prepends it to the queue as a program to be executed. The `trace` operator will then to proceed to execute this program normally while keeping a record of the stack and queue at each evaluation step. When the `trace` operator completes, the trace history will be printed before the stack is displayed.
+The list of remaining factors (or nodes) to be executed is called the queue. In the example below we construct a quotation (a list of factors) and push it onto the stack. Then we invoke the `trace` combinator which takes the program and prepends it to the queue as a program to be executed. The `trace` operator will then to proceed to execute this program normally while keeping a record of the stack and queue at each evaluation step. When the `trace` operator completes, the trace history will be printed before the stack is displayed.
 ```
 xil> [2 3 +].
 
@@ -24,9 +24,7 @@ xil> trace.
 5           <- top
 ```
 
-In contrast to XY which allows programmers to also manipulate the queue directly, Xil does not really allow this. The queue can be implicitly manipulated but it is not possible to manipulate it directly as is possible with the stack. 
-
-The `i` combinator in particular resembles the `/` (`use`) operation in XY and directly manipulates the queue by prepending the top of the stack as a quotation onto the queue to be executed.
+In contrast to XY which allows programmers to also manipulate the queue directly, Xil only allows this in the context of some combinators. The queue can be implicitly manipulated but it is not possible to manipulate it directly as is possible with the stack. The `i` and `x` combinators in particular are an exception in that they resemble the `/` (`use`) operation in XY and directly manipulate the queue by prepending the top of the stack as a quotation onto the queue to be executed.
 
 For example:
 ```
