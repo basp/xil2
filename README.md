@@ -4,9 +4,9 @@ Xil is an implementation the [Joy](https://hypercubed.github.io/joy/joy.html) pr
 In contrast to Joy, where builtins are mostly implemented opaquely. Xil takes some inspiration of the XY programming language by formalizing a queue alongside the stack in its execution semantics.
 
 ## overview
-At a very basic level Xil is just a calculator. You push things to a stack, invoke an operation and it will replace zero or more values on the stack with a newly computed value. Unlike a basic calculator, Xil is also symbolic in that programs are just data. This means that a program is a list and a list is also a program.
+At a very basic level Xil is just a calculator. You push things to a **stack**, invoke an operation denoted by a *symbol* and it will replace zero or more values on the stack with zero or more computed values. Unlike a basic calculator, Xil is also symbolic in that programs are just data. This means that a program is a list and a list is also a program.
 
-The list of remaining factors (or nodes) to be executed is called the queue. In the example below we construct a quotation (a list of factors) and push it onto the stack. Then we invoke the `trace` combinator which takes the program and prepends it to the queue as a program to be executed. The `trace` operator will then to proceed to execute this program normally while keeping a record of the stack and queue at each evaluation step. When the `trace` operator completes, the trace history will be printed before the stack is displayed.
+The list of remaining *factors* (or nodes) to be executed is called the **queue**. In the example below we construct a *quotation* (a list of factors) and push it onto the stack. Then we invoke the `trace` *combinator* which takes the program and prepends it to the queue as a program to be executed (a combinator is not unlike a higher order function). The `trace` operator will then to proceed to execute this program normally while keeping a record of the stack and queue at each evaluation step. When the `trace` operator completes, the trace history will be printed before the stack is displayed.
 ```
 xil> [2 3 +].
 
