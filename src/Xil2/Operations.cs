@@ -17,10 +17,37 @@ public static class Operations
     public static void Mod(Interpreter i) =>
         BinaryArithmetic(i, "%", (x, y) => x.Modulo(y));
 
-    public static void Lt(Interpreter i)
+    private static void BinaryLogic(
+        Interpreter i,
+        string name,
+        Func<IOrdinal, IOrdinal, INode> cmp)
     {
+        new Validator(name)
+            .TwoArguments()
+            .TwoOrdinalsOnTop()
+            .Validate(i.Stack);
         var y = i.Pop<IOrdinal>();
+        var x = i.Pop<IOrdinal>();
+        var z = cmp(x, y);
+        i.Push(z);
     }
+
+    public static void Lt(Interpreter i) =>
+        BinaryLogic(i, "<", (x, y) => x.CompareTo(y) < 0
+            ? Node.Boolean.True
+            : Node.Boolean.False);
+
+    public static void Gt(Interpreter i) =>
+        BinaryLogic(i, ">", (x, y) => x.CompareTo(y) > 0
+            ? Node.Boolean.True
+            : Node.Boolean.False);
+
+    public static void Lte(Interpreter i) =>
+        BinaryLogic(i, "<=", (x, y) => x.CompareTo(y) <= 0
+            ? Node.Boolean.True
+            : Node.Boolean.False);
+
+    
 
     public static void Swap(Interpreter i)
     {
@@ -242,16 +269,6 @@ public static class Operations
         i.Queue = saved;
 
         Console.WriteLine(history.ToString());
-    }
-
-    private static void BinaryLogic(
-        Interpreter i,
-        string name)
-    {
-        new Validator(name)
-            .TwoArguments()
-            .TwoOrdinalsOnTop()
-            .Validate(i.Stack);
     }
 
     private static void BinaryArithmetic(

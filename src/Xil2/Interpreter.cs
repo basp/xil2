@@ -14,6 +14,7 @@ public class Interpreter : Dictionary<string, Entry>
     {
         this["+"] = new Entry(Operations.Add);
         this["-"] = new Entry(Operations.Sub);
+        this["<"] = new Entry(Operations.Lt);
         this["i"] = new Entry(Operations._I);
         this["x"] = new Entry(Operations._X);
         this["pop"] = new Entry(Operations.Pop);

@@ -14,10 +14,9 @@ public class FactorVisitor : XilBaseVisitor<INode>
         [NotNull] XilParser.BooleanConstantContext context)
     {
         var value = bool.Parse(context.GetText());
-        return new Node.Boolean(value)
-        {
-            Position = GetPosition(context),
-        };
+        var node = Node.Boolean.Get(value);
+        node.Position = GetPosition(context);
+        return node;
     }
 
     public override Node VisitIntegerConstant(
