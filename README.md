@@ -55,7 +55,7 @@ xil> [3 2 +] trace [3 2 +] trace [-] trace.
 0           <- top
 ```
 
-In contrast to XY which offers a variety of operations to manipulate the queue directly, Xil only allows this in the context of some combinators. The `i` and `x` combinators in particular are an exception in that they resemble the `/` (use) operation in XY and directly manipulate the queue by prepending the top of the stack as a quotation onto the queue to be executed.
+In contrast to XY which offers a variety of operations to manipulate the queue directly, Xil only allows this in the context of some combinators. The `i` and `x` combinators in particular resemble the `/` (use) operation in XY and directly manipulate the queue by prepending the top of the stack as a quotation onto the queue to be executed.
 
 For example:
 ```
@@ -85,6 +85,9 @@ xil> [[3 2 +] x] trace.
 5           <- top
 [3 2 +]
 ```
+There are various other combinators that take things on the stack, possibly reshuffle them, either push them onto the stack or onto the queue in various combinations. 
+
+For example, the `infra` combinator is generally used to perform some stack preserving operation. You will often find this used with a `swaack` which will *swap-stack* (`X Y [U V] -> U V [X Y]`) the list on top of the stack (the preserved stack) as the current stack (see the `map` example in the "tracability" section).
 
 We can also define things by associating a term to with a symbol. In the example below we are defining the `If` and `Else` (`true` and `false`) clauses for a `branch` combinator.
 ```
