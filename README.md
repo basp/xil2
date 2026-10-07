@@ -21,12 +21,12 @@ All `Integer` nodes will readily convert to `Float` nodes via the `IFloatable` i
 ```
 xil> 2 3 /.                 # integer division
 
-0           <- top          # integer top
+0           <- top          # integer top (doesn't coalesce)
 
-xil> 2.0 3 /.               # floating + integer 
+xil> 2.0 3 /.               # float + integer 
 
-0.6666666666666666 <- top   # coalesces to floating top
-0
+0.6666666666666666 <- top   # coalesces to float
+0                           # default stack empty OK (0)
 ```
 
 ### ordinals
