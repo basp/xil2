@@ -47,7 +47,7 @@ xil> trace.          # execute trace query, evaluates quotation
 2 3 . +              # symbol `3` has been moved onto stack from the queue
   5 .                # symbol `+` was interpreted; `2` and `3` removed from the stack and applied on the stack (`5`)
                      # end tracing
-5           <- top   # query top of the stack, it's five (`2 + 3`)
+5           <- top   # interpreter reply, top of the stack, it's five (`2 + 3`)
 ```
 
 In the trace history, the stack is displayed on the left of the dot (`.`) and the queue is displayed on the right. The rightmost item on the stack is the top of the stack (TOS) and the leftmost item in the queue is the factor to be evaluated.
