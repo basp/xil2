@@ -1,5 +1,5 @@
 # xil
-Xil is an implementation the [Joy](https://hypercubed.github.io/joy/joy.html) programming language. It is a dynamic, functional, concatenative language. It shares a few semantical concepts with [XY](https://nsl.com/k/xy/xy.htm) which in turn is also inspired by Joy. The implementation was inspired by [Thun](https://joypy.osdn.io/index.html).
+Xil is an implementation the [Joy](https://hypercubed.github.io/joy/joy.html) programming language. It is a dynamic, functional, concatenative language. It shares a few semantical concepts with [XY](https://nsl.com/k/xy/xy.htm) which in turn is also inspired by Joy. The implementation was inspired by [Thun](https://thun.codeberg.page/).
 
 In contrast to Joy, where built-ins are mostly implemented opaquely. Xil takes some inspiration of the XY programming language by formalizing a queue alongside the stack in its execution semantics. This allows for most combinators to be implemented in a *transparent* (continuation-passing) style that makes it easy to observe the transformation steps that take place on the stack as well as the queue.
 
