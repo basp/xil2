@@ -302,5 +302,5 @@ These are currently only supported on ordinals since they translate to an intege
 * [The Theory of Concatenative Combinators](http://tunes.org/~iepos/joy.html)
 * [Kitten](https://kittenlang.org/)
 * [Joy on Hacker News](https://news.ycombinator.com/item?id=17685548)
-* [Thun](http://joypy.osdn.io/index.html)
+* [Thun](https://thun.codeberg.page/)
 * [The Concatenative Language XY](https://www.nsl.com/k/xy/xy.htm)
