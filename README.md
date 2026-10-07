@@ -42,12 +42,12 @@ xil> [2 3 +].        # push the symbol list `[2, 3, +]` onto the stack
 
 [2 3 +]     <- top   # interpreter reply, top stack pointing to *quotation* (list of symbols)
 
-xil> trace.          # execute trace query
+xil> trace.          # execute trace query, evaluates quotation
 
     . 2 3 +          # dot (.) shows `stack . queue` separation at start of trace
   2 . 3 +            # symbol `2` has been moved onto stack from the queue
 2 3 . +              # symbol `3` has been moved onto stack from the queue
-  5 .                # symbol `+` was interpreted; `2` and `3` removed from the stack and applied on the stack (`5`).
+  5 .                # symbol `+` was interpreted; `2` and `3` removed from the stack and applied on the stack (`5`)
 
 5           <- top   # query top of the stack, it's five (`2 + 3`).
 ```
